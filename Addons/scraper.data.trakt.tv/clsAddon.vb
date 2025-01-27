@@ -322,7 +322,7 @@ Public Class Addon
 
         Dim FilteredOptions As Structures.ScrapeOptions = Functions.ScrapeOptionsAndAlso(scrapeOptions, ConfigScrapeOptions_TV)
         If FilteredOptions.bEpisodeRating OrElse FilteredOptions.bEpisodeUserRating Then
-            Dim nResult = _TraktAPI_TV.GetInfo_TVEpisode(_TraktAPI_TV.GetID_Trakt(dbElement, True), dbElement.TVEpisode.Season, dbElement.TVEpisode.Episode, FilteredOptions)
+            Dim nResult = _TraktAPI_TV.GetInfo_TVEpisode(_TraktAPI_TV.GetID_Trakt(dbElement, True), dbElement.MainDetails.Season, dbElement.MainDetails.Episode, FilteredOptions)
             While Not nResult.IsCompleted
                 Threading.Thread.Sleep(50)
             End While
@@ -386,8 +386,8 @@ Public Class Addon
         End If
     End Function
 
-    Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Data_Scraper_Movie.GetTMDbIdByIMDbId
-        Return New Interfaces.AddonResult_Generic
+    Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As Interfaces.AddonResult Implements Interfaces.IAddon_Data_Scraper_Movie.GetTMDbIdByIMDbId
+        Return New Interfaces.AddonResult
     End Function
 
     Public Sub ScraperOrderChanged_Movie() Implements Interfaces.IAddon_Data_Scraper_Movie.OrderChanged

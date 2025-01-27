@@ -558,8 +558,8 @@ Public Class Renamer
         End If
 
         'IMDB
-        If _DBElement.Movie.UniqueIDs.IMDbIdSpecified Then
-            MovieFile.IMDB = _DBElement.Movie.UniqueIDs.IMDbId
+        If _DBElement.MainDetails.UniqueIDs.IMDbIdSpecified Then
+            MovieFile.IMDB = _DBElement.MainDetails.UniqueIDs.IMDbId
         End If
 
         'IsLock
@@ -569,24 +569,24 @@ Public Class Renamer
         MovieFile.IsSingle = _DBElement.IsSingle
 
         'ListTitle
-        If _DBElement.Movie.TitleSpecified Then
-            MovieFile.ListTitle = StringUtils.SortTokens(_DBElement.Movie.Title)
+        If _DBElement.MainDetails.TitleSpecified Then
+            MovieFile.ListTitle = StringUtils.SortTokens(_DBElement.MainDetails.Title)
         End If
 
         'MovieSets
-        If _DBElement.Movie.SetsSpecified Then
+        If _DBElement.MainDetails.SetsSpecified Then
             MovieFile.Collection = _DBElement.Movie.Sets.Items(0).Title
             MovieFile.CollectionListTitle = StringUtils.SortTokens(_DBElement.Movie.Sets.Items(0).Title)
         End If
 
         'MPAA
-        If _DBElement.Movie.MPAASpecified Then
-            MovieFile.MPAA = SelectMPAA(_DBElement.Movie.MPAA)
+        If _DBElement.MainDetails.MPAASpecified Then
+            MovieFile.MPAA = SelectMPAA(_DBElement.MainDetails.MPAA)
         End If
 
         'OriginalTitle
-        If _DBElement.Movie.OriginalTitleSpecified Then
-            MovieFile.OriginalTitle = _DBElement.Movie.OriginalTitle
+        If _DBElement.MainDetails.OriginalTitleSpecified Then
+            MovieFile.OriginalTitle = _DBElement.MainDetails.OriginalTitle
         End If
 
         'Rating
@@ -600,8 +600,8 @@ Public Class Renamer
         End If
 
         'Title
-        If _DBElement.Movie.TitleSpecified Then
-            MovieFile.Title = _DBElement.Movie.Title
+        If _DBElement.MainDetails.TitleSpecified Then
+            MovieFile.Title = _DBElement.MainDetails.Title
         End If
 
         'VideoSource
@@ -623,11 +623,11 @@ Public Class Renamer
             End If
 
             If _DBElement.Movie.FileInfo.StreamDetails.AudioSpecified Then
-                Dim tAud As MediaContainers.Audio = NFO.GetBestAudio(_DBElement.Movie.FileInfo, False)
+                Dim tAud As MediaContainers.Audio = MetaData.GetBestAudio(_DBElement.MainDetails.FileInfo, "", Enums.ContentType.Movie) 'TODO I've changed this from NFO to MetaDatat function, I have no idea if that is right
 
                 'Audio Channels
                 If tAud.ChannelsSpecified Then
-                    MovieFile.AudioChannels = tAud.Channels
+                    MovieFile.AudioChannels = tAud.Channels.ToString
                 End If
 
                 'Audio Codec
@@ -638,7 +638,7 @@ Public Class Renamer
 
             'MultiViewCount
             If _DBElement.Movie.FileInfo.StreamDetails.VideoSpecified Then
-                If Not String.IsNullOrEmpty(_DBElement.Movie.FileInfo.StreamDetails.Video.Item(0).MultiViewCount) AndAlso CDbl(_DBElement.Movie.FileInfo.StreamDetails.Video.Item(0).MultiViewCount) > 1 Then
+                If Not String.IsNullOrEmpty(_DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).MultiViewCount.ToString) AndAlso CDbl(_DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).MultiViewCount) > 1 Then
                     MovieFile.MultiViewCount = "3d"
                 End If
             End If
@@ -695,7 +695,7 @@ Public Class Renamer
             Else
                 MovieFile.OldFileName = Path.GetFileNameWithoutExtension(FileUtils.Common.RemoveStackingMarkers(_DBElement.Filename))
                 Dim stackMark As String = Path.GetFileNameWithoutExtension(_DBElement.Filename).Replace(MovieFile.OldFileName, String.Empty).ToLower
-                If Not stackMark = String.Empty AndAlso _DBElement.Movie.Title.ToLower.EndsWith(stackMark) Then
+                If Not stackMark = String.Empty AndAlso _DBElement.MainDetails.Title.ToLower.EndsWith(stackMark) Then
                     MovieFile.OldFileName = Path.GetFileNameWithoutExtension(_DBElement.Filename)
                 End If
             End If
@@ -738,18 +738,18 @@ Public Class Renamer
 
                             'Title check
                             'Title from scraping results
-                            If aEpisode.Episode = _DBElement.TVEpisode.Episode AndAlso
-                                aEpisode.SubEpisode = _DBElement.TVEpisode.SubEpisode AndAlso
-                                aSeason = _DBElement.TVEpisode.Season Then
-                                aEpisode.Title = _DBElement.TVEpisode.Title
+                            If aEpisode.Episode = _DBElement.MainDetails.Episode AndAlso
+                                aEpisode.SubEpisode = _DBElement.MainDetails.SubEpisode AndAlso
+                                aSeason = _DBElement.MainDetails.Season Then
+                                aEpisode.Title = _DBElement.MainDetails.Title
                             Else
                                 'Title from scraping results
                                 Dim nEpisodeInfo As Database.DBElement = Nothing
                                 If lstEpsiodes IsNot Nothing Then
-                                    nEpisodeInfo = lstEpsiodes.FirstOrDefault(Function(f) f.TVEpisode.Season = aSeason AndAlso f.TVEpisode.Episode = aEpisode.Episode)
+                                    nEpisodeInfo = lstEpsiodes.FirstOrDefault(Function(f) f.TVEpisode.Season = aSeason AndAlso f.MainDetails.Episode = aEpisode.Episode)
                                 End If
-                                If nEpisodeInfo IsNot Nothing AndAlso nEpisodeInfo.TVEpisode.TitleSpecified Then
-                                    aEpisode.Title = nEpisodeInfo.TVEpisode.Title
+                                If nEpisodeInfo IsNot Nothing AndAlso nEpisodeInfo.MainDetails.TitleSpecified Then
+                                    aEpisode.Title = nEpisodeInfo.MainDetails.Title
                                 Else
                                     'Title from existing DB entry
                                     aEpisode.Title = SQLReader("Title").ToString
@@ -782,14 +782,14 @@ Public Class Renamer
         EpisodeFile.ID = _DBElement.ID
 
         'Aired
-        If _DBElement.TVEpisode.AiredSpecified Then
-            EpisodeFile.Aired = _DBElement.TVEpisode.Aired
+        If _DBElement.MainDetails.AiredSpecified Then
+            EpisodeFile.Aired = _DBElement.MainDetails.Aired
         End If
 
         'Episode Title
         If Not EpisodeFile.IsMultiEpisode Then
-            If _DBElement.TVEpisode.TitleSpecified Then
-                EpisodeFile.Title = _DBElement.TVEpisode.Title
+            If _DBElement.MainDetails.TitleSpecified Then
+                EpisodeFile.Title = _DBElement.MainDetails.Title
             End If
         Else
             Dim lTitles As New List(Of String)
@@ -806,16 +806,16 @@ Public Class Renamer
 
         'Rating
         If Not EpisodeFile.IsMultiEpisode Then
-            If _DBElement.TVEpisode.RatingSpecified Then
-                EpisodeFile.Rating = _DBElement.TVEpisode.Rating
+            If _DBElement.MainDetails.RatingSpecified Then
+                EpisodeFile.Rating = _DBElement.MainDetails.Rating
             End If
         Else
             EpisodeFile.Rating = String.Empty
         End If
 
         'Show ListTitle
-        If _DBElement.TVShow.TitleSpecified Then
-            EpisodeFile.ListTitle = StringUtils.SortTokens(_DBElement.TVShow.Title)
+        If _DBElement.MainDetails.TitleSpecified Then
+            EpisodeFile.ListTitle = StringUtils.SortTokens(_DBElement.MainDetails.Title)
         End If
 
         'Show OriginalTitle
@@ -829,29 +829,29 @@ Public Class Renamer
         End If
 
         'Show Title
-        If _DBElement.TVShow.TitleSpecified Then
-            EpisodeFile.ShowTitle = _DBElement.TVShow.Title
+        If _DBElement.MainDetails.TitleSpecified Then
+            EpisodeFile.ShowTitle = _DBElement.MainDetails.Title
         End If
 
         'VideoSource
-        If _DBElement.TVEpisode.VideoSourceSpecified Then
-            EpisodeFile.VideoSource = _DBElement.TVEpisode.VideoSource
+        If _DBElement.MainDetails.VideoSourceSpecified Then
+            EpisodeFile.VideoSource = _DBElement.MainDetails.VideoSource
         End If
 
-        If _DBElement.TVEpisode.FileInfoSpecified Then
+        If _DBElement.MainDetails.FileInfoSpecified Then
             'Resolution
-            If _DBElement.TVEpisode.FileInfo.StreamDetails.VideoSpecified Then
-                Dim tVid As MediaContainers.Video = NFO.GetBestVideo(_DBElement.TVEpisode.FileInfo)
+            If _DBElement.MainDetails.FileInfo.StreamDetails.VideoSpecified Then
+                Dim tVid As MediaContainers.Video = NFO.GetBestVideo(_DBElement.MainDetails.FileInfo)
                 Dim tRes As String = NFO.GetResFromDimensions(tVid)
                 EpisodeFile.Resolution = String.Format("{0}", If(String.IsNullOrEmpty(tRes), Master.eLang.GetString(138, "Unknown"), tRes))
             End If
 
-            If _DBElement.TVEpisode.FileInfo.StreamDetails.AudioSpecified Then
-                Dim tAud As MediaContainers.Audio = NFO.GetBestAudio(_DBElement.TVEpisode.FileInfo, False)
+            If _DBElement.MainDetails.FileInfo.StreamDetails.AudioSpecified Then
+                Dim tAud As MediaContainers.Audio = MetaData.GetBestAudio(_DBElement.MainDetails.FileInfo, "", Enums.ContentType.TV) 'TODO I have changed from NFO to MetaData, no idea if that is right
 
                 'Audio Channels
                 If tAud.ChannelsSpecified Then
-                    EpisodeFile.AudioChannels = tAud.Channels
+                    EpisodeFile.AudioChannels = tAud.Channels.ToString
                 End If
 
                 'AudioCodec
@@ -861,31 +861,31 @@ Public Class Renamer
             End If
 
             'MultiViewCount
-            If _DBElement.TVEpisode.FileInfo.StreamDetails.VideoSpecified Then
-                If _DBElement.TVEpisode.FileInfo.StreamDetails.Video.Item(0).MultiViewCountSpecified AndAlso CDbl(_DBElement.TVEpisode.FileInfo.StreamDetails.Video.Item(0).MultiViewCount) > 1 Then
+            If _DBElement.MainDetails.FileInfo.StreamDetails.VideoSpecified Then
+                If _DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).MultiViewCountSpecified AndAlso CDbl(_DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).MultiViewCount) > 1 Then
                     EpisodeFile.MultiViewCount = "3d"
                 End If
             End If
 
             'MultiViewLayout
-            If _DBElement.TVEpisode.FileInfo.StreamDetails.VideoSpecified Then
-                If _DBElement.TVEpisode.FileInfo.StreamDetails.Video.Item(0).MultiViewLayoutSpecified Then
-                    EpisodeFile.MultiViewLayout = _DBElement.TVEpisode.FileInfo.StreamDetails.Video.Item(0).MultiViewLayout
+            If _DBElement.MainDetails.FileInfo.StreamDetails.VideoSpecified Then
+                If _DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).MultiViewLayoutSpecified Then
+                    EpisodeFile.MultiViewLayout = _DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).MultiViewLayout
                 End If
             End If
 
             'StereoMode
-            If _DBElement.TVEpisode.FileInfo.StreamDetails.VideoSpecified Then
-                If _DBElement.TVEpisode.FileInfo.StreamDetails.Video.Item(0).StereoModeSpecified Then
-                    EpisodeFile.StereoMode = _DBElement.TVEpisode.FileInfo.StreamDetails.Video.Item(0).StereoMode
-                    EpisodeFile.ShortStereoMode = _DBElement.TVEpisode.FileInfo.StreamDetails.Video.Item(0).ShortStereoMode
+            If _DBElement.MainDetails.FileInfo.StreamDetails.VideoSpecified Then
+                If _DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).StereoModeSpecified Then
+                    EpisodeFile.StereoMode = _DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).StereoMode
+                    EpisodeFile.ShortStereoMode = _DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).ShortStereoMode
                 End If
             End If
 
             'Video Codec
-            If _DBElement.TVEpisode.FileInfo.StreamDetails.VideoSpecified Then
-                If _DBElement.TVEpisode.FileInfo.StreamDetails.Video.Item(0).CodecSpecified Then
-                    EpisodeFile.VideoCodec = _DBElement.TVEpisode.FileInfo.StreamDetails.Video.Item(0).Codec
+            If _DBElement.MainDetails.FileInfo.StreamDetails.VideoSpecified Then
+                If _DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).CodecSpecified Then
+                    EpisodeFile.VideoCodec = _DBElement.MainDetails.FileInfo.StreamDetails.Video.Item(0).Codec
                 End If
             End If
         End If
@@ -931,7 +931,7 @@ Public Class Renamer
             Else
                 EpisodeFile.OldFileName = Path.GetFileNameWithoutExtension(FileUtils.Common.RemoveStackingMarkers(_DBElement.Filename))
                 Dim stackMark As String = Path.GetFileNameWithoutExtension(_DBElement.Filename).Replace(EpisodeFile.OldFileName, String.Empty).ToLower
-                If Not stackMark = String.Empty AndAlso _DBElement.TVEpisode.Title.ToLower.EndsWith(stackMark) Then
+                If Not stackMark = String.Empty AndAlso _DBElement.MainDetails.Title.ToLower.EndsWith(stackMark) Then
                     EpisodeFile.OldFileName = Path.GetFileNameWithoutExtension(_DBElement.Filename)
                 End If
             End If
@@ -967,8 +967,8 @@ Public Class Renamer
         ShowFile.IsSingle = _DBElement.Source.IsSingle
 
         'ListTitle
-        If _DBElement.TVShow.TitleSpecified Then
-            ShowFile.ListTitle = StringUtils.SortTokens(_DBElement.TVShow.Title)
+        If _DBElement.MainDetails.TitleSpecified Then
+            ShowFile.ListTitle = StringUtils.SortTokens(_DBElement.MainDetails.Title)
         End If
 
         'MPAA
@@ -992,9 +992,9 @@ Public Class Renamer
         End If
 
         'Title / ShowTitle
-        If _DBElement.TVShow.TitleSpecified Then
-            ShowFile.Title = _DBElement.TVShow.Title
-            ShowFile.ShowTitle = _DBElement.TVShow.Title
+        If _DBElement.MainDetails.TitleSpecified Then
+            ShowFile.Title = _DBElement.MainDetails.Title
+            ShowFile.ShowTitle = _DBElement.MainDetails.Title
         End If
 
         'TVDB

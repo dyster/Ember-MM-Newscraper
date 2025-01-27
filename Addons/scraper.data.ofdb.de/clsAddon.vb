@@ -75,8 +75,8 @@ Public Class Addon
 
 #Region "Methods"
 
-    Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Data_Scraper_Movie.GetTMDbIdByIMDbId
-        Return New Interfaces.AddonResult_Generic
+    Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As Interfaces.AddonResult Implements Interfaces.IAddon_Data_Scraper_Movie.GetTMDbIdByIMDbId
+        Return New Interfaces.AddonResult
     End Function
 
     Private Sub Handle_ModuleSettingsChanged()
@@ -98,10 +98,10 @@ Public Class Addon
         _setup = New frmSettingsHolder
         LoadSettings()
         _setup.chkEnabled.Checked = _ScraperEnabled
-        _setup.chkTitle.Checked = ConfigScrapeOptions.bMainTitle
-        _setup.chkPlot.Checked = ConfigScrapeOptions.bMainPlot
-        _setup.chkGenres.Checked = ConfigScrapeOptions.bMainGenres
-        _setup.chkCertifications.Checked = ConfigScrapeOptions.bMainCertifications
+        _setup.chkTitle.Checked = ConfigScrapeOptions.Title
+        _setup.chkPlot.Checked = ConfigScrapeOptions.Plot
+        _setup.chkGenres.Checked = ConfigScrapeOptions.Genres
+        _setup.chkCertifications.Checked = ConfigScrapeOptions.Certifications
 
         _setup.orderChanged()
 
@@ -119,17 +119,17 @@ Public Class Addon
     End Function
 
     Sub LoadSettings()
-        ConfigScrapeOptions.bMainTitle = _AddonSettings.GetBooleanSetting("DoTitle", True)
-        ConfigScrapeOptions.bMainPlot = _AddonSettings.GetBooleanSetting("DoPlot", True)
-        ConfigScrapeOptions.bMainGenres = _AddonSettings.GetBooleanSetting("DoGenres", True)
-        ConfigScrapeOptions.bMainCertifications = _AddonSettings.GetBooleanSetting("DoCert", False)
+        ConfigScrapeOptions.Title = _AddonSettings.GetBooleanSetting("DoTitle", True)
+        ConfigScrapeOptions.Plot = _AddonSettings.GetBooleanSetting("DoPlot", True)
+        ConfigScrapeOptions.Genres = _AddonSettings.GetBooleanSetting("DoGenres", True)
+        ConfigScrapeOptions.Certifications = _AddonSettings.GetBooleanSetting("DoCert", False)
     End Sub
 
     Sub SaveSettings()
-        _AddonSettings.SetBooleanSetting("DoTitle", ConfigScrapeOptions.bMainTitle)
-        _AddonSettings.SetBooleanSetting("DoPlot", ConfigScrapeOptions.bMainPlot)
-        _AddonSettings.SetBooleanSetting("DoGenres", ConfigScrapeOptions.bMainGenres)
-        _AddonSettings.SetBooleanSetting("DoCert", ConfigScrapeOptions.bMainCertifications)
+        _AddonSettings.SetBooleanSetting("DoTitle", ConfigScrapeOptions.Title)
+        _AddonSettings.SetBooleanSetting("DoPlot", ConfigScrapeOptions.Plot)
+        _AddonSettings.SetBooleanSetting("DoGenres", ConfigScrapeOptions.Genres)
+        _AddonSettings.SetBooleanSetting("DoCert", ConfigScrapeOptions.Certifications)
     End Sub
 
     Private Sub Handle_PostModuleSettingsChanged()
@@ -137,10 +137,10 @@ Public Class Addon
     End Sub
 
     Sub SaveSettings(ByVal DoDispose As Boolean) Implements Interfaces.IAddon_Data_Scraper_Movie.SaveSettings
-        ConfigScrapeOptions.bMainCertifications = _setup.chkCertifications.Checked
-        ConfigScrapeOptions.bMainTitle = _setup.chkTitle.Checked
-        ConfigScrapeOptions.bMainPlot = _setup.chkPlot.Checked
-        ConfigScrapeOptions.bMainGenres = _setup.chkGenres.Checked
+        ConfigScrapeOptions.Certifications = _setup.chkCertifications.Checked
+        ConfigScrapeOptions.Title = _setup.chkTitle.Checked
+        ConfigScrapeOptions.Plot = _setup.chkPlot.Checked
+        ConfigScrapeOptions.Genres = _setup.chkGenres.Checked
         SaveSettings()
         If DoDispose Then
             RemoveHandler _setup.SetupScraperChanged, AddressOf Handle_SetupScraperChanged
@@ -162,13 +162,13 @@ Public Class Addon
         Dim Result As MediaContainers.Movie = Nothing
 
         'scraper needs the IMDb ID of the movie
-        If String.IsNullOrEmpty(dbElement.Movie.UniqueIDs.IMDbId) Then
+        If String.IsNullOrEmpty(dbElement.MainDetails.UniqueIDs.IMDbId) Then
             logger.Trace("[OFDb.de_Data] [Scraper_Movie] [Abort] No IMDb ID available")
             Return New Interfaces.AddonResult_Data_Scraper_Movie(Interfaces.ResultStatus.NoResult)
         End If
 
         If scrapeModifiers.MainNFO Then
-            Result = _scraper.GetMovieInfo(dbElement.Movie.UniqueIDs.IMDbId, FilteredOptions, dbElement.Language)
+            Result = _scraper.GetMovieInfo(dbElement.MainDetails.UniqueIDs.IMDbId, FilteredOptions, dbElement.Language)
         End If
 
         If Result IsNot Nothing Then

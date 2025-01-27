@@ -136,12 +136,12 @@ Public Class Scraper
                 If Not String.IsNullOrEmpty(HTML) Then
 
                     'Certification
-                    If FilteredOptions.bMainCertifications Then
+                    If FilteredOptions.Certifications Then
                         nMovie.Certifications.Add(GetCertification(HTML))
                     End If
 
                     'Genres
-                    If FilteredOptions.bMainGenres Then
+                    If FilteredOptions.Genres Then
                         Dim strGenrePattern As String = "itemprop=""genre"">(?<GENRE>.*?)<\/span>"
                         Dim gResult As MatchCollection = Regex.Matches(HTML, strGenrePattern, RegexOptions.Singleline)
                         For ctr As Integer = 0 To gResult.Count - 1
@@ -150,19 +150,19 @@ Public Class Scraper
                     End If
 
                     'Original Title
-                    If FilteredOptions.bMainOriginalTitle Then
+                    If FilteredOptions.OriginalTitle Then
                         Dim strOriginalTitlePattern As String = "Originaltitel:.*?<b>(?<OTITLE>.*?)<\/b>"
                         nMovie.OriginalTitle = CleanTitle(HttpUtility.HtmlDecode(Regex.Match(HTML, strOriginalTitlePattern, RegexOptions.Singleline).Groups(1).Value.ToString.Trim))
                     End If
 
                     'Plot
-                    If FilteredOptions.bMainPlot AndAlso bIsScraperLanguage Then
+                    If FilteredOptions.Plot AndAlso bIsScraperLanguage Then
                         Dim strPlotPattern As String = "<a href=""(?<URL>plot.*?)"""
                         nMovie.Plot = GetFullPlot(String.Concat("http://www.ofdb.de/", Regex.Match(HTML, strPlotPattern, RegexOptions.Singleline).Groups(1).Value))
                     End If
 
                     'Title
-                    If FilteredOptions.bMainTitle AndAlso bIsScraperLanguage Then
+                    If FilteredOptions.Title AndAlso bIsScraperLanguage Then
                         Dim strTitlePattern As String = "<td width=""99\%""><h1 itemprop=""name""><font face=""Arial,Helvetica,sans-serif"" size=""3""><b>([^<]+)</b></font></h1></td>"
                         nMovie.Title = CleanTitle(HttpUtility.HtmlDecode(Regex.Match(HTML, strTitlePattern, RegexOptions.Singleline).Groups(1).Value.ToString.Trim))
                     End If

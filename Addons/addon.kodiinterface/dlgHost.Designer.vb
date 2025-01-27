@@ -51,7 +51,7 @@ Partial Class dlgHost
         Me.colHostEmberSource = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.colHostRemoteSource = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.colHostContentType = New System.Windows.Forms.DataGridViewComboBoxColumn()
-        Me.txtHostMoviesetPath = New EmberAPI.FormUtils.TextBox_with_Watermark()
+        Me.txtHostMoviesetPath = New EmberAPI.AdvancedControls.TextBox_with_Watermark()
         Me.gbHostDetails.SuspendLayout()
         Me.tblHostDetails.SuspendLayout()
         CType(Me.dgvHostSources, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -467,7 +467,7 @@ Partial Class dlgHost
     Friend WithEvents gbHostMoviesetPath As System.Windows.Forms.GroupBox
     Friend WithEvents tblHost As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents tblHostMoviesetPath As System.Windows.Forms.TableLayoutPanel
-    Friend WithEvents txtHostMoviesetPath As EmberAPI.FormUtils.TextBox_with_Watermark
+    Friend WithEvents txtHostMoviesetPath As EmberAPI.AdvancedControls.TextBox_with_Watermark
     Friend WithEvents lblCustomRemotePath As Label
     Friend WithEvents txtCustomRemotePath As TextBox
     Friend WithEvents btnCustomRemotePath As Button

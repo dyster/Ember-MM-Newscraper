@@ -105,7 +105,7 @@ Public Class Addons
         End While
 
         'If Not String.IsNullOrEmpty(imdbOrTmdbId) Then
-        '    Dim ret As Interfaces.AddonResult_Generic
+        '    Dim ret As Interfaces.AddonResult
         '    For Each addon As Data_Scraper_Movieset In Data_Scrapers_Movieset.Where(Function(e) e.AddonInterface.Name = "scraper.data.themoviedb.org")
         '        ret = addon.AddonInterface.GetTMDbCollectionId(imdbOrTmdbId, TMDbCollectionId)
         '        If ret.Status = Interfaces.ResultStatus.BreakChain Then Exit For
@@ -122,7 +122,7 @@ Public Class Addons
         End While
 
         'If Not String.IsNullOrEmpty(imdbId) Then
-        '    Dim ret As Interfaces.AddonResult_Generic
+        '    Dim ret As Interfaces.AddonResult
         '    For Each addon As Data_Scraper_Movie In Data_Scrapers_Movie.Where(Function(e) e.AddonInterface.Name = "scraper.data.themoviedb.org")
         '        ret = addon.AddonInterface.GetTMDbIdByIMDbId(imdbId, iTMDbId)
         '        If ret.Status = Interfaces.ResultStatus.BreakChain Then Exit For
@@ -446,7 +446,7 @@ Public Class Addons
     ''' <param name="runOnlyOne">If <c>True</c>, allow only one module to perform the required task.</param>
     ''' <returns></returns>
     ''' <remarks>Note that if any module returns a result of breakChain, no further addons are processed</remarks>
-    Public Function RunGeneric(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object), Optional ByVal singleObjekt As Object = Nothing, Optional ByVal runOnlyOne As Boolean = False, Optional ByRef dbElement As Database.DBElement = Nothing) As Boolean
+    Public Function Run(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object), Optional ByVal singleObjekt As Object = Nothing, Optional ByVal runOnlyOne As Boolean = False, Optional ByRef dbElement As Database.DBElement = Nothing) As Boolean
         _Logger.Trace(String.Format("[Addons] [RunGeneric] [Start] <{0}>", eventType.ToString))
         While Not AllAddonsLoaded
             Application.DoEvents()
@@ -483,7 +483,7 @@ Public Class Addons
     '                                 ByVal showMessage As Boolean
     '                                 ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeData_Movie] [Start] {0}", dbElement.Filename))
-    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_Movie(dbElement, showMessage) Then
+    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(dbElement, showMessage) Then
     '        Dim Addons As IEnumerable(Of Data_Scraper_Movie) = Data_Scrapers_Movie.Where(Function(e) e.AddonInterface.Enabled).OrderBy(Function(e) e.Order)
     '        Dim Result As Interfaces.AddonResult_Data_Scraper_Movie
     '        Dim ScrapedList As New List(Of MediaContainers.MainDetails)
@@ -592,7 +592,7 @@ Public Class Addons
     '                                    ByVal showMessage As Boolean
     '                                    ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeData_MovieSet] [Start] {0}", dbElement.MainDetails.Title))
-    '    'If DBMovieSet.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_MovieSet(DBMovieSet, showMessage) Then
+    '    'If DBMovieSet.IsOnline OrElse FileUtils.Common.CheckOnlineStatusSet(DBMovieSet, showMessage) Then
     '    Dim Addons As IEnumerable(Of Data_Scraper_Movieset) = Data_Scrapers_Movieset.Where(Function(e) e.AddonInterface.ScraperEnabled).OrderBy(Function(e) e.Order)
     '    Dim Result As Interfaces.AddonResult_Data_Scraper_Movieset
     '    Dim ScrapedList As New List(Of MediaContainers.MainDetails)
@@ -662,7 +662,7 @@ Public Class Addons
     '        Return False
     '    End If
     '    'Else
-    '    'logger.Trace(String.Format("[AddonsManager] [ScrapeData_Movieset] [Abort] [Offline] {0}", dbElement.MovieSet.Title))
+    '    'logger.Trace(String.Format("[AddonsManager] [ScrapeData_Movieset] [Abort] [Offline] {0}", dbElement.MainDetails.Title))
     '    'Return False
     '    'End If
     'End Function
@@ -672,7 +672,7 @@ Public Class Addons
     '                                     ByVal showMessage As Boolean
     '                                     ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeData_TVEpisode] [Start] {0}", dbElement.Filename))
-    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVShow(dbElement, showMessage) Then
+    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(dbElement, showMessage) Then
     '        Dim Addons As IEnumerable(Of Data_Scraper_TV) = Data_Scrapers_TV.Where(Function(e) e.AddonInterface.ScraperEnabled).OrderBy(Function(e) e.Order)
     '        Dim Result As Interfaces.AddonResult_Data_Scraper_TVEpisode
     '        Dim ScrapedList As New List(Of MediaContainers.MainDetails)
@@ -752,7 +752,7 @@ Public Class Addons
     '                                    ByVal showMessage As Boolean
     '                                    ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeData_TVSeason] [Start] {0}: Season {1}", dbElement.TVShowDetails.Title, dbElement.MainDetails.Season))
-    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVShow(dbElement, showMessage) Then
+    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(dbElement, showMessage) Then
     '        Dim Addons As IEnumerable(Of Data_Scraper_TV) = Data_Scrapers_TV.Where(Function(e) e.AddonInterface.ScraperEnabled).OrderBy(Function(e) e.Order)
     '        Dim Result As Interfaces.AddonResult_Data_Scraper_TVSeason
     '        Dim ScrapedList As New List(Of MediaContainers.MainDetails)
@@ -818,7 +818,7 @@ Public Class Addons
     '                                  ByVal showMessage As Boolean
     '                                  ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeData_TVShow] [Start] {0}", dbElement.MainDetails.Title))
-    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVShow(dbElement, showMessage) Then
+    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(dbElement, showMessage) Then
     '        Dim Addons As IEnumerable(Of Data_Scraper_TV) = Data_Scrapers_TV.Where(Function(e) e.AddonInterface.ScraperEnabled).OrderBy(Function(e) e.Order)
     '        Dim Result As Interfaces.AddonResult_Data_Scraper_TVShow
     '        Dim ScrapedList As New List(Of MediaContainers.MainDetails)
@@ -927,9 +927,9 @@ Public Class Addons
     '                                  ByVal showMessage As Boolean
     '                                  ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeImage_Movie] [Start] {0}", dbElement.Filename))
-    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_Movie(dbElement, showMessage) Then
+    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(dbElement, showMessage) Then
     '        Dim Addons As IEnumerable(Of Image_Scraper_Movie) = Image_Scrapers_Movie.Where(Function(e) e.AddonInterface.ScraperEnabled).OrderBy(Function(e) e.Order)
-    '        Dim Result As Interfaces.AddonResult_Generic
+    '        Dim Result As Interfaces.AddonResult
 
     '        While Not AllAddonsLoaded
     '            Application.DoEvents()
@@ -983,7 +983,7 @@ Public Class Addons
     '                                     ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeImage_MovieSet] [Start] {0}", dbElement.MainDetails.Title))
     '    Dim Addons As IEnumerable(Of Image_Scraper_Movieset) = Image_Scrapers_Movieset.Where(Function(e) e.AddonInterface.ScraperEnabled).OrderBy(Function(e) e.Order)
-    '    Dim Result As Interfaces.AddonResult_Generic
+    '    Dim Result As Interfaces.AddonResult
 
     '    While Not AllAddonsLoaded
     '        Application.DoEvents()
@@ -1035,9 +1035,9 @@ Public Class Addons
     '                               ByVal showMessage As Boolean
     '                               ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeImage_TV] [Start] {0}", dbElement.MainDetails.Title))
-    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVShow(dbElement, showMessage) Then
+    '    If dbElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(dbElement, showMessage) Then
     '        Dim Addons As IEnumerable(Of Image_Scraper_TV) = Image_Scrapers_TV.Where(Function(e) e.AddonInterface.ScraperEnabled).OrderBy(Function(e) e.Order)
-    '        Dim Result As Interfaces.AddonResult_Generic
+    '        Dim Result As Interfaces.AddonResult
 
     '        While Not AllAddonsLoaded
     '            Application.DoEvents()
@@ -1129,7 +1129,7 @@ Public Class Addons
     '                                  ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeTheme_Movie] [Start] {0}", dbElement.Filename))
     '    Dim Addons As IEnumerable(Of Theme_Scraper_Movie) = Theme_Scrapers_Movie.Where(Function(e) e.AddonInterface.ScraperEnabled).OrderBy(Function(e) e.Order)
-    '    Dim Result As Interfaces.AddonResult_Generic
+    '    Dim Result As Interfaces.AddonResult
 
     '    While Not AllAddonsLoaded
     '        Application.DoEvents()
@@ -1167,7 +1167,7 @@ Public Class Addons
     '                                   ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeTheme_TVShow] [Start] {0}", dbElement.MainDetails.Title))
     '    Dim Addons As IEnumerable(Of Theme_Scraper_TV) = Theme_Scrapers_TV.Where(Function(e) e.AddonInterface.ScraperEnabled).OrderBy(Function(e) e.Order)
-    '    Dim Result As Interfaces.AddonResult_Generic
+    '    Dim Result As Interfaces.AddonResult
 
     '    While Not AllAddonsLoaded
     '        Application.DoEvents()
@@ -1206,7 +1206,7 @@ Public Class Addons
     '                                    ) As Boolean
     '    _Logger.Trace(String.Format("[AddonsManager] [ScrapeTrailer_Movie] [Start] {0}", dbElement.Filename))
     '    Dim Addons As IEnumerable(Of Trailer_Scraper_Movie) = Trailer_Scrapers_Movie.Where(Function(e) e.AddonInterface.ScraperEnabled).OrderBy(Function(e) e.Order)
-    '    Dim Result As Interfaces.AddonResult_Generic
+    '    Dim Result As Interfaces.AddonResult
 
     '    While Not AllAddonsLoaded
     '        Application.DoEvents()

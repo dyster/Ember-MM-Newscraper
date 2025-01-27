@@ -21,7 +21,8 @@
 Imports EmberAPI
 
 Public Class Addon
-    Implements Interfaces.IAddon_Generic
+    Inherits AddonBase
+    Implements Interfaces.IAddon
 
 #Region "Delegates"
 
@@ -57,16 +58,16 @@ Public Class Addon
 
 #Region "Events"
 
-    Public Event GenericEvent(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object)) Implements Interfaces.IAddon_Generic.GenericEvent
-    Public Event AddonSettingsChanged() Implements Interfaces.IAddon_Generic.AddonSettingsChanged
-    Public Event AddonStateChanged(ByVal name As String, ByVal state As Boolean, ByVal diffOrder As Integer) Implements Interfaces.IAddon_Generic.AddonStateChanged
-    Public Event AddonNeedsRestart() Implements Interfaces.IAddon_Generic.AddonNeedsRestart
+    'Public Event GenericEvent(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object)) Implements Interfaces.IAddon_Generic.GenericEvent
+    'Public Event AddonSettingsChanged() Implements Interfaces.IAddon_Generic.AddonSettingsChanged
+    'Public Event AddonStateChanged(ByVal name As String, ByVal state As Boolean, ByVal diffOrder As Integer) Implements Interfaces.IAddon_Generic.AddonStateChanged
+    'Public Event AddonNeedsRestart() Implements Interfaces.IAddon_Generic.AddonNeedsRestart
 
 #End Region 'Events
 
 #Region "Properties"
 
-    Public ReadOnly Property EventType() As List(Of Enums.AddonEventType) Implements Interfaces.IAddon_Generic.EventType
+    Public ReadOnly Property Capabilities_AddonEventTypes() As List(Of Enums.AddonEventType) Implements Interfaces.IAddon.Capabilities_AddonEventTypes
         Get
             Return New List(Of Enums.AddonEventType)(New Enums.AddonEventType() {Enums.AddonEventType.AfterEdit_Movie, Enums.AddonEventType.ScraperMulti_Movie, Enums.AddonEventType.ScraperSingle_Movie,
                                                                                    Enums.AddonEventType.AfterEdit_TVEpisode, Enums.AddonEventType.ScraperMulti_TVEpisode, Enums.AddonEventType.ScraperSingle_TVEpisode,
@@ -75,7 +76,7 @@ Public Class Addon
         End Get
     End Property
 
-    Property Enabled() As Boolean Implements Interfaces.IAddon_Generic.Enabled
+    Property Enabled() As Boolean Implements Interfaces.IAddon.IsEnabled_Generic
         Get
             Return _enabled
         End Get
@@ -90,29 +91,29 @@ Public Class Addon
         End Set
     End Property
 
-    ReadOnly Property IsBusy() As Boolean Implements Interfaces.IAddon_Generic.IsBusy
+    ReadOnly Property IsBusy() As Boolean Implements Interfaces.IAddon.IsBusy
         Get
             Return False
         End Get
     End Property
 
-    ReadOnly Property Name() As String Implements Interfaces.IAddon_Generic.Name
-        Get
-            Return _Name
-        End Get
-    End Property
+    ''ReadOnly Property Name() As String Implements Interfaces.IAddon_Generic.Name
+    ''    Get
+    ''        Return _Name
+    ''    End Get
+    ''End Property
 
-    ReadOnly Property Version() As String Implements Interfaces.IAddon_Generic.Version
-        Get
-            Return FileVersionInfo.GetVersionInfo(Reflection.Assembly.GetExecutingAssembly.Location).FileVersion.ToString
-        End Get
-    End Property
+    ''ReadOnly Property Version() As String Implements Interfaces.IAddon_Generic.Version
+    ''    Get
+    ''        Return FileVersionInfo.GetVersionInfo(Reflection.Assembly.GetExecutingAssembly.Location).FileVersion.ToString
+    ''    End Get
+    ''End Property
 
 #End Region 'Properties
 
 #Region "Methods"
 
-    Public Function RunGeneric(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object), ByRef singleObject As Object, ByRef dbElement As Database.DBElement) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Generic.RunGeneric
+    Public Function Run(ByRef dbElement As Database.DBElement, ByVal eventType As Enums.AddonEventType, ByVal parameters As List(Of Object)) As Interfaces.AddonResult Implements Interfaces.IAddon.Run
         Select Case eventType
             Case Enums.AddonEventType.AfterEdit_Movie
                 If MySettings.RenameEdit_Movies AndAlso Not String.IsNullOrEmpty(MySettings.FoldersPattern_Movies) AndAlso Not String.IsNullOrEmpty(MySettings.FilesPattern_Movies) Then
@@ -151,92 +152,92 @@ Public Class Addon
                     Renamer.RenameSingle_TVShow(dbElement, MySettings.FoldersPattern_Shows, MySettings.FoldersPattern_Seasons, MySettings.FilesPattern_Episodes, False, False, False)
                 End If
         End Select
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
-    Private Sub cmnuRenamerAuto_Movie_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerAuto_Movie.Click
-        Cursor.Current = Cursors.WaitCursor
-        For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListMovies.SelectedRows
-            Dim DBElement As Database.DBElement = Master.DB.Load_Movie(Convert.ToInt64(sRow.Cells("idMovie").Value))
-            If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_Movie(DBElement, True) Then
-                Renamer.RenameSingle_Movie(DBElement, MySettings.FoldersPattern_Movies, MySettings.FilesPattern_Movies, False, True, True)
-                RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_Movie, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idMovie").Value)}))
-            End If
-        Next
-        Cursor.Current = Cursors.Default
-    End Sub
+    'Private Sub cmnuRenamerAuto_Movie_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerAuto_Movie.Click
+    '    Cursor.Current = Cursors.WaitCursor
+    '    For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListMovies.SelectedRows
+    '        Dim DBElement As Database.DBElement = Master.DB.Load_Movie(Convert.ToInt64(sRow.Cells("idMovie").Value))
+    '        If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBElement, True) Then
+    '            Renamer.RenameSingle_Movie(DBElement, MySettings.FoldersPattern_Movies, MySettings.FilesPattern_Movies, False, True, True)
+    '            RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_Movie, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idMovie").Value)}))
+    '        End If
+    '    Next
+    '    Cursor.Current = Cursors.Default
+    'End Sub
+    '
+    'Private Sub cmnuRenamerAuto_TVEpisode_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerAuto_TVEpisode.Click
+    '    Cursor.Current = Cursors.WaitCursor
+    '    For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListTVEpisodes.SelectedRows
+    '        Dim DBElement As Database.DBElement = Master.DB.Load_TVEpisode(Convert.ToInt64(sRow.Cells("idEpisode").Value), True)
+    '        If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBElement, True) Then
+    '            Renamer.RenameSingle_TVEpisode(DBElement, MySettings.FoldersPattern_Seasons, MySettings.FilesPattern_Episodes, False, True, True)
+    '            RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVEpisode, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idEpisode").Value)})) 'TODO: should be idFile (MultiEpisode handling)
+    '        End If
+    '    Next
+    '    Cursor.Current = Cursors.Default
+    'End Sub
+    '
+    'Private Sub cmnuRenamerAuto_TVShow_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerAuto_TVShow.Click
+    '    Cursor.Current = Cursors.WaitCursor
+    '    For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListTVShows.SelectedRows
+    '        Dim DBElement As Database.DBElement = Master.DB.Load_TVShow(Convert.ToInt64(sRow.Cells("idShow").Value), True, True, True)
+    '        If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBElement, True) Then
+    '            Renamer.RenameSingle_TVShow(DBElement, MySettings.FoldersPattern_Shows, MySettings.FoldersPattern_Seasons, MySettings.FilesPattern_Episodes, False, True, True)
+    '            RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVShow, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idShow").Value)}))
+    '        End If
+    '    Next
+    '    Cursor.Current = Cursors.Default
+    'End Sub
+    '
+    'Private Sub cmnuRenamerManual_Movie_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerManual_Movie.Click
+    '    Cursor.Current = Cursors.WaitCursor
+    '    For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListMovies.SelectedRows
+    '        Dim DBElement As Database.DBElement = Master.DB.Load_Movie(Convert.ToInt64(sRow.Cells("idMovie").Value))
+    '        If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBElement, True) Then
+    '            Using dRenameManual As New dlgRenameManual_Movie(DBElement)
+    '                Select Case dRenameManual.ShowDialog()
+    '                    Case DialogResult.OK
+    '                        RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_Movie, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idMovie").Value)}))
+    '                End Select
+    '            End Using
+    '        End If
+    '    Next
+    '    Cursor.Current = Cursors.Default
+    'End Sub
 
-    Private Sub cmnuRenamerAuto_TVEpisode_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerAuto_TVEpisode.Click
-        Cursor.Current = Cursors.WaitCursor
-        For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListTVEpisodes.SelectedRows
-            Dim DBElement As Database.DBElement = Master.DB.Load_TVEpisode(Convert.ToInt64(sRow.Cells("idEpisode").Value), True)
-            If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVEpisode(DBElement, True) Then
-                Renamer.RenameSingle_TVEpisode(DBElement, MySettings.FoldersPattern_Seasons, MySettings.FilesPattern_Episodes, False, True, True)
-                RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVEpisode, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idEpisode").Value)})) 'TODO: should be idFile (MultiEpisode handling)
-            End If
-        Next
-        Cursor.Current = Cursors.Default
-    End Sub
-
-    Private Sub cmnuRenamerAuto_TVShow_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerAuto_TVShow.Click
-        Cursor.Current = Cursors.WaitCursor
-        For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListTVShows.SelectedRows
-            Dim DBElement As Database.DBElement = Master.DB.Load_TVShow(Convert.ToInt64(sRow.Cells("idShow").Value), True, True, True)
-            If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVShow(DBElement, True) Then
-                Renamer.RenameSingle_TVShow(DBElement, MySettings.FoldersPattern_Shows, MySettings.FoldersPattern_Seasons, MySettings.FilesPattern_Episodes, False, True, True)
-                RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVShow, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idShow").Value)}))
-            End If
-        Next
-        Cursor.Current = Cursors.Default
-    End Sub
-
-    Private Sub cmnuRenamerManual_Movie_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerManual_Movie.Click
-        Cursor.Current = Cursors.WaitCursor
-        For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListMovies.SelectedRows
-            Dim DBElement As Database.DBElement = Master.DB.Load_Movie(Convert.ToInt64(sRow.Cells("idMovie").Value))
-            If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_Movie(DBElement, True) Then
-                Using dRenameManual As New dlgRenameManual_Movie(DBElement)
-                    Select Case dRenameManual.ShowDialog()
-                        Case DialogResult.OK
-                            RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_Movie, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idMovie").Value)}))
-                    End Select
-                End Using
-            End If
-        Next
-        Cursor.Current = Cursors.Default
-    End Sub
-
-    Private Sub cmnuRenamerManual_TVEpisode_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerManual_TVEpisode.Click
-        Cursor.Current = Cursors.WaitCursor
-        For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListTVEpisodes.SelectedRows
-            Dim DBElement As Database.DBElement = Master.DB.Load_TVEpisode(Convert.ToInt64(sRow.Cells("idEpisode").Value), True)
-            If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVEpisode(DBElement, True) Then
-                Using dRenameManual As New dlgRenameManual_TVEpisode(DBElement)
-                    Select Case dRenameManual.ShowDialog()
-                        Case DialogResult.OK
-                            RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVEpisode, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idEpisode").Value)}))
-                    End Select
-                End Using
-            End If
-        Next
-        Cursor.Current = Cursors.Default
-    End Sub
-
-    Private Sub cmnuRenamerManual_TVShow_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerManual_TVShows.Click
-        Cursor.Current = Cursors.WaitCursor
-        For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListTVShows.SelectedRows
-            Dim DBElement As Database.DBElement = Master.DB.Load_TVShow(Convert.ToInt64(sRow.Cells("idShow").Value), True, True, True)
-            If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVShow(DBElement, True) Then
-                Using dRenameManual As New dlgRenameManual_TVShow(DBElement)
-                    Select Case dRenameManual.ShowDialog()
-                        Case DialogResult.OK
-                            RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVShow, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idShow").Value)}))
-                    End Select
-                End Using
-            End If
-        Next
-        Cursor.Current = Cursors.Default
-    End Sub
+    'Private Sub cmnuRenamerManual_TVEpisode_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerManual_TVEpisode.Click
+    '    Cursor.Current = Cursors.WaitCursor
+    '    For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListTVEpisodes.SelectedRows
+    '        Dim DBElement As Database.DBElement = Master.DB.Load_TVEpisode(Convert.ToInt64(sRow.Cells("idEpisode").Value), True)
+    '        If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBElement, True) Then
+    '            Using dRenameManual As New dlgRenameManual_TVEpisode(DBElement)
+    '                Select Case dRenameManual.ShowDialog()
+    '                    Case DialogResult.OK
+    '                        RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVEpisode, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idEpisode").Value)}))
+    '                End Select
+    '            End Using
+    '        End If
+    '    Next
+    '    Cursor.Current = Cursors.Default
+    'End Sub
+    '
+    'Private Sub cmnuRenamerManual_TVShow_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuRenamerManual_TVShows.Click
+    '    Cursor.Current = Cursors.WaitCursor
+    '    For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListTVShows.SelectedRows
+    '        Dim DBElement As Database.DBElement = Master.DB.Load_TVShow(Convert.ToInt64(sRow.Cells("idShow").Value), True, True, True)
+    '        If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBElement, True) Then
+    '            Using dRenameManual As New dlgRenameManual_TVShow(DBElement)
+    '                Select Case dRenameManual.ShowDialog()
+    '                    Case DialogResult.OK
+    '                        RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVShow, New List(Of Object)(New Object() {Convert.ToInt64(sRow.Cells("idShow").Value)}))
+    '                End Select
+    '            End Using
+    '        End If
+    '    Next
+    '    Cursor.Current = Cursors.Default
+    'End Sub
 
     Sub Disable()
         Dim tsi As New ToolStripMenuItem
@@ -371,21 +372,19 @@ Public Class Addon
         End If
     End Sub
 
-    Private Sub Handle_ModuleSettingsChanged()
-        RaiseEvent AddonSettingsChanged()
-    End Sub
+    'Private Sub Handle_ModuleSettingsChanged()
+    '    RaiseEvent AddonSettingsChanged()
+    'End Sub
+    '
+    'Private Sub Handle_ModuleEnabledChanged(ByVal State As Boolean)
+    '    RaiseEvent AddonStateChanged(_Name, State, 0)
+    'End Sub
 
-    Private Sub Handle_ModuleEnabledChanged(ByVal State As Boolean)
-        RaiseEvent AddonStateChanged(_Name, State, 0)
-    End Sub
-
-    Public Sub Init(ByVal assemblyName As String, ByVal executable As String) Implements Interfaces.IAddon_Generic.Init
-        _AssemblyName = assemblyName
+    Public Sub Init() Implements Interfaces.IAddon.Init
         LoadSettings()
     End Sub
 
-    Function InjectSettingsPanel() As Containers.SettingsPanel Implements Interfaces.IAddon_Generic.InjectSettingsPanel
-        Dim SPanel As New Containers.SettingsPanel
+    Public Sub InjectSettingsPanel() Implements Interfaces.IAddon.InjectSettingsPanels
         _setup = New frmSettingsHolder
         _setup.chkEnabled.Checked = _enabled
         _setup.txtFolderPatternMovies.Text = MySettings.FoldersPattern_Movies
@@ -400,23 +399,20 @@ Public Class Addon
         _setup.chkRenameSingleMovies.Checked = MySettings.RenameSingle_Movies
         _setup.chkRenameSingleShows.Checked = MySettings.RenameSingle_Shows
         _setup.chkRenameUpdateEpisodes.Checked = MySettings.RenameUpdate_Episodes
-        SPanel.UniqueName = _Name
-        SPanel.Title = Master.eLang.GetString(295, "Renamer")
-        SPanel.Type = Master.eLang.GetString(802, "Addons")
-        SPanel.ImageIndex = If(_enabled, 9, 10)
-        SPanel.Order = 100
-        SPanel.Panel = _setup.pnlSettings()
-        AddHandler _setup.ModuleEnabledChanged, AddressOf Handle_ModuleEnabledChanged
-        AddHandler _setup.ModuleSettingsChanged, AddressOf Handle_ModuleSettingsChanged
-        Return SPanel
-    End Function
+        _setup.UniqueId = _Name
+        '_setup.Type = Master.eLang.GetString(802, "Addons")
+        _setup.ImageIndex = If(_enabled, 9, 10)
+        _setup.Order = 100
+        'AddHandler _setup.ModuleEnabledChanged, AddressOf Handle_ModuleEnabledChanged
+        'AddHandler _setup.ModuleSettingsChanged, AddressOf Handle_ModuleSettingsChanged
+    End Sub
 
     Sub LoadSettings()
-        MySettings.FoldersPattern_Movies = Master.eAdvancedSettings.GetStringSetting("FoldersPattern", "$T {($Y)}", , Enums.ContentType.Movie)
-        MySettings.FoldersPattern_Seasons = Master.eAdvancedSettings.GetStringSetting("FoldersPattern", "Season $K2_?", , Enums.ContentType.TVSeason)
-        MySettings.FoldersPattern_Shows = Master.eAdvancedSettings.GetStringSetting("FoldersPattern", "$Z", , Enums.ContentType.TVShow)
-        MySettings.FilesPattern_Episodes = Master.eAdvancedSettings.GetStringSetting("FilesPattern", "$Z - $W2_S?2E?{ - $T}", , Enums.ContentType.TVEpisode)
-        MySettings.FilesPattern_Movies = Master.eAdvancedSettings.GetStringSetting("FilesPattern", "$T{.$S}", , Enums.ContentType.Movie)
+        MySettings.FoldersPattern_Movies = Master.eAdvancedSettings.GetStringSetting("FoldersPattern", "$T {($Y)}", Enums.ContentType.Movie)
+        MySettings.FoldersPattern_Seasons = Master.eAdvancedSettings.GetStringSetting("FoldersPattern", "Season $K2_?", Enums.ContentType.TVSeason)
+        MySettings.FoldersPattern_Shows = Master.eAdvancedSettings.GetStringSetting("FoldersPattern", "$Z", Enums.ContentType.TVShow)
+        MySettings.FilesPattern_Episodes = Master.eAdvancedSettings.GetStringSetting("FilesPattern", "$Z - $W2_S?2E?{ - $T}", Enums.ContentType.TVEpisode)
+        MySettings.FilesPattern_Movies = Master.eAdvancedSettings.GetStringSetting("FilesPattern", "$T{.$S}", Enums.ContentType.Movie)
         MySettings.RenameEdit_Movies = Master.eAdvancedSettings.GetBooleanSetting("RenameEdit", False, , Enums.ContentType.Movie)
         MySettings.RenameEdit_Episodes = Master.eAdvancedSettings.GetBooleanSetting("RenameEdit", False, , Enums.ContentType.TVShow)
         MySettings.RenameMulti_Movies = Master.eAdvancedSettings.GetBooleanSetting("RenameMulti", False, , Enums.ContentType.Movie)
@@ -427,7 +423,7 @@ Public Class Addon
     End Sub
 
     Private Sub mnuMainToolsRenamer_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuMainToolsRenamer.Click, cmnuTrayToolsRenamer.Click
-        RaiseEvent GenericEvent(Enums.AddonEventType.Generic, New List(Of Object)(New Object() {"controlsenabled", False}))
+        'RaiseEvent GenericEvent(Enums.AddonEventType.Generic, New List(Of Object)(New Object() {"controlsenabled", False}))
         Select Case Addons.Instance.RuntimeObjects.MediaTabSelected.ContentType
             Case Enums.ContentType.Movie
                 Using dBulkRename As New dlgBulkRenamer_Movie
@@ -451,11 +447,11 @@ Public Class Addon
                     dBulkRename.ShowDialog()
                 End Using
         End Select
-        RaiseEvent GenericEvent(Enums.AddonEventType.Generic, New List(Of Object)(New Object() {"controlsenabled", True}))
-        RaiseEvent GenericEvent(Enums.AddonEventType.Generic, New List(Of Object)(New Object() {"filllist", True, True, True}))
+        'RaiseEvent GenericEvent(Enums.AddonEventType.Generic, New List(Of Object)(New Object() {"controlsenabled", True}))
+        'RaiseEvent GenericEvent(Enums.AddonEventType.Generic, New List(Of Object)(New Object() {"filllist", True, True, True}))
     End Sub
 
-    Sub SaveSettings(ByVal doDispose As Boolean) Implements Interfaces.IAddon_Generic.SaveSettings
+    Sub SaveSettings(ByVal doDispose As Boolean) Implements Interfaces.IAddon.SaveSettings
         Enabled = _setup.chkEnabled.Checked
         MySettings.FoldersPattern_Movies = _setup.txtFolderPatternMovies.Text
         MySettings.FoldersPattern_Seasons = _setup.txtFolderPatternSeasons.Text
@@ -471,27 +467,29 @@ Public Class Addon
         MySettings.RenameUpdate_Episodes = _setup.chkRenameUpdateEpisodes.Checked
         SaveSettings()
         If doDispose Then
-            RemoveHandler _setup.ModuleEnabledChanged, AddressOf Handle_ModuleEnabledChanged
-            RemoveHandler _setup.ModuleSettingsChanged, AddressOf Handle_ModuleSettingsChanged
+            'RemoveHandler _setup.ModuleEnabledChanged, AddressOf Handle_ModuleEnabledChanged
+            'RemoveHandler _setup.ModuleSettingsChanged, AddressOf Handle_ModuleSettingsChanged
             _setup.Dispose()
         End If
     End Sub
 
     Sub SaveSettings()
-        Using settings = New AdvancedSettings()
-            settings.SetStringSetting("FoldersPattern", MySettings.FoldersPattern_Movies, , , Enums.ContentType.Movie)
-            settings.SetStringSetting("FoldersPattern", MySettings.FoldersPattern_Seasons, , , Enums.ContentType.TVSeason)
-            settings.SetStringSetting("FoldersPattern", MySettings.FoldersPattern_Shows, , , Enums.ContentType.TVShow)
-            settings.SetStringSetting("FilesPattern", MySettings.FilesPattern_Episodes, , , Enums.ContentType.TVEpisode)
-            settings.SetStringSetting("FilesPattern", MySettings.FilesPattern_Movies, , , Enums.ContentType.Movie)
-            settings.SetBooleanSetting("RenameEdit", MySettings.RenameEdit_Movies, , , Enums.ContentType.Movie)
-            settings.SetBooleanSetting("RenameEdit", MySettings.RenameEdit_Episodes, , , Enums.ContentType.TVShow)
-            settings.SetBooleanSetting("RenameMulti", MySettings.RenameMulti_Movies, , , Enums.ContentType.Movie)
-            settings.SetBooleanSetting("RenameMulti", MySettings.RenameMulti_Shows, , , Enums.ContentType.TVShow)
-            settings.SetBooleanSetting("RenameSingle", MySettings.RenameSingle_Movies, , , Enums.ContentType.Movie)
-            settings.SetBooleanSetting("RenameSingle", MySettings.RenameSingle_Shows, , , Enums.ContentType.TVShow)
-            settings.SetBooleanSetting("RenameUpdate", MySettings.RenameUpdate_Episodes, , , Enums.ContentType.TVEpisode)
-        End Using
+        Master.eAdvancedSettings.SetStringSetting("FoldersPattern", MySettings.FoldersPattern_Movies, , Enums.ContentType.Movie)
+        Master.eAdvancedSettings.SetStringSetting("FoldersPattern", MySettings.FoldersPattern_Movies, , Enums.ContentType.TVSeason)
+        'TODO change the rest
+        'Settings.SetStringSetting("FoldersPattern", MySettings.FoldersPattern_Movies, , , Enums.ContentType.Movie)
+        'settings.SetStringSetting("FoldersPattern", MySettings.FoldersPattern_Seasons, , , Enums.ContentType.TVSeason)
+        'settings.SetStringSetting("FoldersPattern", MySettings.FoldersPattern_Shows, , , Enums.ContentType.TVShow)
+        'settings.SetStringSetting("FilesPattern", MySettings.FilesPattern_Episodes, , , Enums.ContentType.TVEpisode)
+        'settings.SetStringSetting("FilesPattern", MySettings.FilesPattern_Movies, , , Enums.ContentType.Movie)
+        'settings.SetBooleanSetting("RenameEdit", MySettings.RenameEdit_Movies, , , Enums.ContentType.Movie)
+        'settings.SetBooleanSetting("RenameEdit", MySettings.RenameEdit_Episodes, , , Enums.ContentType.TVShow)
+        'settings.SetBooleanSetting("RenameMulti", MySettings.RenameMulti_Movies, , , Enums.ContentType.Movie)
+        'settings.SetBooleanSetting("RenameMulti", MySettings.RenameMulti_Shows, , , Enums.ContentType.TVShow)
+        'settings.SetBooleanSetting("RenameSingle", MySettings.RenameSingle_Movies, , , Enums.ContentType.Movie)
+        'settings.SetBooleanSetting("RenameSingle", MySettings.RenameSingle_Shows, , , Enums.ContentType.TVShow)
+        'settings.SetBooleanSetting("RenameUpdate", MySettings.RenameUpdate_Episodes, , , Enums.ContentType.TVEpisode)
+
     End Sub
 
 #End Region 'Methods

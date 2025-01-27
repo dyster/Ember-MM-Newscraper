@@ -1076,7 +1076,7 @@ Public Class Scanner
 
             'process new episodes
             For Each nEpisode In newEpisodesList
-                Addons.Instance.RunGeneric(Enums.AddonEventType.DuringUpdateDB_TV, Nothing, Nothing, False, nEpisode)
+                Addons.Instance.Run(Enums.AddonEventType.DuringUpdateDB_TV, Nothing, Nothing, False, nEpisode)
             Next
 
             'sync new episodes
@@ -1837,11 +1837,11 @@ Public Class Scanner
             Dim Args As Arguments = DirectCast(e.Result, Arguments)
             If Args.Scan.Movies Then
                 Dim params As New List(Of Object)(New Object() {False, False, False, True, Args.SourceIDs})
-                Addons.Instance.RunGeneric(Enums.AddonEventType.AfterUpdateDB_Movie, params, Nothing)
+                Addons.Instance.Run(Enums.AddonEventType.AfterUpdateDB_Movie, params, Nothing)
             End If
             If Args.Scan.TV Then
                 Dim params As New List(Of Object)(New Object() {False, False, False, True, Args.SourceIDs})
-                Addons.Instance.RunGeneric(Enums.AddonEventType.AfterUpdateDB_TV, params, Nothing)
+                Addons.Instance.Run(Enums.AddonEventType.AfterUpdateDB_TV, params, Nothing)
             End If
             RaiseEvent ProgressUpdate(New ProgressValue With {.EventType = Enums.ScannerEventType.ScannerEnded})
         End If

@@ -103,7 +103,7 @@ Public Class StringUtils
     Public Shared Function BuildGenericTitle_TVEpisode(ByVal tDBElement As Database.DBElement) As String
         If tDBElement Is Nothing OrElse Not tDBElement.ContentType = Enums.ContentType.TVEpisode Then Return String.Empty
         Return String.Format("{0} S{1}E{2}{3}",
-                             tDBElement.TVShowDetails.Title,
+                             tDBElement.MainDetails.Title,
                              tDBElement.MainDetails.Season.ToString.PadLeft(2, Convert.ToChar("0")),
                              tDBElement.MainDetails.Episode.ToString.PadLeft(2, Convert.ToChar("0")),
                              If(tDBElement.MainDetails.SubEpisodeSpecified, String.Concat(".", tDBElement.MainDetails.SubEpisode), String.Empty))

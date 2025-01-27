@@ -138,7 +138,7 @@ Public Class Addon
         End If
     End Sub
 
-    Function Scraper_Movie(ByRef DBMovie As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef TrailerList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Trailer_Scraper_Movie.Scraper
+    Function Scraper_Movie(ByRef DBMovie As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef TrailerList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult Implements Interfaces.IAddon_Trailer_Scraper_Movie.Scraper
         _Logger.Trace("[VideobusterDE_Trailer] [Scraper_Movie] [Start]")
 
         Dim strTitle As String = String.Empty
@@ -146,7 +146,7 @@ Public Class Addon
         If DBMovie.Movie.TitleSpecified Then
             strTitle = DBMovie.Movie.Title
         Else
-            strTitle = DBMovie.Movie.OriginalTitle
+            strTitle = DBMovie.MainDetails.OriginalTitle
         End If
 
         If Not String.IsNullOrEmpty(strTitle) Then
@@ -154,7 +154,7 @@ Public Class Addon
         End If
 
         _Logger.Trace("[VideobusterDE_Trailer] [Scraper_Movie] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
     Public Sub ScraperOrderChanged() Implements Interfaces.IAddon_Trailer_Scraper_Movie.ScraperOrderChanged

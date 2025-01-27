@@ -224,7 +224,7 @@ Public Class Scraper
             nResult.UniqueIDs.IMDbId = imdbId
 
             'Actors
-            If filteredOptions.bMainActors Then
+            If filteredOptions.Actors Then
                 Dim nActors = Parse_Actors(htmldReference)
                 If nActors IsNot Nothing Then
                     nResult.Actors = nActors
@@ -236,7 +236,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Certifications
-            If filteredOptions.bMainCertifications Then
+            If filteredOptions.Certifications Then
                 Dim lstCertifications = Parse_Certifications(htmldReference)
                 If lstCertifications IsNot Nothing Then
                     nResult.Certifications = lstCertifications
@@ -248,7 +248,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Countries
-            If filteredOptions.bMainCountries Then
+            If filteredOptions.Countries Then
                 Dim lstCountries = Parse_Countries(htmldReference)
                 If lstCountries IsNot Nothing Then
                     nResult.Countries = lstCountries
@@ -260,7 +260,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Director
-            If filteredOptions.bMainDirectors Then
+            If filteredOptions.Directors Then
                 Dim lstDirectors = Parse_Directors(htmldReference)
                 If lstDirectors IsNot Nothing Then
                     nResult.Directors = lstDirectors
@@ -272,7 +272,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Duration
-            If filteredOptions.bMainRuntime Then
+            If filteredOptions.Runtime Then
                 Dim strDuration = Parse_Duration(htmldReference)
                 If strDuration IsNot Nothing Then
                     nResult.Runtime = strDuration
@@ -284,7 +284,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Genres
-            If filteredOptions.bMainGenres Then
+            If filteredOptions.Genres Then
                 Dim lstGenres = Parse_Genres(htmldReference)
                 If lstGenres IsNot Nothing Then
                     nResult.Genres = lstGenres
@@ -308,7 +308,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Original Title
-            If filteredOptions.bMainOriginalTitle Then
+            If filteredOptions.OriginalTitle Then
                 nResult.OriginalTitle = strOriginalTitle
             End If
 
@@ -327,7 +327,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Plot
-            If filteredOptions.bMainPlot AndAlso bIsScraperLanguage Then
+            If filteredOptions.Plot AndAlso bIsScraperLanguage Then
                 Dim strPlot = Parse_Plot(htmldReference)
                 If strPlot IsNot Nothing Then
                     nResult.Plot = strPlot
@@ -354,10 +354,10 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Premiered
-            If filteredOptions.bMainPremiered Then
+            If filteredOptions.Premiered Then
                 Dim datePremiered As New Date
                 If Parse_Premiered(htmldReference, datePremiered) Then
-                    If filteredOptions.bMainPremiered Then nResult.Premiered = datePremiered.ToString("yyyy-MM-dd")
+                    If filteredOptions.Premiered Then nResult.Premiered = datePremiered.ToString("yyyy-MM-dd")
                 Else
                     _Logger.Trace(String.Format("[IMDb] [GetInfo_Movie] [ID:""{0}""] can't parse Premiered/Year", imdbId))
                 End If
@@ -378,7 +378,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Studios
-            If filteredOptions.bMainStudios Then
+            If filteredOptions.Studios Then
                 Dim lstStudios = Parse_Studios(htmldReference)
                 If lstStudios IsNot Nothing Then
                     nResult.Studios = lstStudios
@@ -390,7 +390,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Tagline
-            If filteredOptions.bMainTagline AndAlso bIsScraperLanguage Then
+            If filteredOptions.Tagline AndAlso bIsScraperLanguage Then
                 Dim strTagline = Parse_Tagline(htmldReference)
                 If strTagline IsNot Nothing Then
                     nResult.Tagline = strTagline
@@ -402,7 +402,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Title
-            If filteredOptions.bMainTitle Then
+            If filteredOptions.Title Then
                 If Not String.IsNullOrEmpty(_addonSettings.ForceTitleLanguage) Then
                     nResult.Title = Parse_ForcedTitle(imdbId, strOriginalTitle)
                 Else
@@ -517,7 +517,7 @@ Public Class Scraper
             End If
 
             'Actors
-            If filteredOptions.bEpisodeActors Then
+            If filteredOptions.Actors Then
                 Dim lstActors = Parse_Actors(htmldReference, True)
                 If lstActors IsNot Nothing Then
                     nResult.Actors = lstActors
@@ -527,7 +527,7 @@ Public Class Scraper
             End If
 
             'AiredDate
-            If filteredOptions.bEpisodeAired Then
+            If filteredOptions.Aired Then
                 Dim dateRelease As New Date
                 If Parse_Premiered(htmldReference, dateRelease) Then
                     nResult.Aired = dateRelease.ToString("yyyy-MM-dd")
@@ -537,7 +537,7 @@ Public Class Scraper
             End If
 
             'Credits (writers)
-            If filteredOptions.bEpisodeCredits Then
+            If filteredOptions.Credits Then
                 Dim lstCredits = Parse_Credits(htmldReference)
                 If lstCredits IsNot Nothing Then
                     nResult.Credits = lstCredits
@@ -547,7 +547,7 @@ Public Class Scraper
             End If
 
             'Directors
-            If filteredOptions.bEpisodeDirectors Then
+            If filteredOptions.Directors Then
                 Dim lstDirectors = Parse_Directors(htmldReference)
                 If lstDirectors IsNot Nothing Then
                     nResult.Directors = lstDirectors
@@ -557,7 +557,7 @@ Public Class Scraper
             End If
 
             'Plot
-            If filteredOptions.bEpisodePlot AndAlso bIsScraperLanguage Then
+            If filteredOptions.Plot AndAlso bIsScraperLanguage Then
                 Dim selNodes = htmldReference.DocumentNode.SelectNodes("//section[@class=""titlereference-section-overview""]/div[2]/text()")
                 If selNodes IsNot Nothing Then
                     Dim selNode = selNodes.FirstOrDefault
@@ -594,7 +594,7 @@ Public Class Scraper
             End If
 
             'Title
-            If filteredOptions.bEpisodeTitle Then
+            If filteredOptions.Title Then
                 If Not String.IsNullOrEmpty(_addonSettings.ForceTitleLanguage) Then
                     nResult.Title = Parse_ForcedTitle(imdbId, strOriginalTitle)
                 Else
@@ -711,7 +711,7 @@ Public Class Scraper
             End If
 
             'Actors
-            If filteredoptions.bMainActors Then
+            If filteredoptions.Actors Then
                 Dim lstActors = Parse_Actors(htmldReference, True)
                 If lstActors IsNot Nothing Then
                     nResult.Actors = lstActors
@@ -723,7 +723,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Certifications
-            If filteredoptions.bMainCertifications Then
+            If filteredoptions.Certifications Then
                 Dim lstCertifications = Parse_Certifications(htmldReference)
                 If lstCertifications IsNot Nothing Then
                     nResult.Certifications = lstCertifications
@@ -735,7 +735,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Countries
-            If filteredoptions.bMainCountries Then
+            If filteredoptions.Countries Then
                 Dim lstCountries = Parse_Countries(htmldReference)
                 If lstCountries IsNot Nothing Then
                     nResult.Countries = lstCountries
@@ -747,7 +747,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Creators
-            If filteredoptions.bMainCreators Then
+            If filteredoptions.Creators Then
                 Dim lstCreators = ParseCreators(htmldReference)
                 If lstCreators IsNot Nothing Then
                     nResult.Creators = lstCreators
@@ -759,7 +759,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Genres
-            If filteredoptions.bMainGenres Then
+            If filteredoptions.Genres Then
                 Dim lstGenres = Parse_Genres(htmldReference)
                 If lstGenres IsNot Nothing Then
                     nResult.Genres = lstGenres
@@ -771,14 +771,14 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Original Title
-            If filteredoptions.bMainOriginalTitle Then
+            If filteredoptions.OriginalTitle Then
                 nResult.OriginalTitle = strOriginalTitle
             End If
 
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Plot
-            If filteredoptions.bMainPlot AndAlso bIsScraperLanguage Then
+            If filteredoptions.Plot AndAlso bIsScraperLanguage Then
                 Dim strPlot = Parse_Plot(htmldReference)
                 If strPlot IsNot Nothing Then
                     nResult.Plot = strPlot
@@ -800,7 +800,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Premiered
-            If filteredoptions.bMainPremiered Then
+            If filteredoptions.Premiered Then
                 Dim dateRelease As New Date
                 If ParsePremiered(imdbId, dateRelease) Then
                     nResult.Premiered = dateRelease.ToString("yyyy-MM-dd")
@@ -824,7 +824,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Runtime
-            If filteredoptions.bMainRuntime Then
+            If filteredoptions.Runtime Then
                 Dim strRuntime = ParseRuntime(htmldReference)
                 If strRuntime IsNot Nothing Then
                     nResult.Runtime = strRuntime
@@ -836,7 +836,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Studios
-            If filteredoptions.bMainStudios Then
+            If filteredoptions.Studios Then
                 Dim lstStudios = Parse_Studios(htmldReference)
                 If lstStudios IsNot Nothing Then
                     nResult.Studios = lstStudios
@@ -848,7 +848,7 @@ Public Class Scraper
             If _backgroundWorker.CancellationPending Then Return Nothing
 
             'Title
-            If filteredoptions.bMainTitle Then
+            If filteredoptions.Title Then
                 If Not String.IsNullOrEmpty(_addonSettings.ForceTitleLanguage) Then
                     nResult.Title = Parse_ForcedTitle(imdbId, strOriginalTitle)
                 Else

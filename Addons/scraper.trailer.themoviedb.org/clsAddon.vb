@@ -138,13 +138,13 @@ Public Class Addon
 
     End Sub
 
-    Function Scraper_Movie(ByRef oDBElement As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef TrailerList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Trailer_Scraper_Movie.Scraper
+    Function Scraper_Movie(ByRef oDBElement As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef TrailerList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult Implements Interfaces.IAddon_Trailer_Scraper_Movie.Scraper
         logger.Trace("[TMDB_Trailer] [Scraper_Movie] [Start]")
 
         _TMDBAPI.DefaultLanguage = oDBElement.Language
 
-        If Not oDBElement.Movie.UniqueIDs.TMDbIdSpecified AndAlso oDBElement.Movie.UniqueIDs.IMDbIdSpecified Then
-            oDBElement.Movie.UniqueIDs.TMDbId = Addons.Instance.GetMovieTMDbIdByIMDbId(oDBElement.Movie.UniqueIDs.IMDbId)
+        If Not oDBElement.Movie.UniqueIDs.TMDbIdSpecified AndAlso oDBElement.MainDetails.UniqueIDs.IMDbIdSpecified Then
+            oDBElement.Movie.UniqueIDs.TMDbId = Addons.Instance.GetMovieTMDbIdByIMDbId(oDBElement.MainDetails.UniqueIDs.IMDbId)
         End If
 
         If oDBElement.Movie.UniqueIDs.TMDbIdSpecified Then
@@ -152,7 +152,7 @@ Public Class Addon
         End If
 
         logger.Trace("[TMDB_Trailer] [Scraper_Movie] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
     Sub SaveSettings()

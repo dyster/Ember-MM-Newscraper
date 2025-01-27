@@ -69,7 +69,7 @@ Public Class dlgRenameManual_Movie
             Dim FileName = Path.GetFileNameWithoutExtension(FileUtils.Common.RemoveStackingMarkers(_DBElement.Filename)).Trim
             Dim stackMark As String = Path.GetFileNameWithoutExtension(_DBElement.Filename).Replace(FileName, String.Empty).ToLower
             If Not FileName.ToLower = "video_ts" Then
-                If Not stackMark = String.Empty AndAlso _DBElement.Movie.Title.ToLower.EndsWith(stackMark) Then
+                If Not stackMark = String.Empty AndAlso _DBElement.MainDetails.Title.ToLower.EndsWith(stackMark) Then
                     FileName = Path.GetFileNameWithoutExtension(_DBElement.Filename)
                 End If
                 If _DBElement.IsSingle Then
@@ -100,14 +100,14 @@ Public Class dlgRenameManual_Movie
     End Sub
 
     Sub SetUp()
-        Text = String.Concat(Master.eLang.GetString(263, "Manual Rename"), " | ", _DBElement.Movie.Title)
+        Text = String.Concat(Master.eLang.GetString(263, "Manual Rename"), " | ", _DBElement.MainDetails.Title)
         Label1.Text = Master.eLang.GetString(13, "Folder Name")
         Label2.Text = Master.eLang.GetString(15, "File Name")
         btnOK.Text = Master.eLang.GetString(179, "OK")
         Cancel_Button.Text = Master.eLang.GetString(19, "Close")
         lblTitle.Text = String.Concat(Master.eLang.GetString(21, "Title"), ":")
         Label3.Text = Master.eLang.GetString(272, "Renaming Directory/Files...")
-        txtTitle.Text = _DBElement.Movie.Title
+        txtTitle.Text = _DBElement.MainDetails.Title
     End Sub
 
     Private Sub txtFile_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtFile.TextChanged

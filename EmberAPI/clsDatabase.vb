@@ -687,7 +687,7 @@ Public Class Database
             Next
 
             For Each tEpisode As DBElement In newEpisodesList
-                Addons.Instance.RunGeneric(Enums.AddonEventType.DuringUpdateDB_TV, Nothing, Nothing, False, tEpisode)
+                Addons.Instance.Run(Enums.AddonEventType.DuringUpdateDB_TV, Nothing, Nothing, False, tEpisode)
             Next
 
             For Each tEpisode As DBElement In newEpisodesList
@@ -1479,7 +1479,7 @@ Public Class Database
         If ID < 0 Then Throw New ArgumentOutOfRangeException("idMovie", "Value must be >= 0, was given: " & ID)
 
         Dim _movieDB As DBElement = Load_Movie(ID)
-        Addons.Instance.RunGeneric(Enums.AddonEventType.Remove_Movie, Nothing, Nothing, False, _movieDB)
+        Addons.Instance.Run(Enums.AddonEventType.Remove_Movie, Nothing, Nothing, False, _movieDB)
 
         Try
             Dim SQLtransaction As SQLiteTransaction = Nothing
@@ -1526,8 +1526,8 @@ Public Class Database
             If moviesToSave.Count > 0 Then
                 For Each movie In moviesToSave
                     movie.MainDetails.Sets.RemoveSet(id)
-                    Addons.Instance.RunGeneric(Enums.AddonEventType.BeforeEdit_Movie, Nothing, Nothing, False, movie)
-                    Addons.Instance.RunGeneric(Enums.AddonEventType.AfterEdit_Movie, Nothing, Nothing, False, movie)
+                    Addons.Instance.Run(Enums.AddonEventType.BeforeEdit_Movie, Nothing, Nothing, False, movie)
+                    Addons.Instance.Run(Enums.AddonEventType.AfterEdit_Movie, Nothing, Nothing, False, movie)
                     Save_Movie(movie, batchMode, True, False, True, False)
                     RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_Movie, New List(Of Object)(New Object() {movie.ID}))
                 Next
@@ -1570,7 +1570,7 @@ Public Class Database
         Dim bHasRemoved As Boolean = False
 
         Dim _tvepisodeDB As DBElement = Load_TVEpisode(episodeId, True)
-        Addons.Instance.RunGeneric(Enums.AddonEventType.Remove_TVEpisode, Nothing, Nothing, False, _tvepisodeDB)
+        Addons.Instance.Run(Enums.AddonEventType.Remove_TVEpisode, Nothing, Nothing, False, _tvepisodeDB)
 
         If Not batchMode Then SQLtransaction = _myvideosDBConn.BeginTransaction()
         Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
@@ -1718,7 +1718,7 @@ Public Class Database
         If id < 0 Then Throw New ArgumentOutOfRangeException("idShow", "Value must be >= 0, was given: " & id)
 
         Dim _tvshowDB As DBElement = Load_TVShow_Full(id)
-        Addons.Instance.RunGeneric(Enums.AddonEventType.Remove_TVShow, Nothing, Nothing, False, _tvshowDB)
+        Addons.Instance.Run(Enums.AddonEventType.Remove_TVShow, Nothing, Nothing, False, _tvshowDB)
 
         Try
             Dim SQLtransaction As SQLiteTransaction = Nothing
@@ -3451,8 +3451,8 @@ Public Class Database
 
     Public Sub Remove_Source_Movie(ByVal ID As Long, ByVal batchMode As Boolean)
         Dim SQLtransaction As SQLiteTransaction = Nothing
-        If Not batchMode Then SQLtransaction = _MyvideosDBConn.BeginTransaction()
-        Using sqlCommand As SQLiteCommand = _MyvideosDBConn.CreateCommand()
+        If Not batchMode Then SQLtransaction = _myvideosDBConn.BeginTransaction()
+        Using sqlCommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
             sqlCommand.CommandText = String.Format("DELETE FROM moviesource WHERE idSource={0};", ID)
             sqlCommand.ExecuteNonQuery()
         End Using
@@ -3461,8 +3461,8 @@ Public Class Database
 
     Public Sub Remove_Source_TVShow(ByVal ID As Long, ByVal batchMode As Boolean)
         Dim SQLtransaction As SQLiteTransaction = Nothing
-        If Not batchMode Then SQLtransaction = _MyvideosDBConn.BeginTransaction()
-        Using sqlCommand As SQLiteCommand = _MyvideosDBConn.CreateCommand()
+        If Not batchMode Then SQLtransaction = _myvideosDBConn.BeginTransaction()
+        Using sqlCommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
             sqlCommand.CommandText = String.Format("DELETE FROM tvshowsource WHERE idSource={0};", ID)
             sqlCommand.ExecuteNonQuery()
         End Using
@@ -4038,7 +4038,7 @@ Public Class Database
         If Not batchMode Then sqlTransaction.Commit()
 
         If doSync Then
-            Addons.Instance.RunGeneric(Enums.AddonEventType.Sync_Movie, Nothing, Nothing, False, dbElement)
+            Addons.Instance.Run(Enums.AddonEventType.Sync_Movie, Nothing, Nothing, False, dbElement)
         End If
 
         Return dbElement
@@ -4161,8 +4161,8 @@ Public Class Database
                                               .Title = dbElement.MainDetails.Title,
                                               .UniqueIDs = dbElement.MainDetails.UniqueIDs
                                               })
-                Addons.Instance.RunGeneric(Enums.AddonEventType.BeforeEdit_Movie, Nothing, Nothing, False, tMovie.DBMovie)
-                Addons.Instance.RunGeneric(Enums.AddonEventType.AfterEdit_Movie, Nothing, Nothing, False, tMovie.DBMovie)
+                Addons.Instance.Run(Enums.AddonEventType.BeforeEdit_Movie, Nothing, Nothing, False, tMovie.DBMovie)
+                Addons.Instance.Run(Enums.AddonEventType.AfterEdit_Movie, Nothing, Nothing, False, tMovie.DBMovie)
                 Save_Movie(tMovie.DBMovie, True, True, False, True, False)
                 RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_Movie, New List(Of Object)(New Object() {tMovie.DBMovie.ID}))
             Next
@@ -4179,8 +4179,8 @@ Public Class Database
                         'movie is no longer a part of this set
                         Dim tMovie As Database.DBElement = Load_Movie(Convert.ToInt64(SQLreader("idMovie")))
                         tMovie.MainDetails.Sets.RemoveSet(dbElement.ID)
-                        Addons.Instance.RunGeneric(Enums.AddonEventType.BeforeEdit_Movie, Nothing, Nothing, False, tMovie)
-                        Addons.Instance.RunGeneric(Enums.AddonEventType.AfterEdit_Movie, Nothing, Nothing, False, tMovie)
+                        Addons.Instance.Run(Enums.AddonEventType.BeforeEdit_Movie, Nothing, Nothing, False, tMovie)
+                        Addons.Instance.Run(Enums.AddonEventType.AfterEdit_Movie, Nothing, Nothing, False, tMovie)
                         Save_Movie(tMovie, True, True, False, True, False)
                         RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_Movie, New List(Of Object)(New Object() {tMovie.ID}))
                     End If
@@ -4190,7 +4190,7 @@ Public Class Database
 
         If Not batchMode Then sqlTransaction.Commit()
 
-        Addons.Instance.RunGeneric(Enums.AddonEventType.Sync_MovieSet, Nothing, Nothing, False, dbElement)
+        Addons.Instance.Run(Enums.AddonEventType.Sync_MovieSet, Nothing, Nothing, False, dbElement)
 
         Return dbElement
     End Function
@@ -4770,7 +4770,7 @@ Public Class Database
         If Not batchMode Then sqlTransaction.Commit()
 
         If dbElement.FilenameIDSpecified AndAlso doSync Then
-            Addons.Instance.RunGeneric(Enums.AddonEventType.Sync_TVEpisode, Nothing, Nothing, False, dbElement)
+            Addons.Instance.Run(Enums.AddonEventType.Sync_TVEpisode, Nothing, Nothing, False, dbElement)
         End If
 
         Return dbElement
@@ -4881,7 +4881,7 @@ Public Class Database
         If Not batchMode Then sqlTransaction.Commit()
 
         If doSync Then
-            Addons.Instance.RunGeneric(Enums.AddonEventType.Sync_TVSeason, Nothing, Nothing, False, dbElement)
+            Addons.Instance.Run(Enums.AddonEventType.Sync_TVSeason, Nothing, Nothing, False, dbElement)
         End If
 
         Return dbElement
@@ -5144,7 +5144,7 @@ Public Class Database
 
         If Not batchMode Then sqlTransaction.Commit()
 
-        Addons.Instance.RunGeneric(Enums.AddonEventType.Sync_TVShow, Nothing, Nothing, False, dbElement)
+        Addons.Instance.Run(Enums.AddonEventType.Sync_TVShow, Nothing, Nothing, False, dbElement)
 
         Return dbElement
     End Function
@@ -7054,6 +7054,15 @@ Public Class Database
 
         Public Property ImagesContainer As New MediaContainers.ImagesContainer
 
+        <Obsolete("Please change to IsLocked")>
+        Public Property IsLock As Boolean
+            Get
+                Return IsLocked
+            End Get
+            Set(value As Boolean)
+                IsLocked = value
+            End Set
+        End Property
         Public Property IsLocked As Boolean
             Get
                 Return MainDetails.IsLocked
@@ -7090,6 +7099,32 @@ Public Class Database
         Public ReadOnly Property Language_Main As String
             Get
                 Return Regex.Replace(Language, "-.*", String.Empty).Trim
+            End Get
+        End Property
+
+        'TODO These following are dummies, all calls to these should be replaced with MainDetails
+        <Obsolete("This is a dummie for MainDetails, use that instead")>
+        Public ReadOnly Property TVShow As MediaContainers.MainDetails
+            Get
+                Return MainDetails
+            End Get
+        End Property
+        <Obsolete("This is a dummie for MainDetails, use that instead")>
+        Public ReadOnly Property TVEpisode As MediaContainers.MainDetails
+            Get
+                Return MainDetails
+            End Get
+        End Property
+        <Obsolete("This is a dummie for MainDetails, use that instead")>
+        Public ReadOnly Property TVSeason As MediaContainers.MainDetails
+            Get
+                Return MainDetails
+            End Get
+        End Property
+        <Obsolete("This is a dummie for MainDetails, use that instead")>
+        Public ReadOnly Property Movie As MediaContainers.MainDetails
+            Get
+                Return MainDetails
             End Get
         End Property
 

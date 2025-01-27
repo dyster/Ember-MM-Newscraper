@@ -155,7 +155,7 @@ Public Class dlgExportMovies
                         While SQLreader.Read()
                             Dim _tmpTVShow As Database.DBElement = Master.DB.Load_TVShow(Convert.ToInt32(SQLreader("idShow")), True, True, bExportMissingEpisodes)
                             lstTVShowList.Add(_tmpTVShow)
-                            bwLoadInfo.ReportProgress(iProg, _tmpTVShow.TVShow.Title) '  show File
+                            bwLoadInfo.ReportProgress(iProg, _tmpTVShow.MainDetails.Title) '  show File
                             iProg += 1
                             If bwLoadInfo.CancellationPending Then
                                 e.Cancel = True

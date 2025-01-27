@@ -95,9 +95,9 @@ Public Class Addon
         _setup = New frmSettingsHolder
         LoadSettings()
         _setup.chkEnabled.Checked = _ScraperEnabled
-        _setup.chkCertifications.Checked = ConfigScrapeOptions.bMainCertifications
+        _setup.chkCertifications.Checked = ConfigScrapeOptions.Certifications
         _setup.chkOutline.Checked = ConfigScrapeOptions.bMainOutline
-        _setup.chkPlot.Checked = ConfigScrapeOptions.bMainPlot
+        _setup.chkPlot.Checked = ConfigScrapeOptions.Plot
 
         _setup.orderChanged()
 
@@ -116,14 +116,14 @@ Public Class Addon
 
     Sub LoadSettings()
         ConfigScrapeOptions.bMainOutline = _AddonSettings.GetBooleanSetting("DoOutline", True)
-        ConfigScrapeOptions.bMainPlot = _AddonSettings.GetBooleanSetting("DoPlot", True)
-        ConfigScrapeOptions.bMainCertifications = _AddonSettings.GetBooleanSetting("DoCert", True)
+        ConfigScrapeOptions.Plot = _AddonSettings.GetBooleanSetting("DoPlot", True)
+        ConfigScrapeOptions.Certifications = _AddonSettings.GetBooleanSetting("DoCert", True)
     End Sub
 
     Sub SaveSettings()
         _AddonSettings.SetBooleanSetting("DoOutline", ConfigScrapeOptions.bMainOutline)
-        _AddonSettings.SetBooleanSetting("DoPlot", ConfigScrapeOptions.bMainPlot)
-        _AddonSettings.SetBooleanSetting("DoCert", ConfigScrapeOptions.bMainCertifications)
+        _AddonSettings.SetBooleanSetting("DoPlot", ConfigScrapeOptions.Plot)
+        _AddonSettings.SetBooleanSetting("DoCert", ConfigScrapeOptions.Certifications)
     End Sub
 
     Private Sub Handle_PostModuleSettingsChanged()
@@ -131,9 +131,9 @@ Public Class Addon
     End Sub
 
     Sub SaveSettings(ByVal DoDispose As Boolean) Implements Interfaces.IAddon_Data_Scraper_Movie.SaveSettings
-        ConfigScrapeOptions.bMainCertifications = _setup.chkCertifications.Checked
+        ConfigScrapeOptions.Certifications = _setup.chkCertifications.Checked
         ConfigScrapeOptions.bMainOutline = _setup.chkOutline.Checked
-        ConfigScrapeOptions.bMainPlot = _setup.chkPlot.Checked
+        ConfigScrapeOptions.Plot = _setup.chkPlot.Checked
         SaveSettings()
         If DoDispose Then
             RemoveHandler _setup.SetupScraperChanged, AddressOf Handle_SetupScraperChanged
@@ -155,7 +155,7 @@ Public Class Addon
         Dim Result As MediaContainers.Movie = Nothing
 
         If scrapeModifiers.MainNFO Then
-            Result = _scraper.GetMovieInfo(dbElement.Movie.OriginalTitle, dbElement.Movie.Title, dbElement.Movie.Year, FilteredOptions, dbElement.Language)
+            Result = _scraper.GetMovieInfo(dbElement.MainDetails.OriginalTitle, dbElement.MainDetails.Title, dbElement.Movie.Year, FilteredOptions, dbElement.Language)
         End If
 
         If Result IsNot Nothing Then
@@ -171,8 +171,8 @@ Public Class Addon
         _setup.orderChanged()
     End Sub
 
-    Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Data_Scraper_Movie.GetTMDbIdByIMDbId
-        Return New Interfaces.AddonResult_Generic
+    Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As Interfaces.AddonResult Implements Interfaces.IAddon_Data_Scraper_Movie.GetTMDbIdByIMDbId
+        Return New Interfaces.AddonResult
     End Function
 
 #End Region 'Methods

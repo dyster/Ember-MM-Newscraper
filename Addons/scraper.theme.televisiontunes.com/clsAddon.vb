@@ -200,30 +200,30 @@ Public Class Addon
         End If
     End Sub
 
-    Function Scraper_Movie(ByRef DBMovie As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef ThemeList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Theme_Scraper_Movie.Scraper
+    Function Scraper_Movie(ByRef DBMovie As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef ThemeList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult Implements Interfaces.IAddon_Theme_Scraper_Movie.Scraper
         logger.Trace("[TelevisionTunes_Theme] [Scraper_Movie] [Start]")
 
-        Dim tTelevisionTunes As New Scraper(DBMovie.Movie.OriginalTitle)
+        Dim tTelevisionTunes As New Scraper(DBMovie.MainDetails.OriginalTitle)
 
         If tTelevisionTunes.ThemeList.Count > 0 Then
             ThemeList = tTelevisionTunes.ThemeList
         End If
 
         logger.Trace("[TelevisionTunes_Theme] [Scraper_Movie] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
-    Function Scraper_TV(ByRef DBTV As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef ThemeList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Theme_Scraper_TV.Scraper
+    Function Scraper_TV(ByRef DBTV As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef ThemeList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult Implements Interfaces.IAddon_Theme_Scraper_TV.Scraper
         logger.Trace("[TelevisionTunes_Theme] [Scraper_TV] [Start]")
 
-        Dim tTelevisionTunes As New Scraper(DBTV.TVShow.Title)
+        Dim tTelevisionTunes As New Scraper(DBTV.MainDetails.Title)
 
         If tTelevisionTunes.ThemeList.Count > 0 Then
             ThemeList = tTelevisionTunes.ThemeList
         End If
 
         logger.Trace("[TelevisionTunes_Theme] [Scraper_TV] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
     Public Sub ScraperOrderChanged_Movie() Implements Interfaces.IAddon_Theme_Scraper_Movie.ScraperOrderChanged

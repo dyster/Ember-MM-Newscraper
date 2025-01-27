@@ -25,7 +25,8 @@ Imports System.IO
 Imports System.Xml.Serialization
 
 Public Class Addon
-    Implements Interfaces.IAddon_Generic
+    Inherits AddonBase
+    Implements Interfaces.IAddon
 
 #Region "Delegates"
 
@@ -75,7 +76,7 @@ Public Class Addon
 
 #Region "Properties"
 
-    Public ReadOnly Property EventType() As List(Of Enums.AddonEventType) Implements Interfaces.IAddon_Generic.EventType
+    Public ReadOnly Property Capabilities_AddonEventTypes() As List(Of Enums.AddonEventType) Implements Interfaces.IAddon.Capabilities_AddonEventTypes
         Get
             Return New List(Of Enums.AddonEventType)(New Enums.AddonEventType() {
                                                       Enums.AddonEventType.BeforeEdit_Movie,
@@ -98,7 +99,7 @@ Public Class Addon
         End Get
     End Property
 
-    Property Enabled() As Boolean Implements Interfaces.IAddon_Generic.Enabled
+    Property Enabled() As Boolean Implements Interfaces.IAddon.IsEnabled_Generic
         Get
             Return _Enabled
         End Get
@@ -113,7 +114,7 @@ Public Class Addon
         End Set
     End Property
 
-    ReadOnly Property IsBusy() As Boolean Implements Interfaces.IAddon_Generic.IsBusy
+    ReadOnly Property IsBusy() As Boolean Implements Interfaces.IAddon.IsBusy
         Get
             Return False
         End Get
@@ -135,7 +136,7 @@ Public Class Addon
 
 #Region "Methods"
 
-    Public Function RunGeneric(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object), ByRef singleObject As Object, ByRef dbElement As Database.DBElement) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Generic.RunGeneric
+    Public Function Run(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object), ByRef singleObject As Object, ByRef dbElement As Database.DBElement) As Interfaces.AddonResult Implements Interfaces.IAddon.Run
         Select Case eventType
             Case Enums.AddonEventType.BeforeEdit_Movie
                 If _AddonSettings.GetWatchedStateBeforeEdit_Movie AndAlso dbElement IsNot Nothing Then
@@ -169,7 +170,7 @@ Public Class Addon
                 End If
         End Select
 
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
     Private Sub Disable()
@@ -312,7 +313,7 @@ Public Class Addon
         AddHandler _TraktAPI.NewTokenCreated, AddressOf Handle_NewToken
     End Sub
 
-    Function InjectSettingsPanel() As Containers.SettingsPanel Implements Interfaces.IAddon_Generic.InjectSettingsPanel
+    Function InjectSettingsPanel() As Containers.SettingsPanel Implements Interfaces.IAddon.InjectSettingsPanel
         Dim SPanel As New Containers.SettingsPanel
         _setup = New frmSettingsHolder
         LoadSettings()
@@ -356,10 +357,10 @@ Public Class Addon
         For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListMovies.SelectedRows
             Dim ID As Long = Convert.ToInt64(sRow.Cells("idMovie").Value)
             Dim DBElement As Database.DBElement = Master.DB.Load_Movie(ID)
-            If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_Movie(DBElement, True) Then
+            If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBElement, True) Then
                 If _TraktAPI.GetWatchedState_Movie(DBElement, lstWatchedMovies) Then
                     Master.DB.Save_Movie(DBElement, False, True, False, True, False)
-                    logger.Trace(String.Format("[TraktWorker] GetWatchedStateSelected_Movie: ""{0}"" | Synced to Ember", DBElement.Movie.Title))
+                    logger.Trace(String.Format("[TraktWorker] GetWatchedStateSelected_Movie: ""{0}"" | Synced to Ember", DBElement.MainDetails.Title))
                     RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_Movie, New List(Of Object)(New Object() {DBElement.ID}))
                 End If
             End If
@@ -376,14 +377,14 @@ Public Class Addon
         For Each sRow As DataGridViewRow In Addons.Instance.RuntimeObjects.MediaListTVEpisodes.SelectedRows
             Dim ID As Long = Convert.ToInt64(sRow.Cells("idEpisode").Value)
             Dim DBElement As Database.DBElement = Master.DB.Load_TVEpisode(ID, True)
-            If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVEpisode(DBElement, True) Then
+            If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBElement, True) Then
                 If _TraktAPI.GetWatchedState_TVEpisode(DBElement, lstWatchedShows) Then
                     Master.DB.Save_TVEpisode(DBElement, False, True, False, False, True, False)
                     logger.Trace(String.Format("[TraktWorker] GetWatchedStateSelected_TVEpisode: ""{0}: S{1}E{2} - {3}"" | Synced to Ember",
-                                               DBElement.TVShow.Title,
-                                               DBElement.TVEpisode.Season,
-                                               DBElement.TVEpisode.Episode,
-                                               DBElement.TVEpisode.Title))
+                                               DBElement.MainDetails.Title,
+                                               DBElement.MainDetails.Season,
+                                               DBElement.MainDetails.Episode,
+                                               DBElement.MainDetails.Title))
                     RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVEpisode, New List(Of Object)(New Object() {DBElement.ID}))
                 End If
             End If
@@ -403,14 +404,14 @@ Public Class Addon
             Dim ID As Long = Convert.ToInt64(sRow.Cells("idSeason").Value)
             Dim DBTVSeason As Database.DBElement = Master.DB.Load_TVSeason(ID, True, True)
             For Each DBElement In DBTVSeason.Episodes
-                If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVEpisode(DBElement, True) Then
+                If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBElement, True) Then
                     If _TraktAPI.GetWatchedState_TVEpisode(DBElement, lstWatchedShows) Then
                         Master.DB.Save_TVEpisode(DBElement, False, True, False, False, True, False)
                         logger.Trace(String.Format("[TraktWorker] GetWatchedStateSelected_TVEpisode: ""{0}: S{1}E{2} - {3}"" | Synced to Ember",
-                                                   DBElement.TVShow.Title,
-                                                   DBElement.TVEpisode.Season,
-                                                   DBElement.TVEpisode.Episode,
-                                                   DBElement.TVEpisode.Title))
+                                                   DBElement.MainDetails.Title,
+                                                   DBElement.MainDetails.Season,
+                                                   DBElement.MainDetails.Episode,
+                                                   DBElement.MainDetails.Title))
                         RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVEpisode, New List(Of Object)(New Object() {DBElement.ID}))
                     End If
                 End If
@@ -430,14 +431,14 @@ Public Class Addon
             Dim ID As Long = Convert.ToInt64(sRow.Cells("idShow").Value)
             Dim DBTVSShow As Database.DBElement = Master.DB.Load_TVShow(ID, False, True)
             For Each DBElement In DBTVSShow.Episodes
-                If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVEpisode(DBElement, True) Then
+                If DBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBElement, True) Then
                     If _TraktAPI.GetWatchedState_TVEpisode(DBElement, lstWatchedShows) Then
                         Master.DB.Save_TVEpisode(DBElement, False, True, False, False, True, False)
                         logger.Trace(String.Format("[TraktWorker] GetWatchedStateSelected_TVEpisode: ""{0}: S{1}E{2} - {3}"" | Synced to Ember",
-                                                   DBElement.TVShow.Title,
-                                                   DBElement.TVEpisode.Season,
-                                                   DBElement.TVEpisode.Episode,
-                                                   DBElement.TVEpisode.Title))
+                                                   DBElement.MainDetails.Title,
+                                                   DBElement.MainDetails.Season,
+                                                   DBElement.MainDetails.Episode,
+                                                   DBElement.MainDetails.Title))
                         RaiseEvent GenericEvent(Enums.AddonEventType.AfterEdit_TVEpisode, New List(Of Object)(New Object() {DBElement.ID}))
                     End If
                 End If

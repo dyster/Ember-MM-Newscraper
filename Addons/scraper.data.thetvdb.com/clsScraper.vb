@@ -427,46 +427,46 @@ Public Class Scraper
         End If
 
         'Actors
-        If filteredOptions.bMainActors Then nResult.Actors = Parse_Characters(ApiResult.Characters, PeopleTypes.Actor)
+        If filteredOptions.Actors Then nResult.Actors = Parse_Characters(ApiResult.Characters, PeopleTypes.Actor)
 
         'Certifications
-        If filteredOptions.bMainCertifications Then nResult.Certifications = Parse_Certifications(ApiResult.ContentRatings)
+        If filteredOptions.Certifications Then nResult.Certifications = Parse_Certifications(ApiResult.ContentRatings)
 
         'Countries
-        If filteredOptions.bMainCountries Then nResult.Countries = Parse_ProductionCountries(ApiResult.ProductionCountries)
+        If filteredOptions.Countries Then nResult.Countries = Parse_ProductionCountries(ApiResult.ProductionCountries)
 
         'Directors
-        If filteredOptions.bMainDirectors Then nResult.Directors = Parse_Directors(ApiResult.Characters)
+        If filteredOptions.Directors Then nResult.Directors = Parse_Directors(ApiResult.Characters)
 
         'Genres
-        If filteredOptions.bMainGenres Then nResult.Genres = Parse_Genres(ApiResult.Genres)
+        If filteredOptions.Genres Then nResult.Genres = Parse_Genres(ApiResult.Genres)
 
         'OriginalTitle
-        If filteredOptions.bMainOriginalTitle Then nResult.OriginalTitle = ApiResult.Name
+        If filteredOptions.OriginalTitle Then nResult.OriginalTitle = ApiResult.Name
 
         'Plot
-        If filteredOptions.bMainPlot Then nResult.Plot = Parse_Plot(ApiResult.Translations)
+        If filteredOptions.Plot Then nResult.Plot = Parse_Plot(ApiResult.Translations)
 
         'Poster (used only for SearchResults dialog) 
         nResult.ThumbPoster = Parse_ThumbPoster(ApiResult.Image)
 
         'Premiered
-        If filteredOptions.bMainPremiered Then nResult.Premiered = Parse_Premiered(ApiResult.Releases)
+        If filteredOptions.Premiered Then nResult.Premiered = Parse_Premiered(ApiResult.Releases)
 
         'Runtime
-        If filteredOptions.bMainRuntime Then nResult.Runtime = Parse_Runtime(CInt(ApiResult.Runtime))
+        If filteredOptions.Runtime Then nResult.Runtime = Parse_Runtime(CInt(ApiResult.Runtime))
 
         'Studios
-        If filteredOptions.bMainStudios Then nResult.Studios = Parse_Studios(ApiResult.Studios)
+        If filteredOptions.Studios Then nResult.Studios = Parse_Studios(ApiResult.Studios)
 
         'Tagline
-        If filteredOptions.bMainTagline Then nResult.Tagline = Parse_Tagline(ApiResult.Translations)
+        If filteredOptions.Tagline Then nResult.Tagline = Parse_Tagline(ApiResult.Translations)
 
         'Title
-        If filteredOptions.bMainTitle Then nResult.Title = Parse_Title(ApiResult.Translations, ApiResult.Name)
+        If filteredOptions.Title Then nResult.Title = Parse_Title(ApiResult.Translations, ApiResult.Name)
 
         'Trailer
-        If filteredOptions.bMainTrailer Then nResult.Trailer = Parse_Trailers(ApiResult.Trailers)
+        If filteredOptions.TrailerLink Then nResult.Trailer = Parse_Trailers(ApiResult.Trailers)
 
         'Writers
         If filteredOptions.bMainWriters Then nResult.Credits = Parse_Writers(ApiResult.Characters)
@@ -552,35 +552,35 @@ Public Class Scraper
         nResult.Season = ApiResult.SeasonNumber
 
         'Actors
-        If filteredOptions.bEpisodeActors Then nResult.Actors = Parse_Characters(ApiResult.Characters, PeopleTypes.Actor)
+        If filteredOptions.Actors Then nResult.Actors = Parse_Characters(ApiResult.Characters, PeopleTypes.Actor)
 
         'Aired
-        If filteredOptions.bEpisodeAired Then nResult.Aired = Parse_Aired(ApiResult.Aired)
+        If filteredOptions.Aired Then nResult.Aired = Parse_Aired(ApiResult.Aired)
 
         'Directors
-        If filteredOptions.bEpisodeDirectors Then nResult.Directors = Parse_Directors(ApiResult.Characters)
+        If filteredOptions.Directors Then nResult.Directors = Parse_Directors(ApiResult.Characters)
 
         'Guest Stars
-        If filteredOptions.bEpisodeGuestStars Then nResult.GuestStars = Parse_Characters(ApiResult.Characters, PeopleTypes.Guest_Star)
+        If filteredOptions.GuestStars Then nResult.GuestStars = Parse_Characters(ApiResult.Characters, PeopleTypes.Guest_Star)
 
         'OriginalTitle
-        If filteredOptions.bEpisodeOriginalTitle Then nResult.OriginalTitle = ApiResult.Name
+        If filteredOptions.OriginalTitle Then nResult.OriginalTitle = ApiResult.Name
 
         'Plot
         'TODO: workaround until "translations" has been fixed in TVDbSharper
-        If filteredOptions.bEpisodePlot Then nResult.Plot = GetTranslation(CInt(ApiResult.Id), TranslationType.Overview, Enums.ContentType.TVEpisode, ApiResult.Overview)
-        'If filteredOptions.bEpisodePlot Then nResult.Plot = Parse_Plot(ApiResult.Translations)
+        If filteredOptions.Plot Then nResult.Plot = GetTranslation(CInt(ApiResult.Id), TranslationType.Overview, Enums.ContentType.TVEpisode, ApiResult.Overview)
+        'If filteredOptions.Plot Then nResult.Plot = Parse_Plot(ApiResult.Translations)
 
         'Poster (used only for SearchResults dialog)
         nResult.ThumbPoster = Parse_ThumbPoster(ApiResult.Image)
 
         'Title
         'TODO: workaround until "translations" has been fixed in TVDbSharper
-        If filteredOptions.bEpisodeTitle Then nResult.Title = GetTranslation(CInt(ApiResult.Id), TranslationType.Name, Enums.ContentType.TVEpisode, ApiResult.Name)
-        'If filteredOptions.bEpisodeTitle Then nResult.Title = Parse_Title(ApiResult.Translations, ApiResult.Name)
+        If filteredOptions.Title Then nResult.Title = GetTranslation(CInt(ApiResult.Id), TranslationType.Name, Enums.ContentType.TVEpisode, ApiResult.Name)
+        'If filteredOptions.Title Then nResult.Title = Parse_Title(ApiResult.Translations, ApiResult.Name)
 
         'Writers
-        If filteredOptions.bEpisodeCredits Then nResult.Credits = Parse_Writers(ApiResult.Characters)
+        If filteredOptions.Credits Then nResult.Credits = Parse_Writers(ApiResult.Characters)
 
         If _backgroundWorker.CancellationPending Then Return Nothing
         Return nResult
@@ -650,13 +650,13 @@ Public Class Scraper
             nResult.Season = CInt(ApiResult.Number)
 
             'Aired
-            If filteredOptions.bSeasonAired Then nResult.Aired = Parse_Aired(ApiResult.Episodes)
+            If filteredOptions.Aired Then nResult.Aired = Parse_Aired(ApiResult.Episodes)
 
             'Plot
-            If filteredOptions.bSeasonPlot Then nResult.Plot = GetTranslation(CInt(ApiResult.Id), TranslationType.Overview, Enums.ContentType.TVSeason)
+            If filteredOptions.Plot Then nResult.Plot = GetTranslation(CInt(ApiResult.Id), TranslationType.Overview, Enums.ContentType.TVSeason)
 
             'Title
-            If filteredOptions.bSeasonTitle Then nResult.Title = GetTranslation(CInt(ApiResult.Id), TranslationType.Name, Enums.ContentType.TVSeason, ApiResult.Name)
+            If filteredOptions.Title Then nResult.Title = GetTranslation(CInt(ApiResult.Id), TranslationType.Name, Enums.ContentType.TVSeason, ApiResult.Name)
 
             tvShow.KnownSeasons.Add(nResult)
         End If
@@ -714,49 +714,49 @@ Public Class Scraper
         End If
 
         'Actors
-        If filteredOptions.bMainActors Then nResult.Actors = Parse_Characters(ApiResult.Characters, PeopleTypes.Actor)
+        If filteredOptions.Actors Then nResult.Actors = Parse_Characters(ApiResult.Characters, PeopleTypes.Actor)
 
         'Certifications
-        If filteredOptions.bMainCertifications Then nResult.Certifications = Parse_Certifications(ApiResult.ContentRatings)
+        If filteredOptions.Certifications Then nResult.Certifications = Parse_Certifications(ApiResult.ContentRatings)
 
         'Countries
-        If filteredOptions.bMainCountries Then nResult.Countries = Parse_Country(ApiResult.Country)
+        If filteredOptions.Countries Then nResult.Countries = Parse_Country(ApiResult.Country)
 
         'Creators
-        If filteredOptions.bMainCreators Then nResult.Creators = Parse_Creators(ApiResult.Characters)
+        If filteredOptions.Creators Then nResult.Creators = Parse_Creators(ApiResult.Characters)
 
         'Directors
-        If filteredOptions.bMainDirectors Then nResult.Directors = Parse_Directors(ApiResult.Characters)
+        If filteredOptions.Directors Then nResult.Directors = Parse_Directors(ApiResult.Characters)
 
         'Genres
-        If filteredOptions.bMainGenres Then nResult.Genres = Parse_Genres(ApiResult.Genres)
+        If filteredOptions.Genres Then nResult.Genres = Parse_Genres(ApiResult.Genres)
 
         'OriginalTitle
-        If filteredOptions.bMainOriginalTitle Then nResult.OriginalTitle = ApiResult.Name
+        If filteredOptions.OriginalTitle Then nResult.OriginalTitle = ApiResult.Name
 
         'Plot
-        If filteredOptions.bMainPlot Then nResult.Plot = Parse_Plot(ApiResult.Translations)
+        If filteredOptions.Plot Then nResult.Plot = Parse_Plot(ApiResult.Translations)
 
         'Poster (used only for SearchResults dialog)
         nResult.ThumbPoster = Parse_ThumbPoster(ApiResult.Image)
 
         'Premiered
-        If filteredOptions.bMainPremiered Then nResult.Premiered = Parse_FirstAired(ApiResult.FirstAired)
+        If filteredOptions.Premiered Then nResult.Premiered = Parse_FirstAired(ApiResult.FirstAired)
 
         'Runtime
-        If filteredOptions.bMainRuntime Then nResult.Runtime = Parse_Runtime(ApiResult.AverageRuntime)
+        If filteredOptions.Runtime Then nResult.Runtime = Parse_Runtime(ApiResult.AverageRuntime)
 
         'Status
-        If filteredOptions.bMainStatus Then nResult.Status = Parse_Status(ApiResult.Status)
+        If filteredOptions.Status Then nResult.Status = Parse_Status(ApiResult.Status)
 
         'Studios
-        If filteredOptions.bMainStudios Then nResult.Studios = Parse_Studios(ApiResult.OriginalNetwork)
+        If filteredOptions.Studios Then nResult.Studios = Parse_Studios(ApiResult.OriginalNetwork)
 
         'Tagline
-        If filteredOptions.bMainTagline Then nResult.Tagline = Parse_Tagline(ApiResult.Translations)
+        If filteredOptions.Tagline Then nResult.Tagline = Parse_Tagline(ApiResult.Translations)
 
         'Title
-        If filteredOptions.bMainTitle Then nResult.Title = Parse_Title(ApiResult.Translations, ApiResult.Name)
+        If filteredOptions.Title Then nResult.Title = Parse_Title(ApiResult.Translations, ApiResult.Name)
 
         'Seasons and Episodes
         If scrapeModifiers.withEpisodes OrElse scrapeModifiers.withSeasons Then
@@ -1074,8 +1074,8 @@ Public Class Scraper
                 Else
                     Using dlgSearch As New dlgSearchResults(Me, "tvdb", New List(Of String) From {"TVDb"}, Enums.ContentType.Movie)
                         If dlgSearch.ShowDialog(title, oDbElement.Filename, SearchResults) = DialogResult.OK Then
-                            If dlgSearch.Result_Movie.UniqueIDs.TVDbIdSpecified Then
-                                Return GetInfo_Movie(dlgSearch.Result_Movie.UniqueIDs.TVDbId, filteredOptions)
+                            If dlgSearch.Result.UniqueIDs.TVDbIdSpecified Then
+                                Return GetInfo_Movie(dlgSearch.Result.UniqueIDs.TVDbId, filteredOptions)
                             End If
                         End If
                     End Using
@@ -1110,8 +1110,8 @@ Public Class Scraper
                 Else
                     Using dlgSearch As New dlgSearchResults(Me, "tvdb", New List(Of String) From {"TVDb", "IMDb"}, Enums.ContentType.TVShow)
                         If dlgSearch.ShowDialog(title, oDbElement.Filename, SearchResults) = DialogResult.OK Then
-                            If dlgSearch.Result_TVShow.UniqueIDs.TVDbIdSpecified Then
-                                Return GetInfo_TVShow(dlgSearch.Result_TVShow.UniqueIDs.TVDbId, filteredOptions, scrapeModifiers)
+                            If dlgSearch.Result.UniqueIDs.TVDbIdSpecified Then
+                                Return GetInfo_TVShow(dlgSearch.Result.UniqueIDs.TVDbId, filteredOptions, scrapeModifiers)
                             End If
                         End If
                     End Using

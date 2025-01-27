@@ -1699,7 +1699,7 @@ Public Class Structures
 
     End Class
     ''' <summary>
-    ''' Structure representing posible scrape fields
+    ''' Structure representing possible scrape fields
     ''' </summary>
     ''' <remarks></remarks>
     <Serializable>

@@ -311,7 +311,7 @@ Public Class Scraper
         End If
 
         'Actors
-        If filteredOptions.bEpisodeActors Then
+        If filteredOptions.Actors Then
             If tvshowInfo.Actors IsNot Nothing Then
                 For Each aCast As TVDB.Model.Actor In tvshowInfo.Actors.Where(Function(f) f.Name IsNot Nothing AndAlso f.Role IsNot Nothing).OrderBy(Function(f) f.SortOrder)
                     nResult.Actors.Add(New MediaContainers.Person With {
@@ -326,7 +326,7 @@ Public Class Scraper
         End If
 
         'Aired 
-        If filteredOptions.bEpisodeAired Then
+        If filteredOptions.Aired Then
             If Not episodeInfo.FirstAired = Date.MinValue Then
                 'always save date in same date format not depending on users language setting!
                 nResult.Aired = episodeInfo.FirstAired.ToString("yyyy-MM-dd")
@@ -334,7 +334,7 @@ Public Class Scraper
         End If
 
         'Credits
-        If filteredOptions.bEpisodeCredits Then
+        If filteredOptions.Credits Then
             If episodeInfo.Writer IsNot Nothing AndAlso Not String.IsNullOrEmpty(episodeInfo.Writer) Then
                 Dim CreditsList As New List(Of String)
                 Dim charsToTrim() As Char = {"|"c, ","c}
@@ -346,7 +346,7 @@ Public Class Scraper
         End If
 
         'Writer
-        If filteredOptions.bEpisodeDirectors Then
+        If filteredOptions.Directors Then
             If episodeInfo.Director IsNot Nothing AndAlso Not String.IsNullOrEmpty(episodeInfo.Director) Then
                 Dim DirectorsList As New List(Of String)
                 Dim charsToTrim() As Char = {"|"c, ","c}
@@ -358,14 +358,14 @@ Public Class Scraper
         End If
 
         'Guest Stars
-        If filteredOptions.bEpisodeGuestStars Then
+        If filteredOptions.GuestStars Then
             If episodeInfo.GuestStars IsNot Nothing AndAlso Not String.IsNullOrEmpty(episodeInfo.GuestStars) Then
                 nResult.GuestStars.AddRange(StringToListOfPerson(episodeInfo.GuestStars))
             End If
         End If
 
         'Plot
-        If filteredOptions.bEpisodePlot Then
+        If filteredOptions.Plot Then
             If episodeInfo.Overview IsNot Nothing Then
                 nResult.Plot = episodeInfo.Overview
             ElseIf _addonSettings.FallBackEng Then
@@ -400,7 +400,7 @@ Public Class Scraper
         End If
 
         'Title
-        If filteredOptions.bEpisodeTitle Then
+        If filteredOptions.Title Then
             If episodeInfo.Name IsNot Nothing Then
                 nResult.Title = episodeInfo.Name
             End If
@@ -446,7 +446,7 @@ Public Class Scraper
         nResult.UniqueIDs.IMDbId = TVShowInfo.Series.IMDBId
 
         'Actors
-        If filteredOptions.bMainActors Then
+        If filteredOptions.Actors Then
             If TVShowInfo.Actors IsNot Nothing Then
                 For Each aCast As TVDB.Model.Actor In TVShowInfo.Actors.Where(Function(f) f.Name IsNot Nothing AndAlso f.Role IsNot Nothing).OrderBy(Function(f) f.SortOrder)
                     nResult.Actors.Add(New MediaContainers.Person With {
@@ -470,7 +470,7 @@ Public Class Scraper
         If _backgroundWorker.CancellationPending Then Return Nothing
 
         'Genres
-        If filteredOptions.bMainGenres Then
+        If filteredOptions.Genres Then
             Dim aGenres As List(Of String) = Nothing
             If TVShowInfo.Series.Genre IsNot Nothing Then
                 aGenres = TVShowInfo.Series.Genre.Split(CChar(",")).ToList
@@ -493,7 +493,7 @@ Public Class Scraper
         If _backgroundWorker.CancellationPending Then Return Nothing
 
         'Plot
-        If filteredOptions.bMainPlot Then
+        If filteredOptions.Plot Then
             If TVShowInfo.Series.Overview IsNot Nothing AndAlso Not String.IsNullOrEmpty(TVShowInfo.Series.Overview) Then
                 nResult.Plot = TVShowInfo.Series.Overview
             ElseIf _addonSettings.FallBackEng Then
@@ -518,7 +518,7 @@ Public Class Scraper
         If _backgroundWorker.CancellationPending Then Return Nothing
 
         'Premiered
-        If filteredOptions.bMainPremiered Then
+        If filteredOptions.Premiered Then
             If Not TVShowInfo.Series.FirstAired = Date.MinValue Then
                 'always save date in same date format not depending on users language setting!
                 nResult.Premiered = TVShowInfo.Series.FirstAired.ToString("yyyy-MM-dd")
@@ -542,28 +542,28 @@ Public Class Scraper
         If _backgroundWorker.CancellationPending Then Return Nothing
 
         'Runtime
-        If filteredOptions.bMainRuntime Then
+        If filteredOptions.Runtime Then
             nResult.Runtime = CStr(TVShowInfo.Series.Runtime)
         End If
 
         If _backgroundWorker.CancellationPending Then Return Nothing
 
         'Status
-        If filteredOptions.bMainStatus Then
+        If filteredOptions.Status Then
             nResult.Status = TVShowInfo.Series.Status
         End If
 
         If _backgroundWorker.CancellationPending Then Return Nothing
 
         'Studios
-        If filteredOptions.bMainStudios Then
+        If filteredOptions.Studios Then
             nResult.Studios.Add(TVShowInfo.Series.Network)
         End If
 
         If _backgroundWorker.CancellationPending Then Return Nothing
 
         'Title
-        If filteredOptions.bMainTitle Then
+        If filteredOptions.Title Then
             nResult.Title = TVShowInfo.Series.Name
         End If
 

@@ -270,8 +270,8 @@ Public Class Addon
         Dim Result As MediaContainers.Movie = Nothing
 
         If scrapeModifiers.MainNFO AndAlso Not scrapeModifiers.DoSearch AndAlso _OMDbAPI_Movie.IsClientCreated Then
-            If dbElement.Movie.UniqueIDs.IMDbIdSpecified Then
-                Dim nRatings = _OMDbAPI_Movie.GetRatingsByImbId(dbElement.Movie.UniqueIDs.IMDbId, dbElement.ContentType, FilteredOptions)
+            If dbElement.MainDetails.UniqueIDs.IMDbIdSpecified Then
+                Dim nRatings = _OMDbAPI_Movie.GetRatingsByImbId(dbElement.MainDetails.UniqueIDs.IMDbId, dbElement.ContentType, FilteredOptions)
                 If nRatings IsNot Nothing Then
                     Result = New MediaContainers.Movie With {.Ratings = nRatings}
                 End If
@@ -334,10 +334,10 @@ Public Class Addon
         '    Dim FilteredOptions As Structures.ScrapeOptions = Functions.ScrapeOptionsAndAlso(ScrapeOptions, ConfigScrapeOptions_TV)
 
         '    If oDBElement.TVShow.TMDBSpecified Then
-        '        If Not oDBElement.TVEpisode.Episode = -1 AndAlso Not oDBElement.TVEpisode.Season = -1 Then
-        '            nTVEpisode = _OMDbAPI_TV.GetInfo_TVEpisode(CInt(oDBElement.TVShow.TMDB), oDBElement.TVEpisode.Season, oDBElement.TVEpisode.Episode, FilteredOptions)
-        '        ElseIf oDBElement.TVEpisode.AiredSpecified Then
-        '            nTVEpisode = _OMDbAPI_TV.GetInfo_TVEpisode(CInt(oDBElement.TVShow.TMDB), oDBElement.TVEpisode.Aired, FilteredOptions)
+        '        If Not oDBElement.MainDetails.Episode = -1 AndAlso Not oDBElement.MainDetails.Season = -1 Then
+        '            nTVEpisode = _OMDbAPI_TV.GetInfo_TVEpisode(CInt(oDBElement.TVShow.TMDB), oDBElement.MainDetails.Season, oDBElement.MainDetails.Episode, FilteredOptions)
+        '        ElseIf oDBElement.MainDetails.AiredSpecified Then
+        '            nTVEpisode = _OMDbAPI_TV.GetInfo_TVEpisode(CInt(oDBElement.TVShow.TMDB), oDBElement.MainDetails.Aired, FilteredOptions)
         '        Else
         '            _Logger.Trace(String.Format("[TMDB_Data] [Scraper_TVEpisode] [Abort] No search result found"))
         '            Return New Interfaces.ModuleResult_Data_TVEpisode With {.Result = Nothing}
@@ -373,8 +373,8 @@ Public Class Addon
         '    End If
 
         '    If oDBElement.TVShow.TMDBSpecified Then
-        '        If oDBElement.TVSeason.SeasonSpecified Then
-        '            nTVSeason = _OMDbAPI_TV.GetInfo_TVSeason(CInt(oDBElement.TVShow.TMDB), oDBElement.TVSeason.Season, FilteredOptions)
+        '        If oDBElement.MainDetails.SeasonSpecified Then
+        '            nTVSeason = _OMDbAPI_TV.GetInfo_TVSeason(CInt(oDBElement.TVShow.TMDB), oDBElement.MainDetails.Season, FilteredOptions)
         '        Else
         '            _Logger.Trace(String.Format("[OMDb_Data] [Scraper_TVSeason] [Abort] Season number is not specified"))
         '            Return New Interfaces.ModuleResult_Data_TVSeason With {.Result = Nothing}
@@ -406,8 +406,8 @@ Public Class Addon
         _setup_TV.OrderChanged()
     End Sub
 
-    Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Data_Scraper_Movie.GetTMDbIdByIMDbId
-        Return New Interfaces.AddonResult_Generic
+    Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As Interfaces.AddonResult Implements Interfaces.IAddon_Data_Scraper_Movie.GetTMDbIdByIMDbId
+        Return New Interfaces.AddonResult
     End Function
 
 #End Region 'Methods

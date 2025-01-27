@@ -158,61 +158,61 @@ Public Class clsScraper
             Select Case nContentType
                 Case Enums.ContentType.Movie
                     'search by IMDB ID
-                    If tDBElement.Movie.UniqueIDs.IMDbIdSpecified Then
-                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.ImDB, tDBElement.Movie.UniqueIDs.IMDbId, TraktNet.Enums.TraktSearchResultType.Movie)
+                    If tDBElement.MainDetails.UniqueIDs.IMDbIdSpecified Then
+                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.ImDB, tDBElement.MainDetails.UniqueIDs.IMDbId, TraktNet.Enums.TraktSearchResultType.Movie)
                         'If nSearchResults.Exception IsNot Nothing Then Return 0
                     End If
                     'search by TMDB ID
-                    If (nSearchResults Is Nothing OrElse nSearchResults.ItemCount = 0) AndAlso tDBElement.Movie.UniqueIDs.TMDbIdSpecified Then
-                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.TmDB, tDBElement.Movie.UniqueIDs.TMDbId.ToString, TraktNet.Enums.TraktSearchResultType.Movie)
+                    If (nSearchResults Is Nothing OrElse nSearchResults.ItemCount = 0) AndAlso tDBElement.MainDetails.UniqueIDs.TMDbIdSpecified Then
+                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.TmDB, tDBElement.MainDetails.UniqueIDs.TMDbId.ToString, TraktNet.Enums.TraktSearchResultType.Movie)
                         'If nSearchResults.Exception IsNot Nothing Then Return 0
                     End If
                     If nSearchResults IsNot Nothing AndAlso nSearchResults.ItemCount = 1 AndAlso nSearchResults(0).Movie IsNot Nothing Then
                         Return nSearchResults(0).Movie.Ids.Trakt
                     Else
-                        logger.Info(String.Format("[GetID_Trakt] Could not scrape TraktID from trakt.tv! IMDB: {0} / TMDB: {1}", tDBElement.Movie.UniqueIDs.IMDbId, tDBElement.Movie.UniqueIDs.TMDbId.ToString))
+                        logger.Info(String.Format("[GetID_Trakt] Could not scrape TraktID from trakt.tv! IMDB: {0} / TMDB: {1}", tDBElement.MainDetails.UniqueIDs.IMDbId, tDBElement.MainDetails.UniqueIDs.TMDbId.ToString))
                     End If
                 Case Enums.ContentType.TVEpisode
                     'search by TVDB ID
-                    If tDBElement.TVEpisode.UniqueIDs.TVDbIdSpecified Then
-                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.TvDB, tDBElement.TVEpisode.UniqueIDs.TVDbId.ToString, TraktNet.Enums.TraktSearchResultType.Episode)
+                    If tDBElement.MainDetails.UniqueIDs.TVDbIdSpecified Then
+                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.TvDB, tDBElement.MainDetails.UniqueIDs.TVDbId.ToString, TraktNet.Enums.TraktSearchResultType.Episode)
                         'If nSearchResults.Exception IsNot Nothing Then Return 0
                     End If
                     'search by IMDB ID
-                    If (nSearchResults Is Nothing OrElse nSearchResults.ItemCount = 0) AndAlso tDBElement.TVEpisode.UniqueIDs.IMDbIdSpecified Then
-                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.ImDB, tDBElement.TVEpisode.UniqueIDs.IMDbId, TraktNet.Enums.TraktSearchResultType.Episode)
+                    If (nSearchResults Is Nothing OrElse nSearchResults.ItemCount = 0) AndAlso tDBElement.MainDetails.UniqueIDs.IMDbIdSpecified Then
+                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.ImDB, tDBElement.MainDetails.UniqueIDs.IMDbId, TraktNet.Enums.TraktSearchResultType.Episode)
                         'If nSearchResults.Exception IsNot Nothing Then Return 0
                     End If
                     'search by TMDB ID
-                    If (nSearchResults Is Nothing OrElse nSearchResults.ItemCount = 0) AndAlso tDBElement.TVEpisode.UniqueIDs.TMDbIdSpecified Then
-                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.TmDB, tDBElement.TVEpisode.UniqueIDs.TMDbId.ToString, TraktNet.Enums.TraktSearchResultType.Episode)
+                    If (nSearchResults Is Nothing OrElse nSearchResults.ItemCount = 0) AndAlso tDBElement.MainDetails.UniqueIDs.TMDbIdSpecified Then
+                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.TmDB, tDBElement.MainDetails.UniqueIDs.TMDbId.ToString, TraktNet.Enums.TraktSearchResultType.Episode)
                         'If nSearchResults.Exception IsNot Nothing Then Return 0
                     End If
                     If nSearchResults IsNot Nothing AndAlso nSearchResults.ItemCount = 1 AndAlso nSearchResults(0).Episode IsNot Nothing Then
                         Return nSearchResults(0).Episode.Ids.Trakt
                     Else
-                        logger.Info(String.Format("[GetID_Trakt] Could not scrape TraktID from trakt.tv! TVDB: {0} / IMDB: {1} / TMDB: {2}", tDBElement.TVEpisode.UniqueIDs.TVDbId, tDBElement.TVEpisode.UniqueIDs.IMDbId, tDBElement.TVEpisode.UniqueIDs.TMDbId))
+                        logger.Info(String.Format("[GetID_Trakt] Could not scrape TraktID from trakt.tv! TVDB: {0} / IMDB: {1} / TMDB: {2}", tDBElement.MainDetails.UniqueIDs.TVDbId, tDBElement.MainDetails.UniqueIDs.IMDbId, tDBElement.MainDetails.UniqueIDs.TMDbId))
                     End If
                 Case Enums.ContentType.TVShow
                     'search by TVDB ID
-                    If tDBElement.TVShow.UniqueIDs.TVDbIdSpecified Then
-                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.TvDB, tDBElement.TVShow.UniqueIDs.TVDbId.ToString, TraktNet.Enums.TraktSearchResultType.Show)
+                    If tDBElement.MainDetails.UniqueIDs.TVDbIdSpecified Then
+                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.TvDB, tDBElement.MainDetails.UniqueIDs.TVDbId.ToString, TraktNet.Enums.TraktSearchResultType.Show)
                         'If nSearchResults.Exception IsNot Nothing Then Return 0
                     End If
                     'search by IMDB ID
-                    If (nSearchResults Is Nothing OrElse nSearchResults.ItemCount = 0) AndAlso tDBElement.TVShow.UniqueIDs.IMDbIdSpecified Then
-                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.ImDB, tDBElement.TVShow.UniqueIDs.IMDbId, TraktNet.Enums.TraktSearchResultType.Show)
+                    If (nSearchResults Is Nothing OrElse nSearchResults.ItemCount = 0) AndAlso tDBElement.MainDetails.UniqueIDs.IMDbIdSpecified Then
+                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.ImDB, tDBElement.MainDetails.UniqueIDs.IMDbId, TraktNet.Enums.TraktSearchResultType.Show)
                         'If nSearchResults.Exception IsNot Nothing Then Return 0
                     End If
                     'search by TMDB ID
-                    If (nSearchResults Is Nothing OrElse nSearchResults.ItemCount = 0) AndAlso tDBElement.TVShow.UniqueIDs.TMDbIdSpecified Then
-                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.TmDB, tDBElement.TVShow.UniqueIDs.TMDbId.ToString, TraktNet.Enums.TraktSearchResultType.Show)
+                    If (nSearchResults Is Nothing OrElse nSearchResults.ItemCount = 0) AndAlso tDBElement.MainDetails.UniqueIDs.TMDbIdSpecified Then
+                        nSearchResults = Await _client.Search.GetIdLookupResultsAsync(TraktNet.Enums.TraktSearchIdType.TmDB, tDBElement.MainDetails.UniqueIDs.TMDbId.ToString, TraktNet.Enums.TraktSearchResultType.Show)
                         'If nSearchResults.Exception IsNot Nothing Then Return 0
                     End If
                     If nSearchResults IsNot Nothing AndAlso nSearchResults.ItemCount = 1 AndAlso nSearchResults(0).Show IsNot Nothing Then
                         Return nSearchResults(0).Show.Ids.Trakt
                     Else
-                        logger.Info(String.Format("[GetID_Trakt] Could not scrape TraktID from trakt.tv! TVDB: {0} / IMDB: {1} / TMDB: {2}", tDBElement.TVShow.UniqueIDs.TVDbId, tDBElement.TVShow.UniqueIDs.IMDbId, tDBElement.TVShow.UniqueIDs.TMDbId))
+                        logger.Info(String.Format("[GetID_Trakt] Could not scrape TraktID from trakt.tv! TVDB: {0} / IMDB: {1} / TMDB: {2}", tDBElement.MainDetails.UniqueIDs.TVDbId, tDBElement.MainDetails.UniqueIDs.IMDbId, tDBElement.MainDetails.UniqueIDs.TMDbId))
                     End If
             End Select
         End If
@@ -245,7 +245,7 @@ Public Class clsScraper
                 If bCheck.Result Then
                     Dim nPersonalRatedMovies = Await _client.Sync.GetRatingsAsync(TraktNet.Enums.TraktRatingsItemType.Movie)
                     If nPersonalRatedMovies IsNot Nothing AndAlso nPersonalRatedMovies.Count > 0 Then
-                        Dim tMovie = nPersonalRatedMovies.FirstOrDefault(Function(f) f.Movie.Ids.Trakt = uintTraktID.Result)
+                        Dim tMovie = nPersonalRatedMovies.FirstOrDefault(Function(f) f.MainDetails.Ids.Trakt = uintTraktID.Result)
                         If tMovie IsNot Nothing Then
                             nMovie.UserRating = CInt(tMovie.Rating)
                         End If
@@ -358,12 +358,12 @@ Public Class clsScraper
                 End If
                 For Each nDBElement As Database.DBElement In lstEpisodes
                     Try
-                        Dim nEpisode As MediaContainers.EpisodeDetails = Await GetInfo_TVEpisode(uintTraktID, nDBElement.TVEpisode.Season, nDBElement.TVEpisode.Episode, FilteredOptions, nPersonalRatedTVEpisodes)
+                        Dim nEpisode As MediaContainers.EpisodeDetails = Await GetInfo_TVEpisode(uintTraktID, nDBElement.MainDetails.Season, nDBElement.MainDetails.Episode, FilteredOptions, nPersonalRatedTVEpisodes)
                         If nEpisode IsNot Nothing Then
                             nTVShow.KnownEpisodes.Add(nEpisode)
                         End If
                     Catch ex As Exception
-                        logger.Info(String.Format("[TrakttvScraper] [GetInfo_TVShow] S{0}E{1}: {2}", nDBElement.TVEpisode.Season, nDBElement.TVEpisode.Episode, ex.Message))
+                        logger.Info(String.Format("[TrakttvScraper] [GetInfo_TVShow] S{0}E{1}: {2}", nDBElement.MainDetails.Season, nDBElement.MainDetails.Episode, ex.Message))
                     End Try
                 Next
             End If

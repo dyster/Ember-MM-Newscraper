@@ -8739,11 +8739,11 @@ Public Class frmMain
         SetControlsEnabled(False)
         If DBMovie.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBMovie, True) Then
             Using dEditMovie As New dlgEdit_Movie
-                Addons.Instance.RunGeneric(Enums.AddonEventType.BeforeEdit_Movie, Nothing, Nothing, False, DBMovie)
+                Addons.Instance.Run(Enums.AddonEventType.BeforeEdit_Movie, Nothing, Nothing, False, DBMovie)
                 Select Case dEditMovie.ShowDialog(DBMovie)
                     Case DialogResult.OK
                         DBMovie = dEditMovie.Result
-                        Addons.Instance.RunGeneric(EventType, Nothing, Nothing, False, DBMovie)
+                        Addons.Instance.Run(EventType, Nothing, Nothing, False, DBMovie)
                         tslLoading.Text = String.Concat(Master.eLang.GetString(399, "Downloading and Saving Contents into Database"), ":")
                         Master.DB.Save_Movie(DBMovie, False, True, True, True, False)
                         DataGridView_Row_Update_Movie(DBMovie.ID)
@@ -8778,14 +8778,14 @@ Public Class frmMain
 
     Private Sub Edit_MovieSet(ByRef DBMovieSet As Database.DBElement)
         SetControlsEnabled(False)
-        'If DBMovieSet.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_Movieset(DBMovieSet, True) Then
+        'If DBMovieSet.IsOnline OrElse FileUtils.Common.CheckOnlineStatusset(DBMovieSet, True) Then
         Using dEditMovieSet As New dlgEdit_Movieset
-            Addons.Instance.RunGeneric(Enums.AddonEventType.BeforeEdit_Movieset, Nothing, Nothing, False, DBMovieSet)
+            Addons.Instance.Run(Enums.AddonEventType.BeforeEdit_Movieset, Nothing, Nothing, False, DBMovieSet)
             'AddHandler ModulesManager.Instance.GenericEvent, AddressOf dEditMovie.GenericRunCallBack
             Select Case dEditMovieSet.ShowDialog(DBMovieSet)
                 Case DialogResult.OK
                     DBMovieSet = dEditMovieSet.Result
-                    Addons.Instance.RunGeneric(Enums.AddonEventType.AfterEdit_Movieset, Nothing, Nothing, False, DBMovieSet)
+                    Addons.Instance.Run(Enums.AddonEventType.AfterEdit_Movieset, Nothing, Nothing, False, DBMovieSet)
                     tslLoading.Text = String.Concat(Master.eLang.GetString(399, "Downloading and Saving Contents into Database"), ":")
                     Master.DB.Save_Movieset(DBMovieSet, False, True, True, True, True)
                     DataGridView_Row_Update_Movieset(DBMovieSet.ID)
@@ -8823,11 +8823,11 @@ Public Class frmMain
         SetControlsEnabled(False)
         If DBTVEpisode.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBTVEpisode, True) Then
             Using dEditTVEpisode As New dlgEdit_TVEpisode
-                Addons.Instance.RunGeneric(Enums.AddonEventType.BeforeEdit_TVEpisode, Nothing, Nothing, False, DBTVEpisode)
+                Addons.Instance.Run(Enums.AddonEventType.BeforeEdit_TVEpisode, Nothing, Nothing, False, DBTVEpisode)
                 Select Case dEditTVEpisode.ShowDialog(DBTVEpisode)
                     Case DialogResult.OK
                         DBTVEpisode = dEditTVEpisode.Result
-                        Addons.Instance.RunGeneric(EventType, Nothing, Nothing, False, DBTVEpisode)
+                        Addons.Instance.Run(EventType, Nothing, Nothing, False, DBTVEpisode)
                         tslLoading.Text = String.Concat(Master.eLang.GetString(399, "Downloading and Saving Contents into Database"), ":")
                         Master.DB.Save_TVEpisode(DBTVEpisode, False, True, True, True, True)
                         DataGridView_Row_Update_TVEpisode(DBTVEpisode.ID)
@@ -8843,12 +8843,12 @@ Public Class frmMain
         SetControlsEnabled(False)
         If DBTVSeason.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBTVSeason, True) Then
             Using dEditTVSeason As New dlgEdit_TVSeason
-                Addons.Instance.RunGeneric(Enums.AddonEventType.BeforeEdit_TVSeason, Nothing, Nothing, False, DBTVSeason)
+                Addons.Instance.Run(Enums.AddonEventType.BeforeEdit_TVSeason, Nothing, Nothing, False, DBTVSeason)
                 'AddHandler ModulesManager.Instance.GenericEvent, AddressOf dEditTVSeason.GenericRunCallBack
                 Select Case dEditTVSeason.ShowDialog(DBTVSeason)
                     Case DialogResult.OK
                         DBTVSeason = dEditTVSeason.Result
-                        Addons.Instance.RunGeneric(EventType, Nothing, Nothing, False, DBTVSeason)
+                        Addons.Instance.Run(EventType, Nothing, Nothing, False, DBTVSeason)
                         tslLoading.Text = String.Concat(Master.eLang.GetString(399, "Downloading and Saving Contents into Database"), ":")
                         Master.DB.Save_TVSeason(DBTVSeason, False, True, True)
                         DataGridView_Row_Update_TVSeason(DBTVSeason.ID)
@@ -8865,11 +8865,11 @@ Public Class frmMain
         SetControlsEnabled(False)
         If DBTVShow.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(DBTVShow, True) Then
             Using dEditTVShow As New dlgEdit_TVShow
-                Addons.Instance.RunGeneric(Enums.AddonEventType.BeforeEdit_TVShow, Nothing, Nothing, False, DBTVShow)
+                Addons.Instance.Run(Enums.AddonEventType.BeforeEdit_TVShow, Nothing, Nothing, False, DBTVShow)
                 Select Case dEditTVShow.ShowDialog(DBTVShow)
                     Case DialogResult.OK
                         DBTVShow = dEditTVShow.Result
-                        Addons.Instance.RunGeneric(EventType, Nothing, Nothing, False, DBTVShow)
+                        Addons.Instance.Run(EventType, Nothing, Nothing, False, DBTVShow)
                         tslLoading.Text = String.Concat(Master.eLang.GetString(399, "Downloading and Saving Contents into Database"), ":")
                         Master.DB.Save_TVShow(DBTVShow, False, True, True, True)
                         DataGridView_Row_Update_TVShow(DBTVShow.ID)
@@ -15150,7 +15150,7 @@ Public Class frmMain
     '            If bwMovieScraper.CancellationPending Then Exit For
 
     '            If Not (Args.ScrapeType = Enums.ScrapeType.SingleScrape) Then
-    '                Addons.Instance.RunGeneric(Enums.AddonEventType.ScraperMulti_Movie, Nothing, Nothing, False, DBScrapeMovie)
+    '                Addons.Instance.Run(Enums.AddonEventType.ScraperMulti_Movie, Nothing, Nothing, False, DBScrapeMovie)
     '                bwMovieScraper.ReportProgress(-3, String.Concat(Master.eLang.GetString(399, "Downloading and Saving Contents into Database"), ":"))
     '                Master.DB.Save_Movie(DBScrapeMovie, False, tScrapeItem.ScrapeModifiers.Information OrElse tScrapeItem.ScrapeModifiers.Metadata, True, True, False)
     '                bwMovieScraper.ReportProgress(-2, DBScrapeMovie.ID)
@@ -15370,7 +15370,7 @@ Public Class frmMain
     '            If bwTVEpisodeScraper.CancellationPending Then Exit For
 
     '            If Not (Args.ScrapeType = Enums.ScrapeType.SingleScrape) Then
-    '                Addons.Instance.RunGeneric(Enums.AddonEventType.ScraperMulti_TVEpisode, Nothing, Nothing, False, DBScrapeEpisode)
+    '                Addons.Instance.Run(Enums.AddonEventType.ScraperMulti_TVEpisode, Nothing, Nothing, False, DBScrapeEpisode)
     '                bwTVEpisodeScraper.ReportProgress(-3, String.Concat(Master.eLang.GetString(399, "Downloading and Saving Contents into Database"), ":"))
     '                Master.DB.Save_TVEpisode(DBScrapeEpisode, False, tScrapeItem.ScrapeModifiers.Episodes.Information OrElse tScrapeItem.ScrapeModifiers.Episodes.Metadata, True, True, True)
     '                bwTVEpisodeScraper.ReportProgress(-2, DBScrapeEpisode.ID)
@@ -15461,7 +15461,7 @@ Public Class frmMain
     '            If bwTVSeasonScraper.CancellationPending Then Exit For
 
     '            If Not (Args.ScrapeType = Enums.ScrapeType.SingleScrape) Then
-    '                Addons.Instance.RunGeneric(Enums.AddonEventType.ScraperMulti_TVSeason, Nothing, Nothing, False, DBScrapeSeason)
+    '                Addons.Instance.Run(Enums.AddonEventType.ScraperMulti_TVSeason, Nothing, Nothing, False, DBScrapeSeason)
     '                bwTVSeasonScraper.ReportProgress(-3, String.Concat(Master.eLang.GetString(399, "Downloading and Saving Contents into Database"), ":"))
     '                Master.DB.Save_TVSeason(DBScrapeSeason, False, True, True)
     '                bwTVSeasonScraper.ReportProgress(-2, DBScrapeSeason.ID)
@@ -15593,7 +15593,7 @@ Public Class frmMain
     '            End If
 
     '            If Not (Args.ScrapeType = Enums.ScrapeType.SingleScrape) Then
-    '                Addons.Instance.RunGeneric(Enums.AddonEventType.ScraperMulti_TVShow, Nothing, Nothing, False, DBScrapeShow)
+    '                Addons.Instance.Run(Enums.AddonEventType.ScraperMulti_TVShow, Nothing, Nothing, False, DBScrapeShow)
     '                bwTVScraper.ReportProgress(-3, String.Concat(Master.eLang.GetString(399, "Downloading and Saving Contents into Database"), ":"))
     '                Master.DB.Save_TVShow(DBScrapeShow, False, tScrapeItem.ScrapeModifiers.Information OrElse tScrapeItem.ScrapeModifiers.Metadata, True, tScrapeItem.ScrapeModifiers.withEpisodes)
     '                bwTVScraper.ReportProgress(-2, DBScrapeShow.ID)

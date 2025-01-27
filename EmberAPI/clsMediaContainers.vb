@@ -1507,6 +1507,22 @@ Namespace MediaContainers
 
     End Class
 
+    <Obsolete("Use MainDetails")>
+    Public Class SeasonDetails
+        Inherits MainDetails
+    End Class
+    <Obsolete("Use MainDetails")>
+    Public Class EpisodeDetails
+        Inherits MainDetails
+    End Class
+    <Obsolete("Use MainDetails")>
+    Public Class Movie
+        Inherits MainDetails
+    End Class
+    <Obsolete("Use MainDetails")>
+    Public Class TVShow
+        Inherits MainDetails
+    End Class
 
     <Serializable()>
     Public Class MainDetails
@@ -4428,7 +4444,7 @@ Namespace MediaContainers
                     End If
                     sPath = Path.Combine(Master.TempPath, String.Concat("Moviesets", Path.DirectorySeparatorChar, sID))
                 Case Enums.ContentType.TVEpisode, Enums.ContentType.TVSeason
-                    sID = tDBElement.TVShowDetails.UniqueIDs.TVDbId.ToString
+                    sID = tDBElement.MainDetails.UniqueIDs.TVDbId.ToString
                     If String.IsNullOrEmpty(sID) Then
                         sID = "Unknown"
                     End If

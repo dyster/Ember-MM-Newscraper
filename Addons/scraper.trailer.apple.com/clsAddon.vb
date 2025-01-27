@@ -147,17 +147,17 @@ Public Class Addon
         End If
     End Sub
 
-    Function Scraper_Movie(ByRef dbElement As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef TrailerList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Trailer_Scraper_Movie.Scraper
+    Function Scraper_Movie(ByRef dbElement As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef TrailerList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult Implements Interfaces.IAddon_Trailer_Scraper_Movie.Scraper
         logger.Trace("[Apple_Trailer] [Scraper_Movie] [Start]")
         Dim strTitle As String = String.Empty
-        If dbElement.Movie.OriginalTitleSpecified Then
-            strTitle = dbElement.Movie.OriginalTitle
-        ElseIf dbElement.Movie.TitleSpecified Then
-            strTitle = dbElement.Movie.Title
+        If dbElement.MainDetails.OriginalTitleSpecified Then
+            strTitle = dbElement.MainDetails.OriginalTitle
+        ElseIf dbElement.MainDetails.TitleSpecified Then
+            strTitle = dbElement.MainDetails.Title
         End If
         If Not String.IsNullOrEmpty(strTitle) Then TrailerList = Scraper.GetMovieTrailers(strTitle)
         logger.Trace("[Apple_Trailer] [Scraper_Movie] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
     Public Sub ScraperOrderChanged() Implements EmberAPI.Interfaces.IAddon_Trailer_Scraper_Movie.ScraperOrderChanged

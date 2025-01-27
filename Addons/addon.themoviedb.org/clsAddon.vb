@@ -719,7 +719,7 @@ Public Class Addon
         _XmlAddonSettings.Save()
     End Sub
 
-    'Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Data_Scraper_Movie.GetTMDbIdByIMDbId
+    'Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As Interfaces.AddonResult Implements Interfaces.IAddon_Data_Scraper_Movie.GetTMDbIdByIMDbId
     '    logger.Trace("[TMDb_Data] [GetTMDBID] [Start]")
     '    If Not String.IsNullOrEmpty(imdbId) Then
     '        If Not _Scraper.IsClientCreated Then
@@ -732,10 +732,10 @@ Public Class Addon
     '        logger.Trace("[TMDb_Data] [GetTMDBID] [Abort] No IMDB ID to get the TMDB ID")
     '    End If
     '    logger.Trace("[TMDb_Data] [GetTMDBID] [Done]")
-    '    Return New Interfaces.AddonResult_Generic
+    '    Return New Interfaces.AddonResult
     'End Function
 
-    'Function GetCollectionID(ByVal imdbIdOrTmdbId As String, ByRef tmdbCollectionId As Integer) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Data_Scraper_Movieset.GetTMDbCollectionId
+    'Function GetCollectionID(ByVal imdbIdOrTmdbId As String, ByRef tmdbCollectionId As Integer) As Interfaces.AddonResult Implements Interfaces.IAddon_Data_Scraper_Movieset.GetTMDbCollectionId
     '    logger.Trace("[TMDb_Data] [GetCollectionID] [Start]")
     '    If Not String.IsNullOrEmpty(imdbIdOrTmdbId) Then
     '        If Not _Scraper.IsClientCreated Then
@@ -745,12 +745,12 @@ Public Class Addon
     '            tmdbCollectionId = _TMDbApi_Movieset.GetCollectionIdByMovieId(imdbIdOrTmdbId)
     '            If tmdbCollectionId = -1 Then
     '                logger.Trace("[TMDb_Data] [GetCollectionID] [Abort] nor search result")
-    '                Return New Interfaces.AddonResult_Generic With {.Status = Interfaces.ResultStatus.Cancelled}
+    '                Return New Interfaces.AddonResult With {.Status = Interfaces.ResultStatus.Cancelled}
     '            End If
     '        End If
     '    End If
     '    logger.Trace("[TMDb_Data] [GetCollectionID] [Done]")
-    '    Return New Interfaces.AddonResult_Generic
+    '    Return New Interfaces.AddonResult
     'End Function
 
     'Function Scraper_Movie(ByRef dbElement As Database.DBElement,
@@ -768,13 +768,13 @@ Public Class Addon
     '        If dbElement.Movie.UniqueIDs.TMDbIdSpecified Then
     '            'TMDb-ID already available -> scrape and save data into an empty movie container (nMovie)
     '            Result = _Scraper.GetInfo_Movie(dbElement.Movie.UniqueIDs.TMDbId.ToString, FilteredOptions)
-    '        ElseIf dbElement.Movie.UniqueIDs.IMDbIdSpecified Then
+    '        ElseIf dbElement.MainDetails.UniqueIDs.IMDbIdSpecified Then
     '            'IMDb-ID already available -> scrape and save data into an empty movie container (nMovie)
-    '            Result = _Scraper.GetInfo_Movie(dbElement.Movie.UniqueIDs.IMDbId, FilteredOptions)
+    '            Result = _Scraper.GetInfo_Movie(dbElement.MainDetails.UniqueIDs.IMDbId, FilteredOptions)
     '        ElseIf Not scrapeType = Enums.ScrapeType.SingleScrape Then
     '            'no IMDb-ID or TMDb-ID for movie --> search first and try to get ID!
-    '            If dbElement.Movie.TitleSpecified Then
-    '                Result = _Scraper.Process_SearchResults_Movie(dbElement.Movie.Title, dbElement, scrapeType, FilteredOptions)
+    '            If dbElement.MainDetails.TitleSpecified Then
+    '                Result = _Scraper.Process_SearchResults_Movie(dbElement.MainDetails.Title, dbElement, scrapeType, FilteredOptions)
     '            End If
     '            'if still no search result -> exit
     '            If Result Is Nothing Then
@@ -798,7 +798,7 @@ Public Class Addon
     '    If scrapeType = Enums.ScrapeType.SingleScrape OrElse scrapeType = Enums.ScrapeType.SingleAuto Then
     '        If Not dbElement.Movie.UniqueIDs.TMDbIdSpecified Then
     '            Using dlgSearch As New dlgSearchResults(_Scraper, "tmdb", New List(Of String) From {"TMDb", "IMDb"}, Enums.ContentType.Movie)
-    '                Select Case dlgSearch.ShowDialog(dbElement.Movie.Title, dbElement.Filename, dbElement.Movie.Year)
+    '                Select Case dlgSearch.ShowDialog(dbElement.MainDetails.Title, dbElement.Filename, dbElement.Movie.Year)
     '                    Case DialogResult.Cancel
     '                        logger.Trace(String.Format("[TMDb_Data] [Scraper_Movie] [Cancelled] Cancelled by user"))
     '                        Return New Interfaces.AddonResult_Data_Scraper_Movie(Interfaces.ResultStatus.Cancelled)
@@ -839,8 +839,8 @@ Public Class Addon
     '            Result = _TMDbApi_Movieset.GetInfo_Movieset(dbElement.MovieSet.UniqueIDs.TMDbId, FilteredOptions)
     '        ElseIf Not scrapeType = Enums.ScrapeType.SingleScrape Then
     '            'no ITMDB-ID for movieset --> search first and try to get ID!
-    '            If dbElement.MovieSet.TitleSpecified Then
-    '                Result = _TMDbApi_Movieset.Process_SearchResults_Movieset(dbElement.MovieSet.Title, dbElement, scrapeType, FilteredOptions)
+    '            If dbElement.MainDetails.TitleSpecified Then
+    '                Result = _TMDbApi_Movieset.Process_SearchResults_Movieset(dbElement.MainDetails.Title, dbElement, scrapeType, FilteredOptions)
     '            End If
     '            'if still no search result -> exit
     '            If Result Is Nothing Then
@@ -864,7 +864,7 @@ Public Class Addon
     '    If scrapeType = Enums.ScrapeType.SingleScrape OrElse scrapeType = Enums.ScrapeType.SingleAuto Then
     '        If Not dbElement.MovieSet.UniqueIDs.TMDbIdSpecified Then
     '            Using dlgSearch As New dlgSearchResults(_TMDbApi_Movieset, "tmdb", New List(Of String) From {"TMDb"}, Enums.ContentType.MovieSet)
-    '                Select Case dlgSearch.ShowDialog(dbElement.MovieSet.Title)
+    '                Select Case dlgSearch.ShowDialog(dbElement.MainDetails.Title)
     '                    Case DialogResult.Cancel
     '                        logger.Trace(String.Format("[TMDb_Data] [Scraper_Movieset] [Cancelled] Cancelled by user"))
     '                        Return New Interfaces.AddonResult_Data_Scraper_Movieset(Interfaces.ResultStatus.Cancelled)
@@ -902,10 +902,10 @@ Public Class Addon
     '    End If
 
     '    If dbElement.TVShow.UniqueIDs.TMDbIdSpecified Then
-    '        If Not dbElement.TVEpisode.Episode = -1 AndAlso Not dbElement.TVEpisode.Season = -1 Then
-    '            Result = _TMDbApi_TV.GetInfo_TVEpisode(dbElement.TVShow.UniqueIDs.TMDbId, dbElement.TVEpisode.Season, dbElement.TVEpisode.Episode, FilteredOptions)
-    '        ElseIf dbElement.TVEpisode.AiredSpecified Then
-    '            Result = _TMDbApi_TV.GetInfo_TVEpisode(dbElement.TVShow.UniqueIDs.TMDbId, dbElement.TVEpisode.Aired, FilteredOptions)
+    '        If Not dbElement.MainDetails.Episode = -1 AndAlso Not DBElement.MainDetails.Season = -1 Then
+    '            Result = _TMDbApi_TV.GetInfo_TVEpisode(dbElement.TVShow.UniqueIDs.TMDbId, DBElement.MainDetails.Season, dbElement.MainDetails.Episode, FilteredOptions)
+    '        ElseIf DBElement.MainDetails.AiredSpecified Then
+    '            Result = _TMDbApi_TV.GetInfo_TVEpisode(dbElement.TVShow.UniqueIDs.TMDbId, DBElement.MainDetails.Aired, FilteredOptions)
     '        Else
     '            logger.Trace(String.Format("[TMDb_Data] [Scraper_TVEpisode] [Abort] No result found"))
     '            Return New Interfaces.AddonResult_Data_Scraper_TVEpisode(Interfaces.ResultStatus.NoResult)
@@ -943,8 +943,8 @@ Public Class Addon
     '    End If
 
     '    If dbElement.TVShow.UniqueIDs.TMDbIdSpecified Then
-    '        If dbElement.TVSeason.SeasonSpecified Then
-    '            Result = _TMDbApi_TV.GetInfo_TVSeason(dbElement.TVShow.UniqueIDs.TMDbId, dbElement.TVSeason.Season, FilteredOptions)
+    '        If dbElement.MainDetails.SeasonSpecified Then
+    '            Result = _TMDbApi_TV.GetInfo_TVSeason(dbElement.TVShow.UniqueIDs.TMDbId, dbElement.MainDetails.Season, FilteredOptions)
     '        Else
     '            logger.Trace(String.Format("[TMDb_Data] [Scraper_TVSeason] [Abort] Season number is not specified"))
     '            Return New Interfaces.AddonResult_Data_Scraper_TVSeason(Interfaces.ResultStatus.NoResult)
@@ -996,8 +996,8 @@ Public Class Addon
     '            Result = _TMDbApi_TV.GetInfo_TVShow(dbElement.TVShow.UniqueIDs.TMDbId, FilteredOptions, scrapeModifiers)
     '        ElseIf Not scrapeType = Enums.ScrapeType.SingleScrape Then
     '            'no TVDB-ID for tv show --> search first and try to get ID!
-    '            If dbElement.TVShow.TitleSpecified Then
-    '                Result = _TMDbApi_TV.Process_SearchResults_TVShow(dbElement.TVShow.Title, dbElement, scrapeType, FilteredOptions, scrapeModifiers)
+    '            If dbElement.MainDetails.TitleSpecified Then
+    '                Result = _TMDbApi_TV.Process_SearchResults_TVShow(dbElement.MainDetails.Title, dbElement, scrapeType, FilteredOptions, scrapeModifiers)
     '            End If
     '            'if still no search result -> exit
     '            If Result Is Nothing Then
@@ -1021,7 +1021,7 @@ Public Class Addon
     '    If scrapeType = Enums.ScrapeType.SingleScrape OrElse scrapeType = Enums.ScrapeType.SingleAuto Then
     '        If Not dbElement.TVShow.UniqueIDs.TMDbIdSpecified Then
     '            Using dlgSearch As New dlgSearchResults(_TMDbApi_TV, "tmdb", New List(Of String) From {"TMDb", "TVDb", "IMDb"}, Enums.ContentType.TVShow)
-    '                Select Case dlgSearch.ShowDialog(dbElement.TVShow.Title, dbElement.ShowPath)
+    '                Select Case dlgSearch.ShowDialog(dbElement.MainDetails.Title, dbElement.ShowPath)
     '                    Case DialogResult.Cancel
     '                        logger.Trace(String.Format("[TMDb_Data] [Scraper_TV] [Cancelled] Cancelled by user"))
     '                        Return New Interfaces.AddonResult_Data_Scraper_TVShow(Interfaces.ResultStatus.Cancelled)

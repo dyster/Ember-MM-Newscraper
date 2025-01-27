@@ -23,7 +23,8 @@ Imports NLog
 Imports System.IO
 
 Public Class Addon
-    Implements Interfaces.IAddon_Generic
+    Inherits AddonBase
+    Implements Interfaces.IAddon
 
 #Region "Delegates"
 
@@ -68,13 +69,13 @@ Public Class Addon
 
 #Region "Properties"
 
-    Public ReadOnly Property EventType() As List(Of Enums.AddonEventType) Implements Interfaces.IAddon_Generic.EventType
+    Public ReadOnly Property Capabilities_AddonEventTypes() As List(Of Enums.AddonEventType) Implements Interfaces.IAddon.Capabilities_AddonEventTypes
         Get
             Return New List(Of Enums.AddonEventType)(New Enums.AddonEventType() {Enums.AddonEventType.Generic})
         End Get
     End Property
 
-    Property Enabled() As Boolean Implements Interfaces.IAddon_Generic.Enabled
+    Property Enabled() As Boolean Implements Interfaces.IAddon.IsEnabled_Generic
         Get
             Return _enabled
         End Get
@@ -89,7 +90,7 @@ Public Class Addon
         End Set
     End Property
 
-    ReadOnly Property IsBusy() As Boolean Implements Interfaces.IAddon_Generic.IsBusy
+    ReadOnly Property IsBusy() As Boolean Implements Interfaces.IAddon.IsBusy
         Get
             Return False
         End Get
@@ -116,7 +117,7 @@ Public Class Addon
         LoadSettings()
     End Sub
 
-    Function InjectSettingsPanel() As Containers.SettingsPanel Implements Interfaces.IAddon_Generic.InjectSettingsPanel
+    Function InjectSettingsPanel() As Containers.SettingsPanel Implements Interfaces.IAddon.InjectSettingsPanel
         Dim SPanel As New Containers.SettingsPanel
         _setup = New frmSettingsHolder
         _setup.chkEnabled.Checked = _enabled
@@ -150,8 +151,8 @@ Public Class Addon
         RaiseEvent AddonSettingsChanged()
     End Sub
 
-    Public Function RunGeneric(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object), ByRef singleObject As Object, ByRef dbElement As Database.DBElement) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Generic.RunGeneric
-        Return New Interfaces.AddonResult_Generic
+    Public Function Run(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object), ByRef singleObject As Object, ByRef dbElement As Database.DBElement) As Interfaces.AddonResult Implements Interfaces.IAddon.Run
+        Return New Interfaces.AddonResult
     End Function
 
     Public Sub LoadSettings()

@@ -22,7 +22,8 @@ Imports EmberAPI
 Imports System.IO
 
 Public Class Addon
-    Implements Interfaces.IAddon_Generic
+    Inherits AddonBase
+    Implements Interfaces.IAddon
 
 #Region "Fields"
 
@@ -56,7 +57,7 @@ Public Class Addon
 
 #Region "Properties"
 
-    Property Enabled() As Boolean Implements Interfaces.IAddon_Generic.Enabled
+    Property Enabled() As Boolean Implements Interfaces.IAddon.IsEnabled_Generic
         Get
             Return _enabled
         End Get
@@ -71,7 +72,7 @@ Public Class Addon
         End Set
     End Property
 
-    ReadOnly Property IsBusy() As Boolean Implements Interfaces.IAddon_Generic.IsBusy
+    ReadOnly Property IsBusy() As Boolean Implements Interfaces.IAddon.IsBusy
         Get
             Return False
         End Get
@@ -83,7 +84,7 @@ Public Class Addon
         End Get
     End Property
 
-    Public ReadOnly Property EventType() As List(Of Enums.AddonEventType) Implements Interfaces.IAddon_Generic.EventType
+    Public ReadOnly Property Capabilities_AddonEventTypes() As List(Of Enums.AddonEventType) Implements Interfaces.IAddon.Capabilities_AddonEventTypes
         Get
             Return New List(Of Enums.AddonEventType)(New Enums.AddonEventType() {Enums.AddonEventType.Generic, Enums.AddonEventType.CommandLine})
         End Get
@@ -99,7 +100,7 @@ Public Class Addon
 
 #Region "Methods"
 
-    Public Function RunGeneric(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object), ByRef singleObject As Object, ByRef dbElement As Database.DBElement) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Generic.RunGeneric
+    Public Function Run(ByVal eventType As Enums.AddonEventType, ByRef parameters As List(Of Object), ByRef singleObject As Object, ByRef dbElement As Database.DBElement) As Interfaces.AddonResult Implements Interfaces.IAddon.Run
         Select Case eventType
             Case Enums.AddonEventType.CommandLine
                 Dim strTemplatePath As String = String.Empty
@@ -170,7 +171,7 @@ Public Class Addon
                 MExporter.CreateTemplate(strTemplatePath, MovieList, TVShowList, BuildPath, Nothing)
         End Select
 
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
     Sub Disable()
@@ -230,7 +231,7 @@ Public Class Addon
         LoadSettings()
     End Sub
 
-    Function InjectSettingsPanel() As Containers.SettingsPanel Implements Interfaces.IAddon_Generic.InjectSettingsPanel
+    Function InjectSettingsPanel() As Containers.SettingsPanel Implements Interfaces.IAddon.InjectSettingsPanel
         _setup = New frmSettingsHolder
         _setup.cbEnabled.Checked = _enabled
         Dim SPanel As New Containers.SettingsPanel

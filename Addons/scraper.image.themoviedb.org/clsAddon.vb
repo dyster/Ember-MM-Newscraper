@@ -353,7 +353,7 @@ Public Class Addon
         _SpecialSettings_TV.ApiKey = If(String.IsNullOrEmpty(strPrivateAPIKey), _strAPIKey, strPrivateAPIKey)
     End Sub
 
-    Function Scraper_Movie(ByRef DBMovie As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Image_Scraper_Movie.Scraper
+    Function Scraper_Movie(ByRef DBMovie As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.AddonResult Implements Interfaces.IAddon_Image_Scraper_Movie.Scraper
         logger.Trace("[TMDB_Image] [Scraper_Movie] [Start]")
         If Not DBMovie.MainDetails.UniqueIDs.TMDbIdSpecified Then
             DBMovie.MainDetails.UniqueIDs.TMDbId = Addons.Instance.GetMovieTMDbIdByIMDbId(DBMovie.MainDetails.UniqueIDs.IMDbId)
@@ -365,10 +365,10 @@ Public Class Addon
         End If
 
         logger.Trace("[TMDB_Image] [Scraper_Movie] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
-    Function Scraper_MovieSet(ByRef DBMovieSet As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Image_Scraper_Movieset.Scraper
+    Function Scraper_MovieSet(ByRef DBMovieSet As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.AddonResult Implements Interfaces.IAddon_Image_Scraper_Movieset.Scraper
         logger.Trace("[TMDB_Image] [Scraper_MovieSet] [Start]")
         If Not DBMovieSet.MovieSet.UniqueIDs.TMDbIdSpecified AndAlso DBMovieSet.MoviesInSetSpecified Then
             DBMovieSet.MovieSet.UniqueIDs.TMDbId = Addons.Instance.GetMovieCollectionId(DBMovieSet.MoviesInSet.Item(0).DBMovie.MainDetails.UniqueIDs.IMDbId)
@@ -380,10 +380,10 @@ Public Class Addon
         End If
 
         logger.Trace("[TMDB_Image] [Scraper_MovieSet] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
-    Function Scraper_TV(ByRef DBTV As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Image_Scraper_TV.Scraper
+    Function Scraper_TV(ByRef DBTV As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.AddonResult Implements Interfaces.IAddon_Image_Scraper_TV.Scraper
         logger.Trace("[TMDB_Image] [Scraper_TV] [Start]")
         Dim FilteredModifiers As Structures.ScrapeModifiers = Functions.ScrapeModifiersAndAlso(ScrapeModifiers, ConfigModifier_TV)
 
@@ -398,31 +398,31 @@ Public Class Addon
         Select Case DBTV.ContentType
             Case Enums.ContentType.TVEpisode
                 If DBTV.TVShow.UniqueIDs.TMDbIdSpecified Then
-                    ImagesContainer = _TMDBAPI_TV.GetImages_TVEpisode(DBTV.TVShow.UniqueIDs.TMDbId, DBTV.TVEpisode.Season, DBTV.TVEpisode.Episode, FilteredModifiers)
+                    ImagesContainer = _TMDBAPI_TV.GetImages_TVEpisode(DBTV.TVShow.UniqueIDs.TMDbId, DBTV.TVEpisode.Season, DBTV.MainDetails.Episode, FilteredModifiers)
                     If FilteredModifiers.MainFanart Then
                         ImagesContainer.MainFanarts = _TMDBAPI_TV.GetImages_TVShow(DBTV.TVShow.UniqueIDs.TMDbId, FilteredModifiers).MainFanarts
                     End If
                 Else
-                    logger.Trace(String.Concat("[TMDB_Image] [Scraper_TV] [Abort] No TMDB ID exist to search: ", DBTV.TVEpisode.Title))
+                    logger.Trace(String.Concat("[TMDB_Image] [Scraper_TV] [Abort] No TMDB ID exist to search: ", DBTV.MainDetails.Title))
                 End If
             Case Enums.ContentType.TVSeason
                 If DBTV.TVShow.UniqueIDs.TMDbIdSpecified Then
                     ImagesContainer = _TMDBAPI_TV.GetImages_TVShow(DBTV.TVShow.UniqueIDs.TMDbId, FilteredModifiers)
                 Else
-                    logger.Trace(String.Concat("[TMDB_Image] [Scraper_TV] [Abort] No TVDB ID exist to search: ", DBTV.TVSeason.Title))
+                    logger.Trace(String.Concat("[TMDB_Image] [Scraper_TV] [Abort] No TVDB ID exist to search: ", DBTV.MainDetails.Title))
                 End If
             Case Enums.ContentType.TVShow
                 If DBTV.TVShow.UniqueIDs.TMDbIdSpecified Then
                     ImagesContainer = _TMDBAPI_TV.GetImages_TVShow(DBTV.TVShow.UniqueIDs.TMDbId, FilteredModifiers)
                 Else
-                    logger.Trace(String.Concat("[TMDB_Image] [Scraper_TV] [Abort] No TVDB ID exist to search: ", DBTV.TVShow.Title))
+                    logger.Trace(String.Concat("[TMDB_Image] [Scraper_TV] [Abort] No TVDB ID exist to search: ", DBTV.MainDetails.Title))
                 End If
             Case Else
                 logger.Error(String.Concat("[TMDB_Image] [Scraper_TV] [Abort] Unhandled ContentType"))
         End Select
 
         logger.Trace("[TMDB_Image] [Scraper_TV] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
     Sub SaveSettings_Movie()

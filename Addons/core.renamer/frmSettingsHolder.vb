@@ -22,6 +22,7 @@ Imports System.IO
 ' ################################################################################
 
 Public Class frmSettingsHolder
+    Implements Interfaces.ISettingsPanel
 
 #Region "Fields"
 
@@ -37,7 +38,65 @@ Public Class frmSettingsHolder
     Public Event ModuleEnabledChanged(ByVal State As Boolean)
     Public Event ModuleSettingsChanged()
 
+    'interface events
+    Public Event NeedsDBClean_Movie() Implements Interfaces.ISettingsPanel.NeedsDBClean_Movie
+    Public Event NeedsDBClean_TV() Implements Interfaces.ISettingsPanel.NeedsDBClean_TV
+    Public Event NeedsDBUpdate_Movie(ByVal id As Long) Implements Interfaces.ISettingsPanel.NeedsDBUpdate_Movie
+    Public Event NeedsDBUpdate_TV(ByVal id As Long) Implements Interfaces.ISettingsPanel.NeedsDBUpdate_TV
+    Public Event NeedsReload_Movie() Implements Interfaces.ISettingsPanel.NeedsReload_Movie
+    Public Event NeedsReload_MovieSet() Implements Interfaces.ISettingsPanel.NeedsReload_Movieset
+    Public Event NeedsReload_TVEpisode() Implements Interfaces.ISettingsPanel.NeedsReload_TVEpisode
+    Public Event NeedsReload_TVShow() Implements Interfaces.ISettingsPanel.NeedsReload_TVShow
+    Public Event NeedsRestart() Implements Interfaces.ISettingsPanel.NeedsRestart
+    Public Event SettingsChanged() Implements Interfaces.ISettingsPanel.SettingsChanged
+    Public Event StateChanged(ByVal uniqueSettingsPanelId As String, ByVal state As Boolean, ByVal diffOrder As Integer) Implements Interfaces.ISettingsPanel.StateChanged
+
 #End Region 'Events
+
+#Region "Properties"
+
+    Public ReadOnly Property ChildType As Enums.SettingsPanelType Implements Interfaces.ISettingsPanel.ChildType
+
+    Public Property Image As Image Implements Interfaces.ISettingsPanel.Image
+
+    Public Property ImageIndex As Integer Implements Interfaces.ISettingsPanel.ImageIndex
+        Get
+            Return If(IsEnabled, 9, 10) 'TODO these values are copied from globalmapping, I don't know what they do
+        End Get
+        Set(value As Integer)
+            Return
+        End Set
+    End Property
+
+    Public Property IsEnabled As Boolean Implements Interfaces.ISettingsPanel.IsEnabled
+
+    Public ReadOnly Property MainPanel As Panel Implements Interfaces.ISettingsPanel.MainPanel
+
+    Public Property Order As Integer Implements Interfaces.ISettingsPanel.Order
+
+    Public ReadOnly Property Title As String Implements Interfaces.ISettingsPanel.Title
+
+    Public ReadOnly Property ParentType As Enums.SettingsPanelType Implements Interfaces.ISettingsPanel.ParentType
+
+    Public Property UniqueId As String Implements Interfaces.ISettingsPanel.UniqueId
+
+#End Region 'Properties
+
+#Region "Interface Methods"
+
+    Public Sub DoDispose() Implements Interfaces.ISettingsPanel.DoDispose
+        Dispose()
+    End Sub
+
+    Public Sub Addon_Order_Changed(ByVal totalCount As Integer) Implements Interfaces.ISettingsPanel.OrderChanged
+        Return
+    End Sub
+
+    Public Sub SaveSettings() Implements Interfaces.ISettingsPanel.SaveSettings
+        Return
+    End Sub
+
+#End Region 'Interface Methods
 
 #Region "Methods"
 
@@ -382,6 +441,8 @@ Public Class frmSettingsHolder
 
     Public Sub New()
         InitializeComponent()
+        Title = Master.eLang.GetString(295, "Renamer")
+        MainPanel = pnlSettings()
         SetUp()
         CreateDummies()
     End Sub

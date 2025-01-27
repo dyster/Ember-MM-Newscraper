@@ -92,16 +92,16 @@ Public Class Scraper
 
                 '....and use result to get the wanted information
                 If Not String.IsNullOrEmpty(HTML) Then
-                    If filteredOptions.bMainCertifications Then
+                    If filteredOptions.Certifications Then
                         Result.Certifications.Add(GetCertification(HTML))
                     End If
 
-                    If (filteredOptions.bMainOutline OrElse filteredOptions.bMainPlot) AndAlso bIsScraperLanguage Then
+                    If (filteredOptions.bMainOutline OrElse filteredOptions.Plot) AndAlso bIsScraperLanguage Then
                         Dim aResult As Results = GetPlotAndOutline(HTML)
                         If filteredOptions.bMainOutline Then
                             Result.Outline = aResult.strOutline
                         End If
-                        If filteredOptions.bMainPlot Then
+                        If filteredOptions.Plot Then
                             Result.Plot = aResult.strPlot
                         End If
                     End If

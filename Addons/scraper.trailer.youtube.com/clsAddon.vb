@@ -117,7 +117,7 @@ Public Class Addon
         ConfigScrapeModifiers.MainTrailer = Master.eAdvancedSettings.GetBooleanSetting("DoTrailer", True)
     End Sub
 
-    Function Scraper_Movie(ByRef DBMovie As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef TrailerList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Trailer_Scraper_Movie.Scraper
+    Function Scraper_Movie(ByRef DBMovie As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef TrailerList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult Implements Interfaces.IAddon_Trailer_Scraper_Movie.Scraper
         logger.Trace("[YouTube_Trailer] [Scraper_Movie] [Start]")
 
         LoadSettings()
@@ -128,7 +128,7 @@ Public Class Addon
         End If
 
         logger.Trace("[YouTube_Trailer] [Scraper_Movie] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
     Sub SaveSettings()

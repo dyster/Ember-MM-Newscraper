@@ -200,7 +200,7 @@ Public Class Addon
         End If
     End Sub
 
-    Function Scraper_Movie(ByRef DBMovie As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef ThemeList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Theme_Scraper_Movie.Scraper
+    Function Scraper_Movie(ByRef DBMovie As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef ThemeList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult Implements Interfaces.IAddon_Theme_Scraper_Movie.Scraper
         _Logger.Trace("[YouTube_Theme] [Scraper_Movie] [Start]")
 
         LoadSettings_Movie()
@@ -211,21 +211,21 @@ Public Class Addon
         End If
 
         _Logger.Trace("[YouTube_Theme] [Scraper_Movie] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
-    Function Scraper_TV(ByRef DBTV As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef ThemeList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Theme_Scraper_TV.Scraper
+    Function Scraper_TV(ByRef DBTV As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef ThemeList As List(Of MediaContainers.MediaFile)) As Interfaces.AddonResult Implements Interfaces.IAddon_Theme_Scraper_TV.Scraper
         _Logger.Trace("[YouTube_Theme] [Scraper_TV] [Start]")
 
         LoadSettings_TV()
 
-        If DBTV.TVShow.TitleSpecified Then
+        If DBTV.MainDetails.TitleSpecified Then
             Dim _scraper As New Scraper()
-            ThemeList = _scraper.GetThemes(DBTV.TVShow.Title, DBTV.ContentType)
+            ThemeList = _scraper.GetThemes(DBTV.MainDetails.Title, DBTV.ContentType)
         End If
 
         _Logger.Trace("[YouTube_Theme] [Scraper_TV] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
     Public Sub ScraperOrderChanged_Movie() Implements Interfaces.IAddon_Theme_Scraper_Movie.ScraperOrderChanged

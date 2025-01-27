@@ -194,7 +194,7 @@ Public Class Addon
         End If
     End Sub
 
-    Function Scraper(ByRef DBTV As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.AddonResult_Generic Implements Interfaces.IAddon_Image_Scraper_TV.Scraper
+    Function Scraper(ByRef DBTV As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.AddonResult Implements Interfaces.IAddon_Image_Scraper_TV.Scraper
         logger.Trace("[TVDB_Image] [Scraper] [Start]")
 
         LoadSettings()
@@ -205,30 +205,30 @@ Public Class Addon
         Select Case DBTV.ContentType
             Case Enums.ContentType.TVEpisode
                 If DBTV.TVShow.UniqueIDs.TVDbIdSpecified Then
-                    ImagesContainer = _scraper.GetImages_TVEpisode(DBTV.TVShow.UniqueIDs.TVDbId, DBTV.TVEpisode.Season, DBTV.TVEpisode.Episode, DBTV.Ordering, FilteredModifiers)
+                    ImagesContainer = _scraper.GetImages_TVEpisode(DBTV.TVShow.UniqueIDs.TVDbId, DBTV.TVEpisode.Season, DBTV.MainDetails.Episode, DBTV.Ordering, FilteredModifiers)
                     If FilteredModifiers.MainFanart Then
                         ImagesContainer.MainFanarts = _scraper.GetAllImages_TV(DBTV.TVShow.UniqueIDs.TVDbId, FilteredModifiers, DBTV.Language_Main).MainFanarts
                     End If
                 Else
-                    logger.Trace(String.Concat("[TVDB_Image] [Scraper] [Abort] No TVDB ID exist to search: ", DBTV.TVEpisode.Title))
+                    logger.Trace(String.Concat("[TVDB_Image] [Scraper] [Abort] No TVDB ID exist to search: ", DBTV.MainDetails.Title))
                 End If
             Case Enums.ContentType.TVSeason
                 If DBTV.TVShow.UniqueIDs.TVDbIdSpecified Then
                     ImagesContainer = _scraper.GetAllImages_TV(DBTV.TVShow.UniqueIDs.TVDbId, FilteredModifiers, DBTV.Language_Main)
                 Else
-                    logger.Trace(String.Concat("[TVDB_Image] [Scraper] [Abort] No TVDB ID exist to search: ", DBTV.TVSeason.Title))
+                    logger.Trace(String.Concat("[TVDB_Image] [Scraper] [Abort] No TVDB ID exist to search: ", DBTV.MainDetails.Title))
                 End If
             Case Enums.ContentType.TVShow
                 If DBTV.TVShow.UniqueIDs.TVDbIdSpecified Then
                     ImagesContainer = _scraper.GetAllImages_TV(DBTV.TVShow.UniqueIDs.TVDbId, FilteredModifiers, DBTV.Language_Main)
                 Else
-                    logger.Trace(String.Concat("[TVDB_Image] [Scraper] [Abort] No TVDB ID exist to search: ", DBTV.TVShow.Title))
+                    logger.Trace(String.Concat("[TVDB_Image] [Scraper] [Abort] No TVDB ID exist to search: ", DBTV.MainDetails.Title))
                 End If
             Case Else
         End Select
 
         logger.Trace("[TVDB_Image] [Scraper] [Done]")
-        Return New Interfaces.AddonResult_Generic
+        Return New Interfaces.AddonResult
     End Function
 
     Public Sub ScraperOrderChanged() Implements Interfaces.IAddon_Image_Scraper_TV.ScraperOrderChanged
