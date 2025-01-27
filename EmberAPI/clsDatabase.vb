@@ -1324,7 +1324,7 @@ Public Class Database
     Public Function Connect_MyVideos() As Boolean
 
         'set database version
-        Dim MyVideosDBVersion As Integer = 48
+        Dim MyVideosDBVersion As Integer = 49
 
         'set database filename
         Dim MyVideosDB As String = String.Format("MyVideos{0}.emm", MyVideosDBVersion)
@@ -1809,7 +1809,7 @@ Public Class Database
     Public Function GetAll_Certifications() As String()
         Dim nList As New List(Of String)
         Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = "SELECT Certification FROM movie WHERE Certification <> '';"
+            SQLcommand.CommandText = "SELECT name FROM certification WHERE idCertification =666;" 'TODO make this work now that Certification is in its own table
             Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
                 While SQLreader.Read
                     If SQLreader("Certification").ToString.Contains(" / ") Then
@@ -1834,7 +1834,7 @@ Public Class Database
     Public Function GetAll_Countries() As String()
         Dim nList As New List(Of String)
         Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = "SELECT strCountry FROM country ORDER BY strCountry;"
+            SQLcommand.CommandText = "SELECT name FROM country ORDER BY name;"
             Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
                 While SQLreader.Read
                     nList.Add(SQLreader("strCountry").ToString)
@@ -1863,7 +1863,7 @@ Public Class Database
     Public Function GetAll_ExcludedPaths() As List(Of String)
         Dim nList As New List(Of String)
         Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = "SELECT Dirname FROM ExcludeDir;"
+            SQLcommand.CommandText = "SELECT path FROM excludedpath;"
             Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
                 While SQLreader.Read
                     nList.Add(SQLreader("Dirname").ToString)
@@ -1963,7 +1963,7 @@ Public Class Database
     Public Function GetAll_Studios() As String()
         Dim nList As New List(Of String)
         Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = "SELECT strStudio FROM studio ORDER BY strStudio;"
+            SQLcommand.CommandText = "SELECT name FROM studio ORDER BY name;"
             Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
                 While SQLreader.Read
                     nList.Add(SQLreader("strStudio").ToString)
@@ -2195,7 +2195,7 @@ Public Class Database
         Dim nList As New List(Of String)
 
         Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = "SELECT strGenre FROM genre ORDER BY strGenre;"
+            SQLcommand.CommandText = "SELECT name FROM genre ORDER BY name;"
             Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
                 While SQLreader.Read
                     nList.Add(SQLreader("strGenre").ToString)
@@ -2253,20 +2253,19 @@ Public Class Database
     Public Function LoadAll_Sources_Movie() As List(Of DBSource)
         Dim lstSources As New List(Of DBSource)
         Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = "SELECT * FROM moviesource ORDER BY strName;"
+            SQLcommand.CommandText = "SELECT * FROM moviesource ORDER BY name;"
             Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
                 While SQLreader.Read
                     Dim msource As New DBSource With {
-                        .Exclude = Convert.ToBoolean(SQLreader("bExclude")),
-                        .GetYear = Convert.ToBoolean(SQLreader("bGetYear")),
+                        .Exclude = Convert.ToBoolean(SQLreader("exclude")),
+                        .GetYear = Convert.ToBoolean(SQLreader("getYear")),
                         .ID = Convert.ToInt64(SQLreader("idSource")),
-                        .IsSingle = Convert.ToBoolean(SQLreader("bSingle")),
-                        .Language = SQLreader("strLanguage").ToString,
-                        .LastScan = SQLreader("strLastScan").ToString,
-                        .Name = SQLreader("strName").ToString,
-                        .Path = SQLreader("strPath").ToString,
-                        .ScanRecursive = Convert.ToBoolean(SQLreader("bRecursive")),
-                        .UseFolderName = Convert.ToBoolean(SQLreader("bFoldername"))
+                        .IsSingle = Convert.ToBoolean(SQLreader("isSingle")),
+                        .Language = SQLreader("language").ToString, '.LastScan = SQLreader("strLastScan").ToString,
+                        .Name = SQLreader("name").ToString,
+                        .Path = SQLreader("path").ToString,
+                        .ScanRecursive = Convert.ToBoolean(SQLreader("scanRecursive")),
+                        .UseFolderName = Convert.ToBoolean(SQLreader("useFoldername"))
                     }
                     lstSources.Add(msource)
                 End While
@@ -2281,7 +2280,7 @@ Public Class Database
     Public Function LoadAll_Sources_TVShow() As List(Of DBSource)
         Dim lstSources As New List(Of DBSource)
         Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = "SELECT * FROM tvshowsource ORDER BY strName;"
+            SQLcommand.CommandText = "SELECT * FROM tvshowsource ORDER BY name;"
             Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
                 While SQLreader.Read
                     Dim tvsource As New DBSource With {
@@ -5354,7 +5353,7 @@ Public Class Database
             If ViewList.Contains("episodelist") Then ViewList.Remove("episodelist")
             If ViewList.Contains("movielist") Then ViewList.Remove("movielist")
             If ViewList.Contains("seasonslist") Then ViewList.Remove("seasonslist")
-            If ViewList.Contains("setslist") Then ViewList.Remove("setslist")
+            If ViewList.Contains("moviesetlist") Then ViewList.Remove("moviesetlist")
             If ViewList.Contains("tvshowlist") Then ViewList.Remove("tvshowlist")
         End If
 

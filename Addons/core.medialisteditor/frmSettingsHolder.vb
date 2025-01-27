@@ -76,7 +76,7 @@ Public Class frmSettingsHolder
         cbCustomMediaList.Items.Clear()
         colCustomTabList.Items.Clear()
         colCustomTabList.Items.Add("movielist")
-        colCustomTabList.Items.Add("setslist")
+        colCustomTabList.Items.Add("moviesetlist")
         colCustomTabList.Items.Add("tvshowlist")
         For Each ViewName In Master.DB.View_GetList(Enums.ContentType.None)
             cbCustomMediaList.Items.Add(ViewName)
@@ -186,7 +186,7 @@ Public Class frmSettingsHolder
                 Select Case True
                     Case r.Cells(1).Value.ToString.StartsWith("movie-"), r.Cells(1).Value.ToString = "movielist"
                         tabType = Enums.ContentType.Movie
-                    Case r.Cells(1).Value.ToString.StartsWith("sets-"), r.Cells(1).Value.ToString = "setslist"
+                    Case r.Cells(1).Value.ToString.StartsWith("sets-"), r.Cells(1).Value.ToString = "moviesetlist"
                         tabType = Enums.ContentType.MovieSet
                     Case r.Cells(1).Value.ToString.StartsWith("tvshow-"), r.Cells(1).Value.ToString = "tvshowlist"
                         tabType = Enums.ContentType.TV

@@ -1407,7 +1407,7 @@ Public Class Addons
 
         Public Property ListMoviesets() As String
             Get
-                Return If(_ListMoviesets IsNot Nothing, _ListMoviesets, "setslist")
+                Return If(_ListMoviesets IsNot Nothing, _ListMoviesets, "moviesetlist")
             End Get
             Set(ByVal value As String)
                 _ListMoviesets = value

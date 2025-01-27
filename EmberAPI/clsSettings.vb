@@ -950,7 +950,7 @@ Public Class Settings
         If (type = Enums.DefaultType.All OrElse type = Enums.DefaultType.MainTabSorting) AndAlso (force OrElse Master.eSettings.GeneralMainTabSorting.Count = 0) Then
             Master.eSettings.GeneralMainTabSorting.Clear()
             Master.eSettings.GeneralMainTabSorting.Add(New MainTabSorting With {.ContentType = Enums.ContentType.Movie, .DefaultList = "movielist", .Order = 0, .Title = Master.eLang.GetString(36, "Movies")})
-            Master.eSettings.GeneralMainTabSorting.Add(New MainTabSorting With {.ContentType = Enums.ContentType.Movieset, .DefaultList = "setslist", .Order = 1, .Title = Master.eLang.GetString(366, "Sets")})
+            Master.eSettings.GeneralMainTabSorting.Add(New MainTabSorting With {.ContentType = Enums.ContentType.Movieset, .DefaultList = "moviesetlist", .Order = 1, .Title = Master.eLang.GetString(366, "Sets")})
             Master.eSettings.GeneralMainTabSorting.Add(New MainTabSorting With {.ContentType = Enums.ContentType.TV, .DefaultList = "tvshowlist", .Order = 2, .Title = Master.eLang.GetString(653, "TV Shows")})
         End If
 
@@ -978,7 +978,7 @@ Public Class Settings
             Master.eSettings.MovieGeneralMediaListSorting.Clear()
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "ListTitle", .LabelID = 21, .LabelText = "Title"})
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "OriginalTitle", .LabelID = 302, .LabelText = "Original Title"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "edition", .LabelID = 308, .LabelText = "Edition"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "edition", .LabelID = 308, .LabelText = "Edition"}) this column has vanished from SQL
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "Certification", .LabelID = 722, .LabelText = "Certification"})
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "Credits", .LabelID = 729, .LabelText = "Credits"})
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "Country", .LabelID = 301, .LabelText = "Country"})
@@ -990,28 +990,27 @@ Public Class Settings
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "Runtime", .LabelID = 238, .LabelText = "Runtime"})
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "Studio", .LabelID = 395, .LabelText = "Studio"})
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "VideoSource", .LabelID = 824, .LabelText = "Video Source"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "Year", .LabelID = 278, .LabelText = "Year"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "Imdb", .LabelID = 61, .LabelText = "IMDB ID"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "TMDB", .LabelID = 933, .LabelText = "TMDB ID"})
+            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "premiered", .LabelID = 278, .LabelText = "Premiered"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "Imdb", .LabelID = 61, .LabelText = "IMDB ID"}) this column has vanished from SQL
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "TMDB", .LabelID = 933, .LabelText = "TMDB ID"}) this column has vanished from SQL
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "Top250", .LabelID = 591, .LabelText = "Top 250"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "Rating", .LabelID = 400, .LabelText = "Rating"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "iUserRating", .LabelID = 1467, .LabelText = "User Rating"})
+            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = True, .Column = "userRating", .LabelID = 400, .LabelText = "User Rating"})
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "NfoPath", .LabelID = 150, .LabelText = "NFO"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "BannerPath", .LabelID = 838, .LabelText = "Banner"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "ClearArtPath", .LabelID = 1096, .LabelText = "ClearArt"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "ClearLogoPath", .LabelID = 1097, .LabelText = "ClearLogo"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "DiscArtPath", .LabelID = 1098, .LabelText = "DiscArt"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "EFanartsPath", .LabelID = 992, .LabelText = "Extrafanarts"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "EThumbsPath", .LabelID = 153, .LabelText = "Extrathumbs"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "FanartPath", .LabelID = 149, .LabelText = "Fanart"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "KeyartPath", .LabelID = 1237, .LabelText = "Keyart"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "LandscapePath", .LabelID = 1035, .LabelText = "Landscape"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "PosterPath", .LabelID = 148, .LabelText = "Poster"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "BannerPath", .LabelID = 838, .LabelText = "Banner"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "ClearArtPath", .LabelID = 1096, .LabelText = "ClearArt"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "ClearLogoPath", .LabelID = 1097, .LabelText = "ClearLogo"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "DiscArtPath", .LabelID = 1098, .LabelText = "DiscArt"})
+            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "efanartsPath", .LabelID = 992, .LabelText = "Extrafanarts"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "EThumbsPath", .LabelID = 153, .LabelText = "Extrathumbs"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "FanartPath", .LabelID = 149, .LabelText = "Fanart"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "KeyartPath", .LabelID = 1237, .LabelText = "Keyart"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "LandscapePath", .LabelID = 1035, .LabelText = "Landscape"})
+            'Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "PosterPath", .LabelID = 148, .LabelText = "Poster"})
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "HasSub", .LabelID = 152, .LabelText = "Subtitles"})
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "ThemePath", .LabelID = 1118, .LabelText = "Theme"})
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "TrailerPath", .LabelID = 151, .LabelText = "Trailer"})
             Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "HasSet", .LabelID = 1295, .LabelText = "Part of a MovieSet"})
-            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "iLastPlayed", .LabelID = 981, .LabelText = "Watched"})
+            Master.eSettings.MovieGeneralMediaListSorting.Add(New ListSorting With {.Hide = False, .Column = "LastPlayed", .LabelID = 981, .LabelText = "Watched"})
             Dim c As Integer = 0
             For Each n In Master.eSettings.MovieGeneralMediaListSorting
                 n.DisplayIndex = c
