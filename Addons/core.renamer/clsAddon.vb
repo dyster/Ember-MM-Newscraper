@@ -21,7 +21,6 @@
 Imports EmberAPI
 
 Public Class Addon
-    Inherits AddonBase
     Implements Interfaces.IAddon
 
 #Region "Delegates"
@@ -76,6 +75,12 @@ Public Class Addon
         End Get
     End Property
 
+    Public ReadOnly Property Capabilities_ScraperCapatibilities As List(Of Enums.ScraperCapatibility) Implements Interfaces.IAddon.Capabilities_ScraperCapatibilities
+        Get
+            Return New List(Of Enums.ScraperCapatibility)
+        End Get
+    End Property
+
     Property Enabled() As Boolean Implements Interfaces.IAddon.IsEnabled_Generic
         Get
             Return _enabled
@@ -108,6 +113,26 @@ Public Class Addon
     ''        Return FileVersionInfo.GetVersionInfo(Reflection.Assembly.GetExecutingAssembly.Location).FileVersion.ToString
     ''    End Get
     ''End Property
+
+    Public Property IsEnabled_Data_Movie As Boolean Implements Interfaces.IAddon.IsEnabled_Data_Movie
+
+    Public Property IsEnabled_Data_Movieset As Boolean Implements Interfaces.IAddon.IsEnabled_Data_Movieset
+
+    Public Property IsEnabled_Data_TV As Boolean Implements Interfaces.IAddon.IsEnabled_Data_TV
+
+    Public Property IsEnabled_Image_Movie As Boolean Implements Interfaces.IAddon.IsEnabled_Image_Movie
+
+    Public Property IsEnabled_Image_Movieset As Boolean Implements Interfaces.IAddon.IsEnabled_Image_Movieset
+
+    Public Property IsEnabled_Image_TV As Boolean Implements Interfaces.IAddon.IsEnabled_Image_TV
+
+    Public Property IsEnabled_Theme_Movie As Boolean Implements Interfaces.IAddon.IsEnabled_Theme_Movie
+
+    Public Property IsEnabled_Theme_TV As Boolean Implements Interfaces.IAddon.IsEnabled_Theme_TV
+
+    Public Property IsEnabled_Trailer_Movie As Boolean Implements Interfaces.IAddon.IsEnabled_Trailer_Movie
+
+    Public Property SettingsPanels As New List(Of Interfaces.ISettingsPanel) Implements Interfaces.IAddon.SettingsPanels
 
 #End Region 'Properties
 
