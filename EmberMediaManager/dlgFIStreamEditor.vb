@@ -91,7 +91,7 @@ Public Class dlgFIStreamEditor
             End If
         End If
 
-        If ShowDialog() = Windows.Forms.DialogResult.OK Then
+        If ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             If stream_type = Master.eLang.GetString(595, "Video Streams") Then
                 stream_v.Codec = If(cbVideoCodec.SelectedItem Is Nothing, String.Empty, cbVideoCodec.SelectedItem.ToString)
                 stream_v.Aspect = CDbl(txtVideoAspect.Text.Trim)

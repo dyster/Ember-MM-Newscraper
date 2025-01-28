@@ -41,7 +41,7 @@ Public Class dlgImageViewer
         StartPosition = FormStartPosition.Manual
     End Sub
 
-    Public Overloads Function ShowDialog(ByVal iImage As Image) As Windows.Forms.DialogResult
+    Public Overloads Function ShowDialog(ByVal iImage As Image) As System.Windows.Forms.DialogResult
         pbCache.Image = iImage
         Return ShowDialog()
     End Function
@@ -127,7 +127,7 @@ Public Class dlgImageViewer
     End Sub
 
     Private Sub pbPicture_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pbPicture.MouseMove
-        If e.Button = Windows.Forms.MouseButtons.Left AndAlso pbPicture.Cursor = Cursors.NoMove2D Then
+        If e.Button = System.Windows.Forms.MouseButtons.Left AndAlso pbPicture.Cursor = Cursors.NoMove2D Then
 
             Dim DeltaX As Integer = (PanStartPoint.X - e.X)
             Dim DeltaY As Integer = (PanStartPoint.Y - e.Y)

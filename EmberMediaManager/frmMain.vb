@@ -20,6 +20,7 @@
 
 Imports EmberAPI
 Imports NLog
+Imports System.Data
 Imports System.IO
 Imports System.Reflection
 Imports System.Text.RegularExpressions
@@ -2789,19 +2790,19 @@ Public Class frmMain
     End Sub
 
     Private Sub cmnuMovieSetLock_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuMovieSetLock.Click
-        TaskManager_CreateTask(Enums.ContentType.MovieSet, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetLockedState, True, String.Empty)
+        TaskManager_CreateTask(Enums.ContentType.Movieset, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetLockedState, True, String.Empty)
     End Sub
 
     Private Sub cmnuMovieSetUnlock_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuMovieSetUnlock.Click
-        TaskManager_CreateTask(Enums.ContentType.MovieSet, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetLockedState, False, String.Empty)
+        TaskManager_CreateTask(Enums.ContentType.Movieset, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetLockedState, False, String.Empty)
     End Sub
 
     Private Sub cmnuMovieSetMark_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuMovieSetMark.Click
-        TaskManager_CreateTask(Enums.ContentType.MovieSet, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetMarkedState, True, String.Empty)
+        TaskManager_CreateTask(Enums.ContentType.Movieset, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetMarkedState, True, String.Empty)
     End Sub
 
     Private Sub cmnuMovieSetUnmark_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuMovieSetUnmark.Click
-        TaskManager_CreateTask(Enums.ContentType.MovieSet, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetMarkedState, False, String.Empty)
+        TaskManager_CreateTask(Enums.ContentType.Movieset, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetMarkedState, False, String.Empty)
     End Sub
 
     Private Sub cmnuEpisodeLock_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuEpisodeLock.Click
@@ -3401,7 +3402,7 @@ Public Class frmMain
         dgvMovieSets.ClearSelection()
         InfoScreen_Clear()
 
-        Dim tmpDBMovieSet = New Database.DBElement(Enums.ContentType.MovieSet) With {.MainDetails = New MediaContainers.MainDetails}
+        Dim tmpDBMovieSet = New Database.DBElement(Enums.ContentType.Movieset) With {.MainDetails = New MediaContainers.MainDetails}
 
         Using dNewSet As New dlgNewSet()
             If dNewSet.ShowDialog(tmpDBMovieSet) = DialogResult.OK Then
@@ -3767,7 +3768,7 @@ Public Class frmMain
         If dgvMovieSets.SelectedRows.Count = 1 Then
             Dim ScrapeModifiers As New Structures.ScrapeModifiers
             Functions.SetScrapeModifiers(ScrapeModifiers, Enums.ModifierType.All, True)
-            Scraper_CreateList(Enums.SelectionType.Selected, Enums.ScrapeType.Manually, Master.DefaultOptions_Movieset, ScrapeModifiers, Enums.ContentType.MovieSet)
+            Scraper_CreateList(Enums.SelectionType.Selected, Enums.ScrapeType.Manually, Master.DefaultOptions_Movieset, ScrapeModifiers, Enums.ContentType.Movieset)
         End If
     End Sub
 
@@ -5240,7 +5241,7 @@ Public Class frmMain
 
         If dgvMovieSets.Rows.Count > row Then
             If Not DataGridView_ColumnAnyInfoValue(dgvMovieSets, row) Then
-                InfoScreen_Show_NoInformation(True, Enums.ContentType.MovieSet)
+                InfoScreen_Show_NoInformation(True, Enums.ContentType.Movieset)
                 currMovieset = Master.DB.Load_Movieset(Convert.ToInt64(dgvMovieSets.Item("idSet", row).Value))
                 InfoScreen_Show_Data_Movieset()
             Else
@@ -6620,7 +6621,7 @@ Public Class frmMain
                         Enums.ScrapeType.Ask,
                         Master.DefaultOptions_Movieset,
                         ScrapeModifiers,
-                        Enums.ContentType.MovieSet
+                        Enums.ContentType.Movieset
                         )
                 Else
                     Scraper_CreateList(
@@ -6628,7 +6629,7 @@ Public Class frmMain
                         Enums.ScrapeType.Auto,
                         Master.DefaultOptions_Movieset,
                         ScrapeModifiers,
-                        Enums.ContentType.MovieSet
+                        Enums.ContentType.Movieset
                         )
                 End If
             End If
@@ -6648,7 +6649,7 @@ Public Class frmMain
 
     Private Sub dgvMovieSets_CellEnter(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs) Handles dgvMovieSets.CellEnter
         Dim currMainTabTag = MainTab_GetCurrentTag()
-        If Not currMainTabTag.ContentType = Enums.ContentType.MovieSet Then Return
+        If Not currMainTabTag.ContentType = Enums.ContentType.Movieset Then Return
 
         tmrWait_TVShow.Stop()
         tmrWait_TVSeason.Stop()
@@ -8806,7 +8807,7 @@ Public Class frmMain
                         Enums.ScrapeType.Manually,
                         Master.DefaultOptions_Movieset,
                         ScrapeModifier,
-                        Enums.ContentType.MovieSet
+                        Enums.ContentType.Movieset
                         )
                 Case DialogResult.Abort
                     Dim ScrapeModifier As New Structures.ScrapeModifiers
@@ -8817,7 +8818,7 @@ Public Class frmMain
                         Enums.ScrapeType.Manually,
                         Master.DefaultOptions_Movieset,
                         ScrapeModifier,
-                        Enums.ContentType.MovieSet
+                        Enums.ContentType.Movieset
                         )
                 Case Else
                     If InfoCleared Then InfoScreen_Load_Movieset(DBMovieSet.ID)
@@ -10700,7 +10701,7 @@ Public Class frmMain
         Select Case currThemeType
             Case Enums.ContentType.Movie
                 InfoPanelState_Movie = 0
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 InfoPanelState_MovieSet = 0
             Case Enums.ContentType.TVEpisode
                 InfoPanelState_TVEpisode = 0
@@ -10717,7 +10718,7 @@ Public Class frmMain
         Select Case currThemeType
             Case Enums.ContentType.Movie
                 InfoPanelState_Movie = 1
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 InfoPanelState_MovieSet = 1
             Case Enums.ContentType.TVEpisode
                 InfoPanelState_TVEpisode = 1
@@ -10734,7 +10735,7 @@ Public Class frmMain
         Select Case currThemeType
             Case Enums.ContentType.Movie
                 InfoPanelState_Movie = 2
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 InfoPanelState_MovieSet = 2
             Case Enums.ContentType.TVEpisode
                 InfoPanelState_TVEpisode = 2
@@ -10811,7 +10812,7 @@ Public Class frmMain
         Select Case currThemeType
             Case Enums.ContentType.Movie
                 iState = InfoPanelState_Movie
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 iState = InfoPanelState_MovieSet
             Case Enums.ContentType.TVEpisode
                 iState = InfoPanelState_TVEpisode
@@ -11634,7 +11635,7 @@ Public Class frmMain
                             MessageBox.Show(Master.eLang.GetString(1363, "No Banners found"), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                         SetControlsEnabled(True)
-                    Case Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movieset
                         If dgvMovieSets.SelectedRows.Count > 1 Then Return
                         SetControlsEnabled(False)
 
@@ -11728,7 +11729,7 @@ Public Class frmMain
                 Select Case MainTab_GetCurrentTag.ContentType
                     Case Enums.ContentType.Movie
                         Return
-                    Case Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movieset
                         Return
                     Case Enums.ContentType.TV
                         'TV Show list
@@ -11800,7 +11801,7 @@ Public Class frmMain
                             MessageBox.Show(Master.eLang.GetString(1102, "No ClearArts found"), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                         SetControlsEnabled(True)
-                    Case Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movieset
                         If dgvMovieSets.SelectedRows.Count > 1 Then Return
                         SetControlsEnabled(False)
 
@@ -11890,7 +11891,7 @@ Public Class frmMain
                             MessageBox.Show(Master.eLang.GetString(1103, "No ClearLogos found"), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                         SetControlsEnabled(True)
-                    Case Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movieset
                         If dgvMovieSets.SelectedRows.Count > 1 Then Return
                         SetControlsEnabled(False)
 
@@ -11977,10 +11978,10 @@ Public Class frmMain
                                 DataGridView_Row_Update_Movie(ID)
                             End If
                         Else
-                                MessageBox.Show(Master.eLang.GetString(1104, "No DiscArts found"), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            End If
-                            SetControlsEnabled(True)
-                    Case Enums.ContentType.MovieSet
+                            MessageBox.Show(Master.eLang.GetString(1104, "No DiscArts found"), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                        SetControlsEnabled(True)
+                    Case Enums.ContentType.Movieset
                         If dgvMovieSets.SelectedRows.Count > 1 Then Return
                         SetControlsEnabled(False)
 
@@ -12061,7 +12062,7 @@ Public Class frmMain
                             MessageBox.Show(Master.eLang.GetString(970, "No Fanarts found"), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                         SetControlsEnabled(True)
-                    Case Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movieset
                         If dgvMovieSets.SelectedRows.Count > 1 Then Return
                         SetControlsEnabled(False)
 
@@ -12191,7 +12192,7 @@ Public Class frmMain
                             MessageBox.Show(Master.eLang.GetString(1239, "No Keyarts found"), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                         SetControlsEnabled(True)
-                    Case Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movieset
                         If dgvMovieSets.SelectedRows.Count > 1 Then Return
                         SetControlsEnabled(False)
 
@@ -12281,7 +12282,7 @@ Public Class frmMain
                             MessageBox.Show(Master.eLang.GetString(1197, "No Landscapes found"), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                         SetControlsEnabled(True)
-                    Case Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movieset
                         If dgvMovieSets.SelectedRows.Count > 1 Then Return
                         SetControlsEnabled(False)
 
@@ -12393,7 +12394,7 @@ Public Class frmMain
                             MessageBox.Show(Master.eLang.GetString(972, "No Posters found"), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                         SetControlsEnabled(True)
-                    Case Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movieset
                         If dgvMovieSets.SelectedRows.Count > 1 Then Return
                         SetControlsEnabled(False)
 
@@ -13344,7 +13345,7 @@ Public Class frmMain
                 Case Enums.ContentType.Movie
                     lblNoInfo.Text = Master.eLang.GetString(55, "No information is available for this Movie")
                     If Not currThemeType = contentType Then Theme_Apply(contentType)
-                Case Enums.ContentType.MovieSet
+                Case Enums.ContentType.Movieset
                     lblNoInfo.Text = Master.eLang.GetString(1154, "No information is available for this MovieSet")
                     If Not currThemeType = contentType Then Theme_Apply(contentType)
                 Case Enums.ContentType.TVEpisode
@@ -13508,7 +13509,7 @@ Public Class frmMain
                     SetControlsEnabled(True)
                 End If
 
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 'fixing TV-Splitter issues
                 RemoveHandler scTV.SplitterMoved, AddressOf MediaList_SplitContianer_TV_SplitterMoved
                 RemoveHandler scTVSeasonsEpisodes.SplitterMoved, AddressOf MediaList_SplitContianer_TV_SplitterMoved
@@ -13624,7 +13625,7 @@ Public Class frmMain
     ''' <remarks></remarks>
     Private Sub MainTab_SetCount_Movieset()
         Dim currMainTabTag = MainTab_GetCurrentTag()
-        If currMainTabTag.ContentType = Enums.ContentType.MovieSet Then
+        If currMainTabTag.ContentType = Enums.ContentType.Movieset Then
             If dgvMovieSets.RowCount > 0 Then
                 tcMain.SelectedTab.Text = String.Format("{0} ({1})", currMainTabTag.Title, dgvMovieSets.RowCount)
             Else
@@ -13678,7 +13679,7 @@ Public Class frmMain
                 Dim nTabTag = DirectCast(mTabPage.Tag, Settings.MainTabSorting)
                 Dim mCount As Integer = Master.DB.View_GetMediaCount(nTabTag.DefaultList)
                 Select Case nTabTag.ContentType
-                    Case Enums.ContentType.Movie, Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movie, Enums.ContentType.Movieset
                         If mCount = -1 Then
                             mTabPage.Text = String.Format("{0} ({1})", nTabTag.Title, "SQL Error")
                             mTabPage.Enabled = False
@@ -14151,7 +14152,7 @@ Public Class frmMain
             Application.DoEvents()
             bwRewriteContent.WorkerReportsProgress = True
             bwRewriteContent.WorkerSupportsCancellation = True
-            bwRewriteContent.RunWorkerAsync(New Arguments With {.ContentType = Enums.ContentType.MovieSet, .Trigger = rewriteAll})
+            bwRewriteContent.RunWorkerAsync(New Arguments With {.ContentType = Enums.ContentType.Movieset, .Trigger = rewriteAll})
         Else
             SetControlsEnabled(True)
         End If
@@ -14206,7 +14207,7 @@ Public Class frmMain
                     Next
                     SQLtransaction.Commit()
                 End Using
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 For Each sRow As DataRow In dtMovieSets.Rows
                     dicIDs.Add(Convert.ToInt64(sRow.Item("idSet")), sRow.Item("ListTitle").ToString)
                 Next
@@ -14381,7 +14382,7 @@ Public Class frmMain
             Case Enums.ContentType.Movie
                 DataGridView = dgvMovies
                 DataTable = dtMovies
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 DataGridView = dgvMovieSets
                 DataTable = dtMovieSets
             Case Enums.ContentType.TVEpisode
@@ -16146,7 +16147,7 @@ Public Class frmMain
             Case Enums.ContentType.Movie
                 nDataGridView = dgvMovies
                 strIDName = "idMovie"
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 nDataGridView = dgvMovieSets
                 strIDName = "idSet"
             Case Enums.ContentType.TVEpisode
@@ -16200,7 +16201,7 @@ Public Class frmMain
                 Select Case progressValue.ContentType
                     Case Enums.ContentType.Movie
                         DataGridView_Row_Update_Movie(progressValue.ID)
-                    Case Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movieset
                         DataGridView_Row_Update_Movieset(progressValue.ID)
                     Case Enums.ContentType.TVEpisode
                         DataGridView_Row_Update_TVEpisode(progressValue.ID)
@@ -16256,7 +16257,7 @@ Public Class frmMain
         Select Case currThemeType
             Case Enums.ContentType.Movie
                 iState = InfoPanelState_Movie
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 iState = InfoPanelState_MovieSet
             Case Enums.ContentType.TVEpisode
                 iState = InfoPanelState_TVEpisode
@@ -16280,7 +16281,7 @@ Public Class frmMain
                     Select Case currThemeType
                         Case Enums.ContentType.Movie
                             InfoPanelState_Movie = 2
-                        Case Enums.ContentType.MovieSet
+                        Case Enums.ContentType.Movieset
                             InfoPanelState_MovieSet = 2
                         Case Enums.ContentType.TVEpisode
                             InfoPanelState_TVEpisode = 2
@@ -16297,7 +16298,7 @@ Public Class frmMain
                     Select Case currThemeType
                         Case Enums.ContentType.Movie
                             InfoPanelState_Movie = 0
-                        Case Enums.ContentType.MovieSet
+                        Case Enums.ContentType.Movieset
                             InfoPanelState_MovieSet = 0
                         Case Enums.ContentType.TVEpisode
                             InfoPanelState_TVEpisode = 0
@@ -16321,7 +16322,7 @@ Public Class frmMain
                     Select Case currThemeType
                         Case Enums.ContentType.Movie
                             InfoPanelState_Movie = 1
-                        Case Enums.ContentType.MovieSet
+                        Case Enums.ContentType.Movieset
                             InfoPanelState_MovieSet = 1
                         Case Enums.ContentType.TVEpisode
                             InfoPanelState_TVEpisode = 1
@@ -16338,7 +16339,7 @@ Public Class frmMain
                     Select Case currThemeType
                         Case Enums.ContentType.Movie
                             InfoPanelState_Movie = 0
-                        Case Enums.ContentType.MovieSet
+                        Case Enums.ContentType.Movieset
                             InfoPanelState_MovieSet = 0
                         Case Enums.ContentType.TVEpisode
                             InfoPanelState_TVEpisode = 0
@@ -16356,7 +16357,7 @@ Public Class frmMain
                 Select Case currThemeType
                     Case Enums.ContentType.Movie
                         InfoPanelState_Movie = 0
-                    Case Enums.ContentType.MovieSet
+                    Case Enums.ContentType.Movieset
                         InfoPanelState_MovieSet = 0
                     Case Enums.ContentType.TVEpisode
                         InfoPanelState_TVEpisode = 0
@@ -16494,7 +16495,7 @@ Public Class frmMain
                 Case "movie"
                     eContentType = Enums.ContentType.Movie
                 Case "movieset"
-                    eContentType = Enums.ContentType.MovieSet
+                    eContentType = Enums.ContentType.Movieset
                 Case "tvepisode"
                     eContentType = Enums.ContentType.TVEpisode
                 Case "tvseason"
@@ -16515,7 +16516,7 @@ Public Class frmMain
                                 For Each sRow As DataGridViewRow In dgvMovies.SelectedRows
                                     nTaskItem.ListOfID.Add(Convert.ToInt64(sRow.Cells("idMovie").Value))
                                 Next
-                            Case Enums.ContentType.MovieSet
+                            Case Enums.ContentType.Movieset
                                 For Each sRow As DataGridViewRow In dgvMovieSets.SelectedRows
                                     nTaskItem.ListOfID.Add(Convert.ToInt64(sRow.Cells("idSet").Value))
                                 Next
@@ -16848,7 +16849,7 @@ Public Class frmMain
                 Case "movie"
                     TaskManager_CreateTask(Enums.ContentType.Movie, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetLanguage, False, strLanguage)
                 Case "movieset"
-                    TaskManager_CreateTask(Enums.ContentType.MovieSet, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetLanguage, False, strLanguage)
+                    TaskManager_CreateTask(Enums.ContentType.Movieset, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetLanguage, False, strLanguage)
                 Case "tvshow"
                     TaskManager_CreateTask(Enums.ContentType.TVShow, Enums.SelectionType.Selected, TaskManager.TaskItem.TaskType.SetLanguage, False, strLanguage)
             End Select
@@ -17092,7 +17093,7 @@ Public Class frmMain
                 Master.eSettings.MovieSetGeneralCustomScrapeButtonScrapeType,
                 Master.DefaultOptions_Movieset,
                 ScrapeModifiers,
-                Enums.ContentType.MovieSet
+                Enums.ContentType.Movieset
                 )
         Else
             mnuScrapeMovieSets.ShowDropDown()
@@ -17610,7 +17611,7 @@ Public Class frmMain
             Case "movie"
                 eContentType = Enums.ContentType.Movie
             Case "movieset"
-                eContentType = Enums.ContentType.MovieSet
+                eContentType = Enums.ContentType.Movieset
             Case "tvepisode"
                 eContentType = Enums.ContentType.TVEpisode
             Case "tvseason"
@@ -17764,7 +17765,7 @@ Public Class frmMain
                     End Using
                 Case "movieset"
                     SetControlsEnabled(False)
-                    Using dlgCustomScraper As New dlgCustomScraper(Enums.ContentType.MovieSet)
+                    Using dlgCustomScraper As New dlgCustomScraper(Enums.ContentType.Movieset)
                         Dim CustomScraper As Structures.CustomUpdaterStruct = Nothing
                         CustomScraper = dlgCustomScraper.ShowDialog()
                         If Not CustomScraper.Canceled Then
@@ -17898,7 +17899,7 @@ Public Class frmMain
                 eContentType = Enums.ContentType.Movie
             Case "movieset"
                 ScrapeModifiers.Information = True
-                eContentType = Enums.ContentType.MovieSet
+                eContentType = Enums.ContentType.Movieset
             Case "tvepisode"
                 ScrapeModifiers.Episodes.Information = True
                 eContentType = Enums.ContentType.TVEpisode
@@ -18487,12 +18488,12 @@ Public Class frmMain
                 Dim o As ToolStripMenuItem = DirectCast(i, ToolStripMenuItem)
                 If o.Tag Is Nothing Then
                     o.Enabled = isEnabled AndAlso ((dgvMovies.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.Movie) OrElse
-                                                   (dgvMovieSets.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.MovieSet) OrElse
+                                                   (dgvMovieSets.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.Movieset) OrElse
                                                    (dgvTVShows.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.TV))
                 ElseIf TypeOf o.Tag Is Structures.ModulesMenus Then
                     Dim tagmenu As Structures.ModulesMenus = DirectCast(o.Tag, Structures.ModulesMenus)
                     o.Enabled = (isEnabled OrElse Not withTools) AndAlso (((tagmenu.IfTabMovies AndAlso currMainTabTag.ContentType = Enums.ContentType.Movie) OrElse
-                                                                           (tagmenu.IfTabMovieSets AndAlso currMainTabTag.ContentType = Enums.ContentType.MovieSet) OrElse
+                                                                           (tagmenu.IfTabMovieSets AndAlso currMainTabTag.ContentType = Enums.ContentType.Movieset) OrElse
                                                                            (tagmenu.IfTabTVShows AndAlso currMainTabTag.ContentType = Enums.ContentType.TV)) AndAlso
                                                                        ((tagmenu.ForMovies AndAlso (dgvMovies.RowCount > 0 OrElse tagmenu.IfNoMovies)) OrElse
                                                                         (tagmenu.ForMovieSets AndAlso (dgvMovieSets.RowCount > 0 OrElse tagmenu.IfNoMovieSets)) OrElse
@@ -18513,8 +18514,8 @@ Public Class frmMain
         mnuMainEdit.Enabled = isEnabled
         mnuScrapeMovies.Enabled = isEnabled AndAlso dgvMovies.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.Movie
         mnuScrapeMovies.Visible = currMainTabTag.ContentType = Enums.ContentType.Movie
-        mnuScrapeMovieSets.Enabled = isEnabled AndAlso dgvMovieSets.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.MovieSet
-        mnuScrapeMovieSets.Visible = currMainTabTag.ContentType = Enums.ContentType.MovieSet
+        mnuScrapeMovieSets.Enabled = isEnabled AndAlso dgvMovieSets.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.Movieset
+        mnuScrapeMovieSets.Visible = currMainTabTag.ContentType = Enums.ContentType.Movieset
         mnuScrapeTVShows.Enabled = isEnabled AndAlso dgvTVShows.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.TV
         mnuScrapeTVShows.Visible = currMainTabTag.ContentType = Enums.ContentType.TV
         mnuUpdate.Enabled = isEnabled
@@ -18677,7 +18678,7 @@ Public Class frmMain
             'Load view list for moviesets
             listViews_Moviesets.Clear()
             listViews_Moviesets.Add(Master.eLang.GetString(786, "Default List"), "moviesetlist")
-            For Each cList As String In Master.DB.View_GetList(Enums.ContentType.MovieSet)
+            For Each cList As String In Master.DB.View_GetList(Enums.ContentType.Movieset)
                 listViews_Moviesets.Add(Regex.Replace(cList, "sets-", String.Empty).Trim, cList)
             Next
             cbFilterLists_MovieSets.DataSource = listViews_Moviesets.ToList
@@ -18750,8 +18751,8 @@ Public Class frmMain
         End With
         mnuScrapeMovies.Enabled = (dgvMovies.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.Movie)
         mnuScrapeMovies.Visible = currMainTabTag.ContentType = Enums.ContentType.Movie
-        mnuScrapeMovieSets.Enabled = (dgvMovieSets.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.MovieSet)
-        mnuScrapeMovieSets.Visible = currMainTabTag.ContentType = Enums.ContentType.MovieSet
+        mnuScrapeMovieSets.Enabled = (dgvMovieSets.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.Movieset)
+        mnuScrapeMovieSets.Visible = currMainTabTag.ContentType = Enums.ContentType.Movieset
         mnuScrapeTVShows.Enabled = (dgvTVShows.RowCount > 0 AndAlso currMainTabTag.ContentType = Enums.ContentType.TV)
         mnuScrapeTVShows.Visible = currMainTabTag.ContentType = Enums.ContentType.TV
         cmnuTrayScrapeMovies.Enabled = dgvMovies.RowCount > 0

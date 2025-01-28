@@ -1,25 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>
-    </ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9B57D3AB-AF12-4012-B945-284C2448DC81}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <StartupObject>Ember_Media_Manager.My.MyApplication</StartupObject>
     <RootNamespace>Ember_Media_Manager</RootNamespace>
     <AssemblyName>Ember Media Manager</AssemblyName>
-    <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <PublishUrl>veröffentlichen\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -34,85 +24,57 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionExplicit>On</OptionExplicit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionCompare>Binary</OptionCompare>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup>
     <OptionStrict>On</OptionStrict>
   </PropertyGroup>
   <PropertyGroup>
-    <OptionInfer>On</OptionInfer>
-  </PropertyGroup>
-  <PropertyGroup>
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\EmberMM - $(Configuration) - $(Platform)\</OutputPath>
     <NoWarn>
     </NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisRuleDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <Optimize>false</Optimize>
     <DocumentationFile>
     </DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\EmberMM - $(Configuration) - $(Platform)\</OutputPath>
-    <Optimize>true</Optimize>
     <NoWarn>
     </NoWarn>
     <DebugType>None</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisLogFile>bin\Release\Ember Media Manager.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisRuleDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <DocumentationFile>
     </DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
     <OutputPath>..\EmberMM - $(Configuration) - $(Platform)\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>
     </NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\EmberMM - $(Configuration) - $(Platform)\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
-    <Optimize>true</Optimize>
     <NoWarn>
     </NoWarn>
     <DebugType>None</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -120,656 +82,214 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
     <OutputPath>..\EmberMM - Debug - AnyCPU\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
-    <Optimize>false</Optimize>
     <NoWarn>
     </NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DefineTrace>true</DefineTrace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\EmberMM - Release - AnyCPU\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
-    <Optimize>true</Optimize>
     <NoWarn>
     </NoWarn>
     <DebugType>None</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Design" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Messaging" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-  </ItemGroup>
-  <ItemGroup>
-    <Import Include="System" />
-    <Import Include="System.Collections" />
-    <Import Include="System.Collections.Generic" />
-    <Import Include="System.Data" />
     <Import Include="System.Drawing" />
-    <Import Include="System.Diagnostics" />
     <Import Include="System.Windows.Forms" />
-    <Import Include="System.Linq" />
-    <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="clsManager.vb" />
-    <Compile Include="clsScraperGridView.vb">
+    <Compile Update="clsScraperGridView.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="clsSettings.vb" />
-    <Compile Include="clsTheming.vb" />
-    <Compile Include="dlgEdit_TVEpisode.Designer.vb">
+    <Compile Update="dlgEdit_TVEpisode.Designer.vb">
       <DependentUpon>dlgEdit_TVEpisode.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgEdit_TVEpisode.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgAbout.Designer.vb">
+    <Compile Update="dlgAbout.Designer.vb">
       <DependentUpon>dlgAbout.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgAbout.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgAddEditActor.Designer.vb">
+    <Compile Update="dlgAddEditActor.Designer.vb">
       <DependentUpon>dlgAddEditActor.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgAddEditActor.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgCustomScraper.designer.vb">
+    <Compile Update="dlgCustomScraper.designer.vb">
       <DependentUpon>dlgCustomScraper.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgCustomScraper.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgDeleteConfirm.Designer.vb">
+    <Compile Update="dlgDeleteConfirm.Designer.vb">
       <DependentUpon>dlgDeleteConfirm.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgDeleteConfirm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgClearOrReplace.Designer.vb">
+    <Compile Update="dlgClearOrReplace.Designer.vb">
       <DependentUpon>dlgClearOrReplace.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgClearOrReplace.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgEdit_TVSeason.Designer.vb">
+    <Compile Update="dlgEdit_TVSeason.Designer.vb">
       <DependentUpon>dlgEdit_TVSeason.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgEdit_TVSeason.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgEdit_Movie.designer.vb">
+    <Compile Update="dlgEdit_Movie.designer.vb">
       <DependentUpon>dlgEdit_Movie.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgEdit_Movie.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgEdit_Movieset.designer.vb">
+    <Compile Update="dlgEdit_Movieset.designer.vb">
       <DependentUpon>dlgEdit_Movieset.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgEdit_Movieset.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgEdit_TVShow.Designer.vb">
+    <Compile Update="dlgEdit_TVShow.Designer.vb">
       <DependentUpon>dlgEdit_TVShow.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgEdit_TVShow.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgErrorViewer.Designer.vb">
+    <Compile Update="dlgErrorViewer.Designer.vb">
       <DependentUpon>dlgErrorViewer.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgErrorViewer.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgFileInfo.Designer.vb">
+    <Compile Update="dlgFileInfo.Designer.vb">
       <DependentUpon>dlgFileInfo.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgFileInfo.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgFIStreamEditor.Designer.vb">
+    <Compile Update="dlgFIStreamEditor.Designer.vb">
       <DependentUpon>dlgFIStreamEditor.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgFIStreamEditor.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgImageManual.Designer.vb">
+    <Compile Update="dlgImageManual.Designer.vb">
       <DependentUpon>dlgImageManual.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgImageManual.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgImageViewer.Designer.vb">
+    <Compile Update="dlgImageViewer.Designer.vb">
       <DependentUpon>dlgImageViewer.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgImageViewer.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgTagManager.Designer.vb">
+    <Compile Update="dlgTagManager.Designer.vb">
       <DependentUpon>dlgTagManager.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgTagManager.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgProfileSelect.Designer.vb">
+    <Compile Update="dlgProfileSelect.Designer.vb">
       <DependentUpon>dlgProfileSelect.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgProfileSelect.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgSource_Movie.Designer.vb">
+    <Compile Update="dlgSource_Movie.Designer.vb">
       <DependentUpon>dlgSource_Movie.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgSource_Movie.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgNewSet.Designer.vb">
+    <Compile Update="dlgNewSet.Designer.vb">
       <DependentUpon>dlgNewSet.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgNewSet.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgNewVersion.Designer.vb">
+    <Compile Update="dlgNewVersion.Designer.vb">
       <DependentUpon>dlgNewVersion.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgNewVersion.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgRestart.Designer.vb">
+    <Compile Update="dlgRestart.Designer.vb">
       <DependentUpon>dlgRestart.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgRestart.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgSettings.Designer.vb">
+    <Compile Update="dlgSettings.Designer.vb">
       <DependentUpon>dlgSettings.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgSettings.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgSortFiles.Designer.vb">
+    <Compile Update="dlgSortFiles.Designer.vb">
       <DependentUpon>dlgSortFiles.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgSortFiles.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgMediaFileSelect.Designer.vb">
+    <Compile Update="dlgMediaFileSelect.Designer.vb">
       <DependentUpon>dlgMediaFileSelect.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgMediaFileSelect.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgTVChangeEp.Designer.vb">
+    <Compile Update="dlgTVChangeEp.Designer.vb">
       <DependentUpon>dlgTVChangeEp.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgTVChangeEp.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgTVRegExProfiles.Designer.vb">
+    <Compile Update="dlgTVRegExProfiles.Designer.vb">
       <DependentUpon>dlgTVRegExProfiles.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgTVRegExProfiles.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgSource_TVShow.Designer.vb">
+    <Compile Update="dlgSource_TVShow.Designer.vb">
       <DependentUpon>dlgSource_TVShow.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgSource_TVShow.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgImgSelect.Designer.vb">
+    <Compile Update="dlgImgSelect.Designer.vb">
       <DependentUpon>dlgImgSelect.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgImgSelect.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmMain.Designer.vb">
+    <Compile Update="frmMain.Designer.vb">
       <DependentUpon>frmMain.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmMain.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovieset_Information.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovieset_Information.Designer.vb">
       <DependentUpon>frmMovieset_Information.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovieset_Information.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovieset_FileNaming.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovieset_FileNaming.Designer.vb">
       <DependentUpon>frmMovieset_FileNaming.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovieset_FileNaming.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovieset_GUI.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovieset_GUI.Designer.vb">
       <DependentUpon>frmMovieset_GUI.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovieset_GUI.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovieset_Image.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovieset_Image.Designer.vb">
       <DependentUpon>frmMovieset_Image.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovieset_Image.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Information.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovie_Information.Designer.vb">
       <DependentUpon>frmMovie_Information.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Information.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Information_TagsWhitelist.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovie_Information_TagsWhitelist.Designer.vb">
       <DependentUpon>frmMovie_Information_TagsWhitelist.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Information_TagsWhitelist.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_FileNaming.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovie_FileNaming.Designer.vb">
       <DependentUpon>frmMovie_FileNaming.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_FileNaming.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_GUI.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovie_GUI.Designer.vb">
       <DependentUpon>frmMovie_GUI.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_GUI.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Image.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovie_Image.Designer.vb">
       <DependentUpon>frmMovie_Image.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Image.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Source.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovie_Source.Designer.vb">
       <DependentUpon>frmMovie_Source.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Source.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Theme.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovie_Theme.Designer.vb">
       <DependentUpon>frmMovie_Theme.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Theme.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Trailer.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmMovie_Trailer.Designer.vb">
       <DependentUpon>frmMovie_Trailer.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmMovie_Trailer.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmOption_AVCodecMapping.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmOption_AVCodecMapping.Designer.vb">
       <DependentUpon>frmOption_AVCodecMapping.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmOption_AVCodecMapping.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmOption_Connection.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmOption_Connection.Designer.vb">
       <DependentUpon>frmOption_Connection.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmOption_Connection.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmOption_FileSystem.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmOption_FileSystem.Designer.vb">
       <DependentUpon>frmOption_FileSystem.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmOption_FileSystem.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmOption_Global.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmOption_Global.Designer.vb">
       <DependentUpon>frmOption_Global.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmOption_Global.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmOption_GUI.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmOption_GUI.Designer.vb">
       <DependentUpon>frmOption_GUI.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmOption_GUI.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Information.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmTV_Information.Designer.vb">
       <DependentUpon>frmTV_Information.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Information.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Information_SeasonTitleBlacklist.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmTV_Information_SeasonTitleBlacklist.Designer.vb">
       <DependentUpon>frmTV_Information_SeasonTitleBlacklist.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Information_SeasonTitleBlacklist.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_FileNaming.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmTV_FileNaming.Designer.vb">
       <DependentUpon>frmTV_FileNaming.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_FileNaming.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_GUI.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmTV_GUI.Designer.vb">
       <DependentUpon>frmTV_GUI.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_GUI.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Image.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmTV_Image.Designer.vb">
       <DependentUpon>frmTV_Image.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Image.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Source.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmTV_Source.Designer.vb">
       <DependentUpon>frmTV_Source.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Source.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Source_Regex.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmTV_Source_Regex.Designer.vb">
       <DependentUpon>frmTV_Source_Regex.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Source_Regex.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Theme.Designer.vb">
+    <Compile Update="MasterSettingsPanels\frmTV_Theme.Designer.vb">
       <DependentUpon>frmTV_Theme.vb</DependentUpon>
     </Compile>
-    <Compile Include="MasterSettingsPanels\frmTV_Theme.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="My Project\Application.Designer.vb">
+    <Compile Update="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
+    <Compile Update="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="My Project\Settings.Designer.vb">
+    <Compile Update="My Project\Settings.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="dlgEdit_TVEpisode.resx">
-      <DependentUpon>dlgEdit_TVEpisode.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgAbout.resx">
-      <DependentUpon>dlgAbout.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgAddEditActor.resx">
-      <DependentUpon>dlgAddEditActor.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgCustomScraper.resx">
-      <DependentUpon>dlgCustomScraper.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgDeleteConfirm.resx">
-      <DependentUpon>dlgDeleteConfirm.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgClearOrReplace.resx">
-      <DependentUpon>dlgClearOrReplace.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgEdit_TVSeason.resx">
-      <DependentUpon>dlgEdit_TVSeason.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgEdit_Movie.resx">
-      <DependentUpon>dlgEdit_Movie.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgEdit_Movieset.resx">
-      <DependentUpon>dlgEdit_Movieset.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgEdit_TVShow.resx">
-      <DependentUpon>dlgEdit_TVShow.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgErrorViewer.resx">
-      <DependentUpon>dlgErrorViewer.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgFileInfo.resx">
-      <DependentUpon>dlgFileInfo.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgFIStreamEditor.resx">
-      <DependentUpon>dlgFIStreamEditor.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgImageManual.resx">
-      <DependentUpon>dlgImageManual.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgImageViewer.resx">
-      <DependentUpon>dlgImageViewer.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgTagManager.resx">
-      <DependentUpon>dlgTagManager.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgProfileSelect.resx">
-      <DependentUpon>dlgProfileSelect.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgSource_Movie.resx">
-      <DependentUpon>dlgSource_Movie.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgNewSet.resx">
-      <DependentUpon>dlgNewSet.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgNewVersion.resx">
-      <DependentUpon>dlgNewVersion.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgRestart.resx">
-      <DependentUpon>dlgRestart.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgSettings.resx">
-      <DependentUpon>dlgSettings.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgSortFiles.resx">
-      <DependentUpon>dlgSortFiles.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgMediaFileSelect.resx">
-      <DependentUpon>dlgMediaFileSelect.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgTVChangeEp.resx">
-      <DependentUpon>dlgTVChangeEp.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgTVRegExProfiles.resx">
-      <DependentUpon>dlgTVRegExProfiles.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgSource_TVShow.resx">
-      <DependentUpon>dlgSource_TVShow.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgImgSelect.resx">
-      <DependentUpon>dlgImgSelect.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
-      <DependentUpon>frmMain.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovieset_Information.resx">
-      <DependentUpon>frmMovieset_Information.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovieset_FileNaming.resx">
-      <DependentUpon>frmMovieset_FileNaming.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovieset_GUI.resx">
-      <DependentUpon>frmMovieset_GUI.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovieset_Image.resx">
-      <DependentUpon>frmMovieset_Image.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovie_Information.resx">
-      <DependentUpon>frmMovie_Information.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovie_Information_TagsWhitelist.resx">
-      <DependentUpon>frmMovie_Information_TagsWhitelist.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovie_FileNaming.resx">
-      <DependentUpon>frmMovie_FileNaming.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovie_GUI.resx">
-      <DependentUpon>frmMovie_GUI.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovie_Image.resx">
-      <DependentUpon>frmMovie_Image.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovie_Source.resx">
-      <DependentUpon>frmMovie_Source.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovie_Theme.resx">
-      <DependentUpon>frmMovie_Theme.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmMovie_Trailer.resx">
-      <DependentUpon>frmMovie_Trailer.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmOption_AVCodecMapping.resx">
-      <DependentUpon>frmOption_AVCodecMapping.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmOption_Connection.resx">
-      <DependentUpon>frmOption_Connection.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmOption_FileSystem.resx">
-      <DependentUpon>frmOption_FileSystem.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmOption_Global.resx">
-      <DependentUpon>frmOption_Global.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmOption_GUI.resx">
-      <DependentUpon>frmOption_GUI.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmTV_Information.resx">
-      <DependentUpon>frmTV_Information.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmTV_Information_SeasonTitleBlacklist.resx">
-      <DependentUpon>frmTV_Information_SeasonTitleBlacklist.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmTV_FileNaming.resx">
-      <DependentUpon>frmTV_FileNaming.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmTV_GUI.resx">
-      <DependentUpon>frmTV_GUI.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmTV_Image.resx">
-      <DependentUpon>frmTV_Image.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmTV_Source.resx">
-      <DependentUpon>frmTV_Source.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmTV_Source_Regex.resx">
-      <DependentUpon>frmTV_Source_Regex.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterSettingsPanels\frmTV_Theme.resx">
-      <DependentUpon>frmTV_Theme.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="My Project\Resources.resx">
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="My Project\app.manifest" />
-    <None Include="My Project\Application.myapp">
+    <None Update="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
-    <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <CustomToolNamespace>My</CustomToolNamespace>
-      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\actor_silhouette.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\asc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\desc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\film.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\haslanguage.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\invalid.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\modules.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pages.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Play_Icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\process.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\puzzle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Splash.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\star.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\starhalf.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\television.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\valid.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Wizard.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Flags\rating_default.png">
@@ -799,8 +319,6 @@
     <Content Include="Images\Flags\rating_userrating.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\hasKeyart.png" />
-    <None Include="Resources\edit.png" />
     <Content Include="Themes\FullHD-DarkBlue.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -810,9 +328,6 @@
     <Content Include="Themes\FullHD-Default.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\valid2.png" />
-    <None Include="Resources\set.png" />
-    <None Include="Resources\imdb.png" />
     <Content Include="Images\Countries\ar.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1074,39 +589,8 @@
     <Content Include="Images\Ratings\uk\uk_R18.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\hasSet.png" />
-    <None Include="Resources\ad.png" />
-    <None Include="Resources\heart.png" />
-    <None Include="Resources\colRating.png" />
-    <None Include="Resources\colUserRating.png" />
-    <None Include="Resources\bug.png" />
     <Content Include="Resources\msaa.png" />
-    <None Include="Resources\starempty.png" />
-    <None Include="Resources\tmdb.png" />
-    <None Include="Resources\undo.png" />
-    <None Include="Resources\noposter.jpg" />
-    <None Include="Resources\tvtunes.png" />
-    <None Include="Resources\preview.png" />
-    <None Include="Resources\paypal.png" />
-    <None Include="Resources\patreon.png" />
     <Content Include="Resources\tvdb.png" />
-    <None Include="Resources\hasBanner.png" />
-    <None Include="Resources\hasCharacterArt.png" />
-    <None Include="Resources\hasClearArt.png" />
-    <None Include="Resources\hasClearLogo.png" />
-    <None Include="Resources\hasDiscArt.png" />
-    <None Include="Resources\hasExtrafanart.png" />
-    <None Include="Resources\hasExtrathumb.png" />
-    <None Include="Resources\hasFanart.png" />
-    <None Include="Resources\hasNfo.png" />
-    <None Include="Resources\hasPoster.png" />
-    <None Include="Resources\hasSubtitle.png" />
-    <None Include="Resources\hasTheme.png" />
-    <None Include="Resources\hasTrailer.png" />
-    <None Include="Resources\haslandscape.png" />
-    <None Include="Resources\hasMeta.png" />
-    <None Include="Resources\hasActorThumb.png" />
-    <None Include="Resources\doRating.png" />
     <Content Include="Resources\menuAdd.png" />
     <None Include="x64\ffmpeg.exe" />
     <None Include="x64\mediainfo-rar\mediainfo-rar.exe" />
@@ -5492,15 +4976,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="logo.ico" />
-    <None Include="Resources\haswatched.png" />
-    <None Include="Resources\EmberSplashScreen.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EmberAPI\EmberAPI.vbproj">
-      <Project>{208AA35E-C6AE-4D2D-A9DD-B6EFD19A4279}</Project>
-      <Name>EmberAPI</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <ProjectReference Include="..\EmberAPI\EmberAPI.vbproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bin\" />
@@ -5518,127 +4996,57 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.NETCore.Platforms">
-      <Version>6.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="NETStandard.Library">
-      <Version>2.0.3</Version>
+      <Version>8.0.0-preview.7.23375.6</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
       <Version>4.7.14</Version>
     </PackageReference>
-    <PackageReference Include="System.Collections">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Collections.Concurrent">
-      <Version>4.3.0</Version>
-    </PackageReference>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="9.0.1" />
     <PackageReference Include="System.Data.SQLite.Core">
       <Version>1.0.115.5</Version>
     </PackageReference>
-    <PackageReference Include="System.Diagnostics.Debug">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Diagnostics.Tools">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Diagnostics.Tracing">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Globalization">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.IO">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.IO.Compression">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Linq">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Linq.Expressions">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Http">
-      <Version>4.3.4</Version>
-    </PackageReference>
-    <PackageReference Include="System.Net.Primitives">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.ObjectModel">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reflection">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reflection.Extensions">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reflection.Primitives">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Resources.ResourceManager">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.Extensions">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.InteropServices">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.Numerics">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.Encoding">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.Encoding.Extensions">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.RegularExpressions">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading.Tasks">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Threading.Timer">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Xml.ReaderWriter">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Xml.XDocument">
-      <Version>4.3.0</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.SystemWebAdapters" Version="1.3.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.1" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.1" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.1" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.1" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="8.1.1" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <ItemGroup>
+    <Compile Remove="dlgDVDProfilerSelect.Designer.vb" />
+    <Compile Remove="dlgDVDProfilerSelect.vb" />
+    <Compile Remove="dlgOfflineHolder.designer.vb" />
+    <Compile Remove="dlgOfflineHolder.vb" />
+    <Compile Remove="MasterSettingsPanels\frmMovie_Data_Metadata.Designer.vb" />
+    <Compile Remove="MasterSettingsPanels\frmMovie_Data_Metadata.vb" />
+    <Compile Remove="MasterSettingsPanels\frmMovie_FileNaming_Renaming.Designer.vb" />
+    <Compile Remove="MasterSettingsPanels\frmMovie_FileNaming_Renaming.vb" />
+    <Compile Remove="MasterSettingsPanels\frmOption_VideoSourceMapping.Designer.vb" />
+    <Compile Remove="MasterSettingsPanels\frmOption_VideoSourceMapping.vb" />
+    <Compile Remove="MasterSettingsPanels\frmTV_FileNaming_Renaming.Designer.vb" />
+    <Compile Remove="MasterSettingsPanels\frmTV_FileNaming_Renaming.vb" />
+    <EmbeddedResource Remove="dlgDVDProfilerSelect.resx" />
+    <EmbeddedResource Remove="dlgOfflineHolder.resx" />
+    <EmbeddedResource Remove="MasterSettingsPanels\frmMovie_FileNaming_Renaming.resx" />
+    <EmbeddedResource Remove="MasterSettingsPanels\frmOption_VideoSourceMapping.resx" />
+    <EmbeddedResource Remove="MasterSettingsPanels\frmTV_FileNaming_Renaming.resx" />
+  </ItemGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <AssemblyTitle>Ember Media Manager</AssemblyTitle>
+    <Description>http://forum.xbmc.org/forumdisplay.php%3ffid=195</Description>
+    <Company>Ember Media Manager</Company>
+    <Product>Ember Media Manager</Product>
+    <Copyright>Copyright ©  2021</Copyright>
+    <AssemblyVersion>1.11.1.0</AssemblyVersion>
+    <FileVersion>1.11.1.0</FileVersion>
   </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
