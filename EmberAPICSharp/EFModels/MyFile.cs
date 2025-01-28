@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmberAPI.EFModels;
 
+/// <summary>
+/// Named MyFile to not conflict with System.IO
+/// </summary>
 [Table("file")]
 [Index("Path", Name = "UniqueFilename", IsUnique = true)]
-public partial class File
+public partial class MyFile
 {
     [Key]
     [Column("idFile")]

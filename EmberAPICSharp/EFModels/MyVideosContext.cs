@@ -8,10 +8,11 @@ namespace EmberAPI.EFModels;
 
 public partial class MyVideosContext : DbContext
 {
-    public MyVideosContext(DbContextOptions<MyVideosContext> options)
-        : base(options)
+    private string _dbPath;
+    public MyVideosContext(string dbPath)
     {
-    }
+        _dbPath = dbPath;
+    }    
 
     public virtual DbSet<ActorLink> ActorLinks { get; set; }
 
@@ -37,7 +38,7 @@ public partial class MyVideosContext : DbContext
 
     public virtual DbSet<Excludedpath> Excludedpaths { get; set; }
 
-    public virtual DbSet<File> Files { get; set; }
+    public virtual DbSet<MyFile> Files { get; set; }
 
     public virtual DbSet<FileTemp> FileTemps { get; set; }
 
@@ -101,6 +102,11 @@ public partial class MyVideosContext : DbContext
 
     public virtual DbSet<WriterLink> WriterLinks { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlite($"Data Source={_dbPath}");
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Art>(entity =>
@@ -129,7 +135,7 @@ public partial class MyVideosContext : DbContext
             entity.ToView("episodelist");
         });
 
-        modelBuilder.Entity<File>(entity =>
+        modelBuilder.Entity<MyFile>(entity =>
         {
             entity.Property(e => e.IdFile).ValueGeneratedNever();
         });
@@ -137,12 +143,13 @@ public partial class MyVideosContext : DbContext
         modelBuilder.Entity<Genre>(entity =>
         {
             entity.Property(e => e.IdGenre).ValueGeneratedNever();
-        });
+        });        
 
         modelBuilder.Entity<Movie>(entity =>
         {
             entity.Property(e => e.IdMovie).ValueGeneratedNever();
-            entity.Property(e => e.IdFile).HasDefaultValue(-1);
+            entity.Property(e => e.FileId).HasDefaultValue(-1);
+            entity.HasOne(e => e.File);
         });
 
         modelBuilder.Entity<Movielist>(entity =>

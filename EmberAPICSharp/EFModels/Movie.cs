@@ -21,7 +21,9 @@ public partial class Movie
     public int IdSource { get; set; }
 
     [Column("idFile")]
-    public int IdFile { get; set; }
+    public int FileId { get; set; }
+
+    public MyFile File { get; set; }
 
     [Column("isSingle", TypeName = "bool")]
     public bool? IsSingle { get; set; }
