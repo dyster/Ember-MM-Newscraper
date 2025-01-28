@@ -1,4 +1,4 @@
-﻿namespace EmberAPICSharp
+﻿namespace EmberAPI
 {
     public class Class1
     {
