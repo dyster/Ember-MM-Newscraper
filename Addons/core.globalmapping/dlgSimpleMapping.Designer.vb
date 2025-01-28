@@ -197,16 +197,16 @@ Partial Class dlgSimpleMapping
 
     End Sub
 
-    Friend WithEvents StatusStrip1 As Windows.Forms.StatusStrip
-    Friend WithEvents pnlMain As Windows.Forms.Panel
-    Friend WithEvents tblMain As Windows.Forms.TableLayoutPanel
-    Friend WithEvents pnlBottom As Windows.Forms.Panel
-    Friend WithEvents tblBottom As Windows.Forms.TableLayoutPanel
-    Friend WithEvents btnOK As Windows.Forms.Button
-    Friend WithEvents btnCancel As Windows.Forms.Button
-    Friend WithEvents tsslSpring As Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents tspbStatus As Windows.Forms.ToolStripProgressBar
-    Friend WithEvents dgvMappings As Windows.Forms.DataGridView
-    Friend WithEvents colInput As Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colMapping As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
+    Friend WithEvents pnlMain As System.Windows.Forms.Panel
+    Friend WithEvents tblMain As System.Windows.Forms.TableLayoutPanel
+    Friend WithEvents pnlBottom As System.Windows.Forms.Panel
+    Friend WithEvents tblBottom As System.Windows.Forms.TableLayoutPanel
+    Friend WithEvents btnOK As System.Windows.Forms.Button
+    Friend WithEvents btnCancel As System.Windows.Forms.Button
+    Friend WithEvents tsslSpring As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents tspbStatus As System.Windows.Forms.ToolStripProgressBar
+    Friend WithEvents dgvMappings As System.Windows.Forms.DataGridView
+    Friend WithEvents colInput As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents colMapping As System.Windows.Forms.DataGridViewTextBoxColumn
 End Class

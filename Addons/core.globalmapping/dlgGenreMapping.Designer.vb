@@ -453,11 +453,11 @@ Partial Class dlgGenreMapping
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents pnlMain As System.Windows.Forms.Panel
-    Friend WithEvents gbImage As System.Windows.Forms.GroupBox
-    Friend WithEvents btnImageChange As System.Windows.Forms.Button
-    Friend WithEvents pbImage As System.Windows.Forms.PictureBox
-    Friend WithEvents dgvMappings As System.Windows.Forms.DataGridView
+    Friend WithEvents pnlMain As Panel
+    Friend WithEvents gbImage As GroupBox
+    Friend WithEvents btnImageChange As Button
+    Friend WithEvents pbImage As PictureBox
+    Friend WithEvents dgvMappings As DataGridView
     Friend WithEvents dgvGenres As System.Windows.Forms.DataGridView
     Friend WithEvents lblMappingFilter As System.Windows.Forms.Label
     Friend WithEvents cbMappingFilter As System.Windows.Forms.ComboBox
@@ -465,19 +465,19 @@ Partial Class dlgGenreMapping
     Friend WithEvents btnMappingAdd As System.Windows.Forms.Button
     Friend WithEvents btnGenreRemove As System.Windows.Forms.Button
     Friend WithEvents btnGenreAdd As System.Windows.Forms.Button
-    Friend WithEvents btnImageRemove As Windows.Forms.Button
-    Friend WithEvents MappingSearchString As Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents GenreEnabled As Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents GenreName As Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents btnGenreConfirmAll As Windows.Forms.Button
-    Friend WithEvents btnGenreConfirm As Windows.Forms.Button
-    Friend WithEvents btnMappingConfirmAll As Windows.Forms.Button
-    Friend WithEvents btnMappingConfirm As Windows.Forms.Button
-    Friend WithEvents btnOK As Windows.Forms.Button
-    Friend WithEvents btnCancel As Windows.Forms.Button
-    Friend WithEvents StatusStrip1 As Windows.Forms.StatusStrip
-    Friend WithEvents tsslSpring As Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents tspbStatus As Windows.Forms.ToolStripProgressBar
-    Friend WithEvents tblMain As Windows.Forms.TableLayoutPanel
-    Friend WithEvents tblImage As Windows.Forms.TableLayoutPanel
+    Friend WithEvents btnImageRemove As Button
+    Friend WithEvents MappingSearchString As DataGridViewTextBoxColumn
+    Friend WithEvents GenreEnabled As DataGridViewCheckBoxColumn
+    Friend WithEvents GenreName As DataGridViewTextBoxColumn
+    Friend WithEvents btnGenreConfirmAll As Button
+    Friend WithEvents btnGenreConfirm As Button
+    Friend WithEvents btnMappingConfirmAll As Button
+    Friend WithEvents btnMappingConfirm As Button
+    Friend WithEvents btnOK As Button
+    Friend WithEvents btnCancel As Button
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents tsslSpring As ToolStripStatusLabel
+    Friend WithEvents tspbStatus As ToolStripProgressBar
+    Friend WithEvents tblMain As TableLayoutPanel
+    Friend WithEvents tblImage As TableLayoutPanel
 End Class
