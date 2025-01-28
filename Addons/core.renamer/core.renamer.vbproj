@@ -1,291 +1,157 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
-    <SchemaVersion>
-    </SchemaVersion>
-    <ProjectGuid>{EAAB0601-6478-44D2-A39C-89B0850D7833}</ProjectGuid>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
-    <RootNamespace>core.renamer</RootNamespace>
-    <AssemblyName>core.renamer</AssemblyName>
-    <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionExplicit>On</OptionExplicit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionCompare>Binary</OptionCompare>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup>
     <OptionStrict>On</OptionStrict>
   </PropertyGroup>
-  <PropertyGroup>
-    <OptionInfer>On</OptionInfer>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Debug - x86\Addons\core.renamer\</OutputPath>
     <NoWarn>
     </NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisLogFile>..\..\EmberMM\Addons\generic.EmberCore.BulkRename.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Release - x86\Addons\core.renamer\</OutputPath>
-    <Optimize>true</Optimize>
     <NoWarn>
     </NoWarn>
     <DebugType>None</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisLogFile>..\..\EmberMM\Addons\generic.EmberCore.BulkRename.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Debug - x64\Addons\core.renamer\</OutputPath>
     <NoWarn>
     </NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Release - x64\Addons\core.renamer\</OutputPath>
-    <Optimize>true</Optimize>
     <NoWarn>
     </NoWarn>
     <DebugType>None</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Debug - AnyCPU\Addons\core.renamer\</OutputPath>
     <NoWarn>
     </NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Release - AnyCPU\Addons\core.renamer\</OutputPath>
-    <Optimize>true</Optimize>
     <NoWarn>
     </NoWarn>
     <DebugType>None</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core">
+    <Reference Update="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Xml.Linq">
+    <Reference Update="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Import Include="System" />
-    <Import Include="System.Collections" />
-    <Import Include="System.Collections.Generic" />
-    <Import Include="System.Data" />
-    <Import Include="System.Diagnostics" />
     <Import Include="System.Drawing" />
-    <Import Include="System.Linq" />
     <Import Include="System.Windows.Forms" />
-    <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsRenamer.vb" />
-    <Compile Include="dlgBulkRename_Movie.designer.vb">
+    <Compile Update="dlgBulkRename_Movie.designer.vb">
       <DependentUpon>dlgBulkRename_Movie.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgBulkRename_Movie.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgHelpTips.Designer.vb">
+    <Compile Update="dlgHelpTips.Designer.vb">
       <DependentUpon>dlgHelpTips.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgHelpTips.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgRenameManual_TVShow.Designer.vb">
+    <Compile Update="dlgRenameManual_TVShow.Designer.vb">
       <DependentUpon>dlgRenameManual_TVShow.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgRenameManual_TVShow.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgRenameManual_TVEpisode.Designer.vb">
+    <Compile Update="dlgRenameManual_TVEpisode.Designer.vb">
       <DependentUpon>dlgRenameManual_TVEpisode.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgRenameManual_TVEpisode.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgRenameManual_Movie.Designer.vb">
+    <Compile Update="dlgRenameManual_Movie.Designer.vb">
       <DependentUpon>dlgRenameManual_Movie.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgRenameManual_Movie.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="dlgBulkRename_TV.Designer.vb">
+    <Compile Update="dlgBulkRename_TV.Designer.vb">
       <DependentUpon>dlgBulkRename_TV.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgBulkRename_TV.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSettingsHolder.Designer.vb">
+    <Compile Update="frmSettingsHolder.Designer.vb">
       <DependentUpon>frmSettingsHolder.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSettingsHolder.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="clsAddon.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="My Project\Application.Designer.vb">
+    <Compile Update="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
+    <Compile Update="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="My Project\Settings.Designer.vb">
+    <Compile Update="My Project\Settings.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="dlgBulkRename_Movie.resx">
-      <DependentUpon>dlgBulkRename_Movie.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgHelpTips.resx">
-      <DependentUpon>dlgHelpTips.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgRenameManual_TVShow.resx">
-      <DependentUpon>dlgRenameManual_TVShow.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgRenameManual_TVEpisode.resx">
-      <DependentUpon>dlgRenameManual_TVEpisode.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgRenameManual_Movie.resx">
-      <DependentUpon>dlgRenameManual_Movie.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="dlgBulkRename_TV.resx">
-      <DependentUpon>dlgBulkRename_TV.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSettingsHolder.resx">
-      <DependentUpon>frmSettingsHolder.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="My Project\Resources.resx">
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="My Project\Application.myapp">
+    <None Update="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <CustomToolNamespace>My</CustomToolNamespace>
-      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EmberAPI\EmberAPI.vbproj">
-      <Project>{208AA35E-C6AE-4D2D-A9DD-B6EFD19A4279}</Project>
-      <Name>EmberAPI</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <ProjectReference Include="..\..\EmberAPI\EmberAPI.vbproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="NLog">
       <Version>4.7.14</Version>
     </PackageReference>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Data.SQLite.Core">
       <Version>1.0.115.5</Version>
     </PackageReference>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.1" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.1" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.1" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.1" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="8.1.1" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <AssemblyTitle>core.renamer</AssemblyTitle>
+    <Description>http://forum.xbmc.org/forumdisplay.php%3ffid=195</Description>
+    <Company>Ember Media Manager</Company>
+    <Product>core.renamer</Product>
+    <Copyright>Copyright © 2022</Copyright>
+    <AssemblyVersion>1.12.0.0</AssemblyVersion>
+    <FileVersion>1.12.0.0</FileVersion>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
