@@ -198,10 +198,10 @@ Partial Class frmSettingsHolder
     Friend WithEvents lblByName As System.Windows.Forms.Label
     Friend WithEvents btnLoadDefaultsByName As System.Windows.Forms.Button
     Friend WithEvents dgvByExtension As System.Windows.Forms.DataGridView
-    Friend WithEvents tblMain As Windows.Forms.TableLayoutPanel
-    Friend WithEvents lblByExtension As Windows.Forms.Label
-    Friend WithEvents colByExtensionExtension As Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colByExtensionMapping As Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colByFilenameRegex As Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colByFilenameMapping As Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents tblMain As System.Windows.Forms.TableLayoutPanel
+    Friend WithEvents lblByExtension As System.Windows.Forms.Label
+    Friend WithEvents colByExtensionExtension As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents colByExtensionMapping As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents colByFilenameRegex As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents colByFilenameMapping As System.Windows.Forms.DataGridViewTextBoxColumn
 End Class
