@@ -1,0 +1,221 @@
+﻿{
+   "CodeGenerationMode": 5,
+   "ContextClassName": "MyVideosContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "EFModels",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "EmberAPI",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "actor_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "art",
+         "ObjectType": 0
+      },
+      {
+         "Name": "certification",
+         "ObjectType": 0
+      },
+      {
+         "Name": "certification_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "certification_temp",
+         "ObjectType": 0
+      },
+      {
+         "Name": "country",
+         "ObjectType": 0
+      },
+      {
+         "Name": "country_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "creator_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "director_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "episode",
+         "ObjectType": 0
+      },
+      {
+         "Name": "excludedpath",
+         "ObjectType": 0
+      },
+      {
+         "Name": "file",
+         "ObjectType": 0
+      },
+      {
+         "Name": "file_temp",
+         "ObjectType": 0
+      },
+      {
+         "Name": "genre",
+         "ObjectType": 0
+      },
+      {
+         "Name": "genre_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "gueststar_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "movie",
+         "ObjectType": 0
+      },
+      {
+         "Name": "MoviesAStreams",
+         "ObjectType": 0
+      },
+      {
+         "Name": "movieset",
+         "ObjectType": 0
+      },
+      {
+         "Name": "movieset_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "moviesource",
+         "ObjectType": 0
+      },
+      {
+         "Name": "MoviesSubs",
+         "ObjectType": 0
+      },
+      {
+         "Name": "MoviesVStreams",
+         "ObjectType": 0
+      },
+      {
+         "Name": "person",
+         "ObjectType": 0
+      },
+      {
+         "Name": "rating",
+         "ObjectType": 0
+      },
+      {
+         "Name": "season",
+         "ObjectType": 0
+      },
+      {
+         "Name": "streamdetail",
+         "ObjectType": 0
+      },
+      {
+         "Name": "studio",
+         "ObjectType": 0
+      },
+      {
+         "Name": "studio_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "tag",
+         "ObjectType": 0
+      },
+      {
+         "Name": "tag_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "TVAStreams",
+         "ObjectType": 0
+      },
+      {
+         "Name": "tvshow",
+         "ObjectType": 0
+      },
+      {
+         "Name": "tvshow_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "tvshowsource",
+         "ObjectType": 0
+      },
+      {
+         "Name": "TVSubs",
+         "ObjectType": 0
+      },
+      {
+         "Name": "TVVStreams",
+         "ObjectType": 0
+      },
+      {
+         "Name": "uniqueid",
+         "ObjectType": 0
+      },
+      {
+         "Name": "writer_link",
+         "ObjectType": 0
+      },
+      {
+         "Name": "episodelist",
+         "ObjectType": 3
+      },
+      {
+         "Name": "movielist",
+         "ObjectType": 3
+      },
+      {
+         "Name": "moviesetlist",
+         "ObjectType": 3
+      },
+      {
+         "Name": "seasonlist",
+         "ObjectType": 3
+      },
+      {
+         "Name": "tvshowlist",
+         "ObjectType": 3
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDatabaseNamesForRoutines": true,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": true,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false,
+   "UseT4Split": false
+}
