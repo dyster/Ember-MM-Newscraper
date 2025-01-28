@@ -1250,7 +1250,7 @@ Public Class Database
                     SQLcommand.ExecuteNonQuery()
                 End Using
                 Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-                    SQLcommand.CommandText = "UPDATE sets SET New = (?);"
+                    SQLcommand.CommandText = "UPDATE movieset SET New = (?);"
                     Dim parNew As SQLiteParameter = SQLcommand.Parameters.Add("parNew", DbType.Boolean, 0, "New")
                     parNew.Value = False
                     SQLcommand.ExecuteNonQuery()
@@ -1262,7 +1262,7 @@ Public Class Database
                     SQLShowcommand.ExecuteNonQuery()
                 End Using
                 Using SQLSeasoncommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-                    SQLSeasoncommand.CommandText = "UPDATE seasons SET New = (?);"
+                    SQLSeasoncommand.CommandText = "UPDATE season SET New = (?);"
                     Dim parSeasonNew As SQLiteParameter = SQLSeasoncommand.Parameters.Add("parSeasonNew", DbType.Boolean, 0, "New")
                     parSeasonNew.Value = False
                     SQLSeasoncommand.ExecuteNonQuery()
