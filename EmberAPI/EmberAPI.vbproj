@@ -405,6 +405,9 @@
   <ItemGroup>
     <Compile Remove="clsAPIDVDProfiler.vb" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EmberAPICSharp\EmberAPICSharp.csproj" />
+  </ItemGroup>
   <PropertyGroup>
     <AssemblyTitle>EmberAPI</AssemblyTitle>
     <Description>http://forum.xbmc.org/forumdisplay.php%3ffid=195</Description>

@@ -18,6 +18,7 @@
 ' # along with Ember Media Manager.  If not, see <http://www.gnu.org/licenses/>. #
 ' ################################################################################
 
+Imports EmberAPI.EFModels
 Imports NLog
 Imports System.Data
 Imports System.Data.SQLite
@@ -40,6 +41,7 @@ Public Class Database
     Protected _myvideosDBConn As SQLiteConnection
     ' NOTE: This will use another DB because: can grow alot, Don't want to stress Media DB with this stuff
     'Protected _jobsDBConn As SQLiteConnection
+    Protected _myvideosEFConn As MyVideosContext
 
 #End Region 'Fields
 
@@ -1377,6 +1379,10 @@ Public Class Database
             Close_MyVideos()
             File.Delete(MyVideosDBFile)
         End Try
+
+        _myvideosEFConn = New MyVideosContext(MyVideosDBFile)
+
+
         Return isNew
     End Function
 
@@ -1889,20 +1895,28 @@ Public Class Database
 
     Public Function GetAll_Paths_Movie() As List(Of String)
         Dim nList As New List(Of String)
-        Dim mPath As String = String.Empty
-        Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = "SELECT MoviePath FROM movie;"
-            Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                While SQLreader.Read
-                    mPath = SQLreader("MoviePath").ToString.ToLower
-                    If Master.eSettings.FileSystemNoStackExts.Contains(Path.GetExtension(mPath)) Then
-                        nList.Add(mPath)
-                    Else
-                        nList.Add(FileUtils.Common.RemoveStackingMarkers(mPath))
-                    End If
-                End While
-            End Using
-        End Using
+        For Each mPath As String In _myvideosEFConn.Movies.Select(Function(m) m.File.Path)
+            If Master.eSettings.FileSystemNoStackExts.Contains(Path.GetExtension(mPath)) Then
+                nList.Add(mPath)
+            Else
+                nList.Add(FileUtils.Common.RemoveStackingMarkers(mPath))
+            End If
+        Next
+
+        'Dim mPath As String = String.Empty
+        'Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
+        '    SQLcommand.CommandText = "SELECT MoviePath FROM movie;"
+        '    Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
+        '        While SQLreader.Read
+        '            mPath = SQLreader("MoviePath").ToString.ToLower
+        '            If Master.eSettings.FileSystemNoStackExts.Contains(Path.GetExtension(mPath)) Then
+        '                nList.Add(mPath)
+        '            Else
+        '                nList.Add(FileUtils.Common.RemoveStackingMarkers(mPath))
+        '            End If
+        '        End While
+        '    End Using
+        'End Using
         Return nList
     End Function
 
