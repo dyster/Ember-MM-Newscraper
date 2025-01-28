@@ -73,8 +73,8 @@ Namespace Kodi
             'now initialize new client object
             _kodi = New Client(platformServices, _currenthost.Address, _currenthost.Port, _currenthost.Username, _currenthost.Password)
             'Listen to Kodi Events
-            'AddHandler _kodi.VideoLibrary.OnScanFinished, AddressOf VideoLibrary_OnScanFinished
-            'AddHandler _kodi.VideoLibrary.OnCleanFinished, AddressOf VideoLibrary_OnCleanFinished
+            'AddHandler _kodi.VideoLibrary.OnScanFinished, AddressOf XBMCRPC.VideoLibrary_OnScanFinished
+            'AddHandler _kodi.VideoLibrary.OnCleanFinished, AddressOf XBMCRPC.VideoLibrary_OnCleanFinished
             '_kodi.StartNotificationListener()
         End Sub
         ''' <summary>
@@ -82,7 +82,7 @@ Namespace Kodi
         ''' </summary>
         ''' <returns>list of kodi movies, Nothing: error</returns>
         ''' <remarks></remarks>
-        Private Async Function GetAll_Movies() As Task(Of VideoLibrary.GetMoviesResponse)
+        Private Async Function GetAll_Movies() As Task(Of XBMCRPC.VideoLibrary.GetMoviesResponse)
             If _kodi Is Nothing Then
                 logger.Error("[APIKodi] GetAllMovies: No host initialized! Abort!")
                 Return Nothing
@@ -101,7 +101,7 @@ Namespace Kodi
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Async Function GetAll_MovieSets() As Task(Of VideoLibrary.GetMovieSetsResponse)
+        Private Async Function GetAll_MovieSets() As Task(Of XBMCRPC.VideoLibrary.GetMovieSetsResponse)
             If _kodi Is Nothing Then
                 logger.Error("[APIKodi] GetAllMovieSets: No host initialized! Abort!")
                 Return Nothing
@@ -116,7 +116,7 @@ Namespace Kodi
             End Try
         End Function
 
-        Private Async Function GetAll_TVEpisodes() As Task(Of VideoLibrary.GetEpisodesResponse)
+        Private Async Function GetAll_TVEpisodes() As Task(Of XBMCRPC.VideoLibrary.GetEpisodesResponse)
             If _kodi Is Nothing Then
                 logger.Error("[APIKodi] GetAllTVEpisodes: No host initialized! Abort!")
                 Return Nothing
@@ -124,7 +124,7 @@ Namespace Kodi
 
             Dim response_TVShows = Await GetAll_TVShows().ConfigureAwait(False)
             If response_TVShows IsNot Nothing AndAlso response_TVShows.tvshows IsNot Nothing AndAlso response_TVShows.tvshows.Count > 0 Then
-                Dim lstTVEpisodes As New VideoLibrary.GetEpisodesResponse With {.episodes = New List(Of Video.Details.Episode)}
+                Dim lstTVEpisodes As New XBMCRPC.VideoLibrary.GetEpisodesResponse With {.episodes = New List(Of Video.Details.Episode)}
                 For Each nTVShow In response_TVShows.tvshows
                     Dim response_TVEpisodes = Await GetAll_TVEpisodes(nTVShow.tvshowid)
                     If response_TVEpisodes IsNot Nothing AndAlso response_TVEpisodes.episodes.Count > 0 Then
@@ -136,7 +136,7 @@ Namespace Kodi
             Return Nothing
         End Function
 
-        Private Async Function GetAll_TVEpisodes(ByVal ShowID As Integer) As Task(Of VideoLibrary.GetEpisodesResponse)
+        Private Async Function GetAll_TVEpisodes(ByVal ShowID As Integer) As Task(Of XBMCRPC.VideoLibrary.GetEpisodesResponse)
             If _kodi Is Nothing Then
                 logger.Error("[APIKodi] GetAllTVEpisodes: No host initialized! Abort!")
                 Return Nothing
@@ -144,7 +144,7 @@ Namespace Kodi
 
             Dim response_TVSeasons = Await GetAll_TVSeasons(ShowID).ConfigureAwait(False)
             If response_TVSeasons IsNot Nothing AndAlso response_TVSeasons.seasons IsNot Nothing AndAlso response_TVSeasons.seasons.Count > 0 Then
-                Dim lstTVEpisodes As New VideoLibrary.GetEpisodesResponse With {.episodes = New List(Of Video.Details.Episode)}
+                Dim lstTVEpisodes As New XBMCRPC.VideoLibrary.GetEpisodesResponse With {.episodes = New List(Of Video.Details.Episode)}
                 For Each nTVSeason In response_TVSeasons.seasons
                     Dim response_TVEpisodes = Await GetAll_TVEpisodes(ShowID, nTVSeason.season)
                     If response_TVEpisodes IsNot Nothing AndAlso response_TVEpisodes.episodes IsNot Nothing AndAlso response_TVEpisodes.episodes.Count > 0 Then
@@ -156,7 +156,7 @@ Namespace Kodi
             Return Nothing
         End Function
 
-        Private Async Function GetAll_TVEpisodes(ByVal ShowID As Integer, ByVal intSeason As Integer) As Task(Of VideoLibrary.GetEpisodesResponse)
+        Private Async Function GetAll_TVEpisodes(ByVal ShowID As Integer, ByVal intSeason As Integer) As Task(Of XBMCRPC.VideoLibrary.GetEpisodesResponse)
             If _kodi Is Nothing Then
                 logger.Error("[APIKodi] GetAllTVEpisodes: No host initialized! Abort!")
                 Return Nothing
@@ -171,7 +171,7 @@ Namespace Kodi
             End Try
         End Function
 
-        Private Async Function GetAll_TVSeasons(ByVal ShowID As Integer) As Task(Of VideoLibrary.GetSeasonsResponse)
+        Private Async Function GetAll_TVSeasons(ByVal ShowID As Integer) As Task(Of XBMCRPC.VideoLibrary.GetSeasonsResponse)
             If _kodi Is Nothing Then
                 logger.Warn("[APIKodi] GetAllTVSeasons: No host initialized! Abort!")
                 Return Nothing
@@ -193,7 +193,7 @@ Namespace Kodi
         ''' 2015/06/27 Cocotus - First implementation
         ''' Notice: No exception handling here because this function is called/nested in other functions and an exception must not be consumed (meaning a disconnect host would not be recognized at once)
         ''' </remarks>
-        Private Async Function GetAll_TVShows() As Task(Of VideoLibrary.GetTVShowsResponse)
+        Private Async Function GetAll_TVShows() As Task(Of XBMCRPC.VideoLibrary.GetTVShowsResponse)
             If _kodi Is Nothing Then
                 logger.Error("[APIKodi] GetAllTVShows: No host initialized! Abort!")
                 Return Nothing
@@ -220,7 +220,7 @@ Namespace Kodi
 
             If Not iKodiID = -1 Then
                 Try
-                    Dim KodiElement As VideoLibrary.GetMovieDetailsResponse = Await _kodi.VideoLibrary.GetMovieDetails(iKodiID, Video.Fields.Movie.AllFields).ConfigureAwait(False)
+                    Dim KodiElement As XBMCRPC.VideoLibrary.GetMovieDetailsResponse = Await _kodi.VideoLibrary.GetMovieDetails(iKodiID, Video.Fields.Movie.AllFields).ConfigureAwait(False)
                     If KodiElement IsNot Nothing AndAlso KodiElement.moviedetails IsNot Nothing Then Return KodiElement.moviedetails
                 Catch ex As Exception
                     logger.Error(ex, New StackFrame().GetMethod().Name)
@@ -242,7 +242,7 @@ Namespace Kodi
 
             If Not iKodiID = -1 Then
                 Try
-                    Dim KodiElement As VideoLibrary.GetMovieSetDetailsResponse = Await _kodi.VideoLibrary.GetMovieSetDetails(iKodiID, Video.Fields.MovieSet.AllFields).ConfigureAwait(False)
+                    Dim KodiElement As XBMCRPC.VideoLibrary.GetMovieSetDetailsResponse = Await _kodi.VideoLibrary.GetMovieSetDetails(iKodiID, Video.Fields.MovieSet.AllFields).ConfigureAwait(False)
                     If KodiElement IsNot Nothing AndAlso KodiElement.setdetails IsNot Nothing Then Return KodiElement.setdetails
                 Catch ex As Exception
                     logger.Error(ex, New StackFrame().GetMethod().Name)
@@ -264,7 +264,7 @@ Namespace Kodi
 
             If Not iKodiID = -1 Then
                 Try
-                    Dim KodiElement As VideoLibrary.GetEpisodeDetailsResponse = Await _kodi.VideoLibrary.GetEpisodeDetails(iKodiID, Video.Fields.Episode.AllFields).ConfigureAwait(False)
+                    Dim KodiElement As XBMCRPC.VideoLibrary.GetEpisodeDetailsResponse = Await _kodi.VideoLibrary.GetEpisodeDetails(iKodiID, Video.Fields.Episode.AllFields).ConfigureAwait(False)
                     If KodiElement IsNot Nothing AndAlso KodiElement.episodedetails IsNot Nothing Then Return KodiElement.episodedetails
                 Catch ex As Exception
                     logger.Error(ex, New StackFrame().GetMethod().Name)
@@ -286,7 +286,7 @@ Namespace Kodi
 
             If Not iKodiID = -1 Then
                 Try
-                    Dim KodiElement As VideoLibrary.GetSeasonDetailsResponse = Await _kodi.VideoLibrary.GetSeasonDetails(iKodiID, Video.Fields.Season.AllFields).ConfigureAwait(False)
+                    Dim KodiElement As XBMCRPC.VideoLibrary.GetSeasonDetailsResponse = Await _kodi.VideoLibrary.GetSeasonDetails(iKodiID, Video.Fields.Season.AllFields).ConfigureAwait(False)
                     If KodiElement IsNot Nothing AndAlso KodiElement.seasondetails IsNot Nothing Then Return KodiElement.seasondetails
                 Catch ex As Exception
                     logger.Error(ex, New StackFrame().GetMethod().Name)
@@ -308,7 +308,7 @@ Namespace Kodi
 
             If Not iKodiID = -1 Then
                 Try
-                    Dim KodiElement As VideoLibrary.GetTVShowDetailsResponse = Await _kodi.VideoLibrary.GetTVShowDetails(iKodiID, Video.Fields.TVShow.AllFields).ConfigureAwait(False)
+                    Dim KodiElement As XBMCRPC.VideoLibrary.GetTVShowDetailsResponse = Await _kodi.VideoLibrary.GetTVShowDetails(iKodiID, Video.Fields.TVShow.AllFields).ConfigureAwait(False)
                     If KodiElement IsNot Nothing AndAlso KodiElement.tvshowdetails IsNot Nothing Then Return KodiElement.tvshowdetails
                 Catch ex As Exception
                     logger.Error(ex, New StackFrame().GetMethod().Name)
@@ -400,7 +400,7 @@ Namespace Kodi
                 Case Enums.ContentType.Movie
                     Dim KodiMovie As Video.Details.Movie = Await Search_Movie(tDBElement).ConfigureAwait(False)
                     If KodiMovie IsNot Nothing Then Return KodiMovie.movieid
-                Case Enums.ContentType.MovieSet
+                Case Enums.ContentType.Movieset
                     Dim KodiMovieset As Video.Details.MovieSet = Await Search_MovieSet(tDBElement).ConfigureAwait(False)
                     If KodiMovieset IsNot Nothing Then Return KodiMovieset.setid
                 Case Enums.ContentType.TVEpisode
@@ -423,7 +423,7 @@ Namespace Kodi
         ''' <returns>true=Update successfull, false=error or movie not found in KodiDB</returns>
         ''' <remarks>
         ''' </remarks>
-        Public Async Function GetPlaycount_AllMovies(ByVal GenericSubEvent As IProgress(Of Addon.GenericSubEventCallBackAsync), ByVal GenericMainEvent As IProgress(Of Addon.GenericEventCallBackAsync)) As Task(Of VideoLibrary.GetMoviesResponse)
+        Public Async Function GetPlaycount_AllMovies(ByVal GenericSubEvent As IProgress(Of Addon.GenericSubEventCallBackAsync), ByVal GenericMainEvent As IProgress(Of Addon.GenericEventCallBackAsync)) As Task(Of XBMCRPC.VideoLibrary.GetMoviesResponse)
             If _kodi Is Nothing Then
                 logger.Error("[APIKodi] GetPlaycount_AllMovies: No host initialized! Abort!")
                 Return Nothing
@@ -446,7 +446,7 @@ Namespace Kodi
         ''' <returns>true=Update successfull, false=error or movie not found in KodiDB</returns>
         ''' <remarks>
         ''' </remarks>
-        Public Async Function GetPlaycount_AllTVEpisodes(ByVal GenericSubEvent As IProgress(Of Addon.GenericSubEventCallBackAsync), ByVal GenericMainEvent As IProgress(Of Addon.GenericEventCallBackAsync)) As Task(Of VideoLibrary.GetEpisodesResponse)
+        Public Async Function GetPlaycount_AllTVEpisodes(ByVal GenericSubEvent As IProgress(Of Addon.GenericSubEventCallBackAsync), ByVal GenericMainEvent As IProgress(Of Addon.GenericEventCallBackAsync)) As Task(Of XBMCRPC.VideoLibrary.GetEpisodesResponse)
             If _kodi Is Nothing Then
                 logger.Error("[APIKodi] GetPlaycount_AllTVEpisodes: No host initialized! Abort!")
                 Return Nothing
@@ -828,7 +828,7 @@ Namespace Kodi
                 Return Nothing
             End If
 
-            Dim kMovies As VideoLibrary.GetMoviesResponse
+            Dim kMovies As XBMCRPC.VideoLibrary.GetMoviesResponse
 
             Dim tPathAndFilename As PathAndFilename = GetPathAndFilename(tDBElement)
             Dim strFilename As String = If(tPathAndFilename.bSpecialHandling, GetRemotePath(tPathAndFilename.strFilename), tPathAndFilename.strFilename)
@@ -889,7 +889,7 @@ Namespace Kodi
             End If
 
             'get a list of all moviesets saved in Kodi DB
-            Dim kMovieSets As VideoLibrary.GetMovieSetsResponse = Await GetAll_MovieSets().ConfigureAwait(False)
+            Dim kMovieSets As XBMCRPC.VideoLibrary.GetMovieSetsResponse = Await GetAll_MovieSets().ConfigureAwait(False)
 
             If kMovieSets IsNot Nothing Then
                 If kMovieSets.sets IsNot Nothing Then
@@ -936,7 +936,7 @@ Namespace Kodi
                 Return Nothing
             End If
 
-            Dim kTVEpisodes As VideoLibrary.GetEpisodesResponse
+            Dim kTVEpisodes As XBMCRPC.VideoLibrary.GetEpisodesResponse
 
             Dim tPathAndFilename As PathAndFilename = GetPathAndFilename(tDBElement)
             Dim strFilename As String = If(tPathAndFilename.bSpecialHandling, GetRemotePath(tPathAndFilename.strFilename), tPathAndFilename.strFilename)
@@ -1016,7 +1016,7 @@ Namespace Kodi
             End If
 
             'get a list of all seasons saved in Kodi DB by ShowID
-            Dim kTVSeasons As VideoLibrary.GetSeasonsResponse = Await GetAll_TVSeasons(ShowID).ConfigureAwait(False)
+            Dim kTVSeasons As XBMCRPC.VideoLibrary.GetSeasonsResponse = Await GetAll_TVSeasons(ShowID).ConfigureAwait(False)
 
             If kTVSeasons IsNot Nothing Then
                 If kTVSeasons.seasons IsNot Nothing Then
@@ -1044,7 +1044,7 @@ Namespace Kodi
                 Return Nothing
             End If
 
-            Dim kTVShows As VideoLibrary.GetTVShowsResponse
+            Dim kTVShows As XBMCRPC.VideoLibrary.GetTVShowsResponse
 
             Dim tPathAndFilename As PathAndFilename = GetPathAndFilename(tDBElement, Enums.ContentType.TVShow)
             Dim strRemotePath As String = GetRemotePath(tPathAndFilename.strPath)
@@ -1379,7 +1379,7 @@ Namespace Kodi
                     logger.Error(String.Format("[APIKodi] [{0}] UpdateInfo_MovieSet: ""{1}"" | NOT found on host! Abort!", _currenthost.Label, mDBElement.MainDetails.Title))
                     Return False
                     'what to do in this case?
-                    'Await VideoLibrary_ScanPath(uMovieset).ConfigureAwait(False)
+                    'Await XBMCRPC.VideoLibrary_ScanPath(uMovieset).ConfigureAwait(False)
                     'Threading.Thread.Sleep(2000) 'TODO better solution for this?!
                     'KodiElement = Await GetFullDetailsByID_MovieSet(Await GetMediaID(uMovieset))
                     'If KodiElement IsNot Nothing Then bIsNew = True
@@ -1950,14 +1950,14 @@ Namespace Kodi
         ''' </remarks>
         Public Async Function VideoLibrary_Clean() As Task(Of String)
             If _kodi Is Nothing Then
-                logger.Error("[APIKodi] VideoLibrary_Clean: No host initialized! Abort!")
+                logger.Error("[APIKodi] XBMCRPC.VideoLibrary_Clean: No host initialized! Abort!")
                 Return Nothing
             End If
 
             Try
                 Dim response As String = String.Empty
                 response = Await _kodi.VideoLibrary.Clean.ConfigureAwait(False)
-                logger.Trace("[APIKodi] VideoLibrary_Clean: " & _currenthost.Label)
+                logger.Trace("[APIKodi] XBMCRPC.VideoLibrary_Clean: " & _currenthost.Label)
                 VideoLibrary_OnCleanFinished()
                 Return response
             Catch ex As Exception
@@ -2007,14 +2007,14 @@ Namespace Kodi
         ''' </remarks>
         Public Async Function VideoLibrary_Scan() As Task(Of String)
             If _kodi Is Nothing Then
-                logger.Error("[APIKodi] VideoLibrary_Scan: No host initialized! Abort!")
+                logger.Error("[APIKodi] XBMCRPC.VideoLibrary_Scan: No host initialized! Abort!")
                 Return Nothing
             End If
 
             Try
                 Dim response As String = String.Empty
                 response = Await _kodi.VideoLibrary.Scan.ConfigureAwait(False)
-                logger.Trace("[APIKodi] VideoLibrary_Scan: " & _currenthost.Label)
+                logger.Trace("[APIKodi] XBMCRPC.VideoLibrary_Scan: " & _currenthost.Label)
                 VideoLibrary_OnScanFinished()
                 Return response
             Catch ex As Exception
@@ -2029,7 +2029,7 @@ Namespace Kodi
         ''' <returns></returns>
         Public Async Function VideoLibrary_ScanPath(ByVal tDBElement As Database.DBElement) As Task(Of Boolean)
             If _kodi Is Nothing Then
-                logger.Error("[APIKodi] VideoLibrary_ScanPath: No host initialized! Abort!")
+                logger.Error("[APIKodi] XBMCRPC.VideoLibrary_ScanPath: No host initialized! Abort!")
                 Return Nothing
             End If
 
@@ -2054,7 +2054,7 @@ Namespace Kodi
                         strLocalPath = String.Concat(tDBElement.ShowPath, Path.AltDirectorySeparatorChar)
                     End If
                 Case Else
-                    logger.Warn(String.Format("[APIKodi] [{0}] VideoLibrary_ScanPath: No videotype specified! Abort!", _currenthost.Label))
+                    logger.Warn(String.Format("[APIKodi] [{0}] XBMCRPC.VideoLibrary_ScanPath: No videotype specified! Abort!", _currenthost.Label))
                     Return False
             End Select
 
@@ -2068,10 +2068,10 @@ Namespace Kodi
             If String.IsNullOrEmpty(strRemotePath) Then
                 Return False
             End If
-            logger.Trace(String.Format("[APIKodi] [{0}] VideoLibrary_ScanPaths: ""{1}"" | Start scanning process...", _currenthost.Label, strRemotePath))
+            logger.Trace(String.Format("[APIKodi] [{0}] XBMCRPC.VideoLibrary_ScanPaths: ""{1}"" | Start scanning process...", _currenthost.Label, strRemotePath))
             Dim strResponse = Await _kodi.VideoLibrary.Scan(strRemotePath).ConfigureAwait(False)
             If strResponse.ToLower.Contains("error") Then
-                logger.Trace(String.Format("[APIKodi] [{0}] VideoLibrary_ScanPath: ""{1}"" | {2}", _currenthost.Label, strRemotePath, strResponse))
+                logger.Trace(String.Format("[APIKodi] [{0}] XBMCRPC.VideoLibrary_ScanPath: ""{1}"" | {2}", _currenthost.Label, strRemotePath, strResponse))
                 Return False
             Else
                 Return True
