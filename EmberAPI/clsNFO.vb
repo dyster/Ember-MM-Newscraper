@@ -19,6 +19,7 @@
 ' ################################################################################
 
 Imports NLog
+Imports System.Data
 Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
@@ -148,7 +149,7 @@ Public Class NFO
         Select Case contentType
             Case Enums.ContentType.Movie
                 xRoot.ElementName = "movie"
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 xRoot.ElementName = "movieset"
             Case Enums.ContentType.TVEpisode
                 xRoot.ElementName = "episodedetails"
@@ -174,7 +175,7 @@ Public Class NFO
                 End If
             Next
         Catch ex As Exception
-            _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "<" & dbElement.Filename & ">")
+            _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "<" & dbElement.Filename & ">")
         End Try
     End Sub
     ''' <summary>
@@ -192,7 +193,7 @@ Public Class NFO
                 End If
             Next
         Catch ex As Exception
-            _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "<" & dbElement.Filename & ">")
+            _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "<" & dbElement.Filename & ">")
         End Try
     End Sub
 
@@ -669,7 +670,7 @@ Public Class NFO
             Try
                 If File.Exists(sPath) AndAlso Path.GetExtension(sPath).ToLower = ".nfo" Then
                     Using xmlSR As StreamReader = New StreamReader(sPath)
-                        xmlSer = CreateOverrider(Enums.ContentType.MovieSet)
+                        xmlSer = CreateOverrider(Enums.ContentType.Movieset)
                         xmlMovSet = DirectCast(xmlSer.Deserialize(xmlSR), MediaContainers.MainDetails)
                         xmlMovSet.Plot = xmlMovSet.Plot.Replace(vbCrLf, vbLf).Replace(vbLf, vbCrLf)
                     End Using
@@ -993,7 +994,7 @@ Public Class NFO
             If Not String.IsNullOrEmpty(dbElement.MainDetails.Title) Then
                 If dbElement.MainDetails.Title_HasChanged Then DeleteNFO_MovieSet(dbElement, False, True)
 
-                Dim xmlSer = CreateOverrider(Enums.ContentType.MovieSet)
+                Dim xmlSer = CreateOverrider(Enums.ContentType.Movieset)
                 Dim doesExist As Boolean = False
                 Dim fAtt As New FileAttributes
                 Dim fAttWritable As Boolean = True

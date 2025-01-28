@@ -19,6 +19,7 @@
 ' ################################################################################
 
 Imports NLog
+Imports System.Data
 Imports System.Data.SQLite
 Imports System.IO
 Imports System.Text.RegularExpressions
@@ -1311,7 +1312,7 @@ Public Class Database
 
             connection.Close()
         Catch ex As Exception
-            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "There was a problem closing the media database.")
+            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(System.Windows.Forms.Keys.Tab) & "There was a problem closing the media database.")
         Finally
             connection.Dispose()
         End Try
@@ -1356,7 +1357,7 @@ Public Class Database
             _myvideosDBConn = New SQLiteConnection(String.Format(_connStringTemplate, MyVideosDBFile))
             _myvideosDBConn.Open()
         Catch ex As Exception
-            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "Unable to open media database connection.")
+            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(System.Windows.Forms.Keys.Tab) & "Unable to open media database connection.")
         End Try
 
         Try
@@ -1372,7 +1373,7 @@ Public Class Database
                 End Using
             End If
         Catch ex As Exception
-            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "Error creating database")
+            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(System.Windows.Forms.Keys.Tab) & "Error creating database")
             Close_MyVideos()
             File.Delete(MyVideosDBFile)
         End Try
@@ -5606,7 +5607,7 @@ Public Class Database
             _myvideosDBConn.Close()
             File.Move(tempName, Args.newDBPath)
         Catch ex As Exception
-            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "Unable to open media database connection.")
+            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(System.Windows.Forms.Keys.Tab) & "Unable to open media database connection.")
             _myvideosDBConn.Close()
         End Try
     End Sub
@@ -7241,14 +7242,15 @@ Public Class Database
 #Region "Methods"
 
         Public Function CloneDeep() As Object Implements ICloneable.Clone
+            Throw New NotImplementedException("Binaryformatter is obsolete, the Deepclone method needs fixing")
             Dim Stream As New MemoryStream(50000)
-            Dim Formatter As New Runtime.Serialization.Formatters.Binary.BinaryFormatter()
+            'Dim Formatter As New Runtime.Serialization.Formatters.Binary.BinaryFormatter()
             ' Serialisierung über alle Objekte hinweg in einen Stream 
-            Formatter.Serialize(Stream, Me)
+            'Formatter.Serialize(Stream, Me)
             ' Zurück zum Anfang des Streams und... 
-            Stream.Seek(0, SeekOrigin.Begin)
+            'Stream.Seek(0, SeekOrigin.Begin)
             ' ...aus dem Stream in ein Objekt deserialisieren 
-            CloneDeep = Formatter.Deserialize(Stream)
+            'CloneDeep = Formatter.Deserialize(Stream)
             Stream.Close()
         End Function
 

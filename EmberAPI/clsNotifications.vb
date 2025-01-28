@@ -23,7 +23,7 @@ Public Class Notifications
 
 #Region "Events"
 
-    Public Shared Event ShowNotification(ByVal timeout As Integer, ByVal title As String, ByVal message As String, ByVal icon As Windows.Forms.ToolTipIcon)
+    Public Shared Event ShowNotification(ByVal timeout As Integer, ByVal title As String, ByVal message As String, ByVal icon As System.Windows.Forms.ToolTipIcon)
 
 #End Region 'Events
 
@@ -88,7 +88,7 @@ Public Class Notifications
     Public Shared Sub NewNotification(ByVal [type] As Type, ByVal title As String, ByVal message As String)
         If IsEnabled(type) Then
             Dim iTimeout As Integer = 5000
-            Dim nIcon As Windows.Forms.ToolTipIcon = Windows.Forms.ToolTipIcon.Info
+            Dim nIcon As ToolTipIcon = ToolTipIcon.Info
             Dim strTitle As String = title
             Select Case type
                 Case Type.Added_Movie
@@ -101,7 +101,7 @@ Public Class Notifications
                     strTitle = If(Not String.IsNullOrEmpty(title), title, Master.eLang.GetString(476, "New Show Added"))
                 Case Type.Error
                     iTimeout = 15000
-                    nIcon = Windows.Forms.ToolTipIcon.Error
+                    nIcon = ToolTipIcon.Error
                 Case Type.Information
                 Case Type.Scraped_Movie
                     strTitle = If(Not String.IsNullOrEmpty(title), title, Master.eLang.GetString(813, "Movie Scraped"))
@@ -115,7 +115,7 @@ Public Class Notifications
                     strTitle = If(Not String.IsNullOrEmpty(title), title, Master.eLang.GetString(248, "Show Scraped"))
                 Case Type.Warning
                     iTimeout = 15000
-                    nIcon = Windows.Forms.ToolTipIcon.Warning
+                    nIcon = ToolTipIcon.Warning
             End Select
             RaiseEvent ShowNotification(iTimeout, strTitle, message, nIcon)
         End If

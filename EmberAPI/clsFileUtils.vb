@@ -18,6 +18,7 @@
 ' # along with Ember Media Manager.  If not, see <http://www.gnu.org/licenses/>. #
 ' ################################################################################
 
+Imports System.Data
 Imports System.IO
 Imports System.Text.RegularExpressions
 Imports System.Windows.Forms
@@ -137,7 +138,7 @@ Namespace FileUtils
                                                    dbElement.Filename),
                                                    String.Empty,
                                                    MessageBoxButtons.RetryCancel,
-                                                   MessageBoxIcon.Warning) = Windows.Forms.DialogResult.Cancel Then Return False
+                                                   MessageBoxIcon.Warning) = DialogResult.Cancel Then Return False
                             Else
                                 Return False
                             End If
@@ -148,7 +149,7 @@ Namespace FileUtils
                         Return False
                     End If
 
-                Case Enums.ContentType.MovieSet
+                Case Enums.ContentType.Movieset
                     For Each movie In dbElement.MoviesInSet
                         While Not File.Exists(movie.DBMovie.Filename)
                             If showMessage Then
@@ -189,7 +190,7 @@ Namespace FileUtils
                                                dbElement.ShowPath),
                                                String.Empty,
                                                MessageBoxButtons.RetryCancel,
-                                               MessageBoxIcon.Warning) = Windows.Forms.DialogResult.Cancel Then Return False
+                                               MessageBoxIcon.Warning) = DialogResult.Cancel Then Return False
                         Else
                             Return False
                         End If
@@ -213,7 +214,7 @@ Namespace FileUtils
                                        dbSource.Path),
                                        String.Empty,
                                        MessageBoxButtons.RetryCancel,
-                                       MessageBoxIcon.Warning) = Windows.Forms.DialogResult.Cancel Then Return False
+                                       MessageBoxIcon.Warning) = DialogResult.Cancel Then Return False
                 Else
                     Return False
                 End If
@@ -750,7 +751,7 @@ Namespace FileUtils
                 Return Path.Combine(Path.GetDirectoryName(strPath), Path.GetFileNameWithoutExtension(strPath))
                 'Return Path.Combine(Directory.GetParent(sPath).FullName, Path.GetFileNameWithoutExtension(sPath))
             Catch ex As Exception
-                logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "Source: <" & strPath & ">")
+                logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "Source: <" & strPath & ">")
                 Return String.Empty
             End Try
         End Function
@@ -955,7 +956,7 @@ Namespace FileUtils
 #Region "Methods"
 
         Public Shared Sub Cache_All()
-            If MessageBox.Show(Master.eLang.GetString(104, "Are you sure?"), Master.eLang.GetString(565, "Clear Cache"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            If MessageBox.Show(Master.eLang.GetString(104, "Are you sure?"), Master.eLang.GetString(565, "Clear Cache"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                 If Directory.Exists(Master.TempPath) Then
                     Try
                         Dim dInfo As New DirectoryInfo(Master.TempPath)
@@ -978,7 +979,7 @@ Namespace FileUtils
 
         Public Shared Sub Cache_Show(ByVal TVDBIDs As List(Of String), ByVal cData As Boolean, ByVal cImages As Boolean)
             If TVDBIDs IsNot Nothing AndAlso TVDBIDs.Count > 0 Then
-                If MessageBox.Show(Master.eLang.GetString(104, "Are you sure?"), Master.eLang.GetString(565, "Clear Cache"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                If MessageBox.Show(Master.eLang.GetString(104, "Are you sure?"), Master.eLang.GetString(565, "Clear Cache"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                     For Each id As String In TVDBIDs
                         Try
                             Dim basePath As String = Path.Combine(Master.TempPath, String.Concat("Shows", Path.DirectorySeparatorChar, id))

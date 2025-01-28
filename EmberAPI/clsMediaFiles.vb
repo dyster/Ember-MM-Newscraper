@@ -90,7 +90,7 @@ Public Class MediaFiles
             Try
                 File.Delete(filepath)
             Catch ex As Exception
-                _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "Param: <" & filepath & ">")
+                _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "Param: <" & filepath & ">")
             End Try
         End If
     End Sub
@@ -120,7 +120,7 @@ Public Class MediaFiles
                 End Select
             Next
         Catch ex As Exception
-            _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "<" & tDBElement.Filename & ">")
+            _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "<" & tDBElement.Filename & ">")
         End Try
     End Sub
     ''' <summary>
@@ -143,7 +143,7 @@ Public Class MediaFiles
                 End Select
             Next
         Catch ex As Exception
-            _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "<" & tDBElement.Filename & ">")
+            _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "<" & tDBElement.Filename & ">")
         End Try
     End Sub
     ''' <summary>
@@ -402,7 +402,7 @@ Public Class MediaFiles
                     End If
 
                 Catch ex As Exception
-                    _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "<" & mediaFile.UrlVideoStream & ">")
+                    _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "<" & mediaFile.UrlVideoStream & ">")
                 End Try
             End If
         ElseIf mediaFile.UrlAudioStreamSpecified Then
@@ -436,7 +436,7 @@ Public Class MediaFiles
                 _Logger.Warn("MediaFile NOT downloaded: " & url)
             End If
         Catch ex As Exception
-            _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "<" & url & ">")
+            _Logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "<" & url & ">")
         End Try
         RemoveHandler WebPage.ProgressUpdated, AddressOf DownloadProgressUpdated
     End Sub

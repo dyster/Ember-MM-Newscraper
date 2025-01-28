@@ -18,6 +18,7 @@
 ' # along with Ember Media Manager.  If not, see <http://www.gnu.org/licenses/>. #
 ' ################################################################################
 
+Imports System.Data
 Imports NLog
 
 Public Class TaskManager
@@ -198,7 +199,7 @@ Public Class TaskManager
                     End If
                 Next
 
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 For Each tID In tTaskItem.ListOfID
                     _HasChanged = False
                     If bwTaskManager.CancellationPending Then Return
@@ -630,7 +631,7 @@ Public Class TaskManager
                         End If
                     Next
 
-                Case Enums.ContentType.MovieSet
+                Case Enums.ContentType.Movieset
                     For Each tID In tTaskItem.ListOfID
                         If bwTaskManager.CancellationPending Then Return
                         Dim tmpDBElement As Database.DBElement = Master.DB.Load_Movieset(tID)
@@ -710,7 +711,7 @@ Public Class TaskManager
                     End If
                 Next
 
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 For Each tID In tTaskItem.ListOfID
                     If bwTaskManager.CancellationPending Then Return
                     Dim bHasChanged As Boolean = False
@@ -935,7 +936,7 @@ Public Class TaskManager
                     End Using
                 Next
 
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 For Each tID In tTaskItem.ListOfID
                     If bwTaskManager.CancellationPending Then Return
 

@@ -85,13 +85,14 @@ Public Class XmlSimpleMapping
         ' Voraussetzung ist die Serialisierbarkeit aller beteiligten 
         ' Objekte. 
         Dim Stream As New MemoryStream(50000)
-        Dim Formatter As New Runtime.Serialization.Formatters.Binary.BinaryFormatter()
+        Throw New NotImplementedException("Binaryformatter is obsolete, the Deepclone method needs fixing")
+        'Dim Formatter As New Runtime.Serialization.Formatters.Binary.BinaryFormatter()
         ' Serialisierung über alle Objekte hinweg in einen Stream 
-        Formatter.Serialize(Stream, Me)
+        'Formatter.Serialize(Stream, Me)
         ' Zurück zum Anfang des Streams und... 
-        Stream.Seek(0, SeekOrigin.Begin)
+        'Stream.Seek(0, SeekOrigin.Begin)
         ' ...aus dem Stream in ein Objekt deserialisieren 
-        CloneDeep = Formatter.Deserialize(Stream)
+        'CloneDeep = Formatter.Deserialize(Stream)
         Stream.Close()
     End Function
 

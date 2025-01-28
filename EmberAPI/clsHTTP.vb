@@ -168,7 +168,7 @@ Public Class HTTP
                 _responseuri = wrResponse.ResponseUri.ToString
             End Using
         Catch ex As Exception
-            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "<" & url & ">")
+            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "<" & url & ">")
         End Try
 
         Return sResponse
@@ -298,7 +298,7 @@ Public Class HTTP
                 End If
             End Using
         Catch ex As Exception
-            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "<" & URL & ">")
+            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "<" & URL & ">")
             outFile = String.Empty
         End Try
 
@@ -342,7 +342,7 @@ Public Class HTTP
                 End Using
             End If
         Catch ex As Exception
-            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Windows.Forms.Keys.Tab) & "<" & _URL & ">")
+            logger.Error(ex, New StackFrame().GetMethod().Name & Convert.ToChar(Keys.Tab) & "<" & _URL & ">")
         End Try
     End Sub
 
