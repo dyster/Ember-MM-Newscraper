@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace EmberAPI.EFModels;
 
 [Table("movie")]
-[Index("IdFile", "IdMovie", Name = "ix_movie_file_1", IsUnique = true)]
-[Index("IdMovie", "IdFile", Name = "ix_movie_file_2", IsUnique = true)]
+[Index("FileId", "IdMovie", Name = "ix_movie_file_1", IsUnique = true)]
+[Index("IdMovie", "FileId", Name = "ix_movie_file_2", IsUnique = true)]
 public partial class Movie
 {
     [Key]
