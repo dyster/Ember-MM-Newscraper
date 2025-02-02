@@ -100,7 +100,7 @@ Public Class frmSettingsHolder
     Private Sub Hosts_Add(sender As Object, e As EventArgs) Handles btnAddHost.Click
         Dim newHost As New Addon.Host
         Dim dlgNew As New dlgHost(newHost)
-        If dlgNew.ShowDialog = Windows.Forms.DialogResult.OK Then
+        If dlgNew.ShowDialog = System.Windows.Forms.DialogResult.OK Then
             HostList.Add(dlgNew.Result)
             Hosts_Reload_HostList()
         End If

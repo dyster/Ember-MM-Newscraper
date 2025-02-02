@@ -1,25 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B0BDF9C2-EB9C-4090-B9A9-B703DF00CCEF}</ProjectGuid>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
-    <RootNamespace>addon.websitecreator</RootNamespace>
-    <AssemblyName>addon.websitecreator</AssemblyName>
-    <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <OptionExplicit>On</OptionExplicit>
-    <OptionCompare>Binary</OptionCompare>
     <OptionStrict>On</OptionStrict>
-    <OptionInfer>On</OptionInfer>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -37,263 +21,183 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Debug - x86\Addons\addon.websitecreator\</OutputPath>
     <NoWarn>42353,42354,42355</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109</WarningsAsErrors>
     <CodeAnalysisLogFile>..\..\EmberMM\Addons\generic.EmberCore.MovieExporter.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Release - x86\Addons\addon.websitecreator\</OutputPath>
-    <Optimize>true</Optimize>
     <NoWarn>42353,42354,42355</NoWarn>
     <DebugType>None</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109</WarningsAsErrors>
     <CodeAnalysisLogFile>..\..\EmberMM\Addons\generic.EmberCore.MovieExporter.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;D:\Applications\Development\Microsoft Visual Studio 2010\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Debug - x64\Addons\addon.websitecreator\</OutputPath>
     <NoWarn>42353,42354,42355</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Release - x64\Addons\addon.websitecreator\</OutputPath>
-    <Optimize>true</Optimize>
     <NoWarn>42353,42354,42355</NoWarn>
     <DebugType>None</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Debug - AnyCPU\Addons\addon.websitecreator\</OutputPath>
     <NoWarn>42353,42354,42355</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\EmberMM - Release - AnyCPU\Addons\addon.websitecreator\</OutputPath>
-    <Optimize>true</Optimize>
     <NoWarn>42353,42354,42355</NoWarn>
     <DebugType>None</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <WarningsAsErrors>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109</WarningsAsErrors>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core">
+    <Reference Update="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Xml.Linq">
+    <Reference Update="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Import Include="System" />
-    <Import Include="System.Collections" />
-    <Import Include="System.Collections.Generic" />
-    <Import Include="System.Data" />
-    <Import Include="System.Diagnostics" />
     <Import Include="System.Drawing" />
-    <Import Include="System.Linq" />
     <Import Include="System.Windows.Forms" />
-    <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsWebsiteCreator.vb" />
-    <Compile Include="dlgExportMovies.designer.vb">
+    <Compile Update="dlgExportMovies.designer.vb">
       <DependentUpon>dlgExportMovies.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgExportMovies.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSettingsHolder.Designer.vb">
+    <Compile Update="frmSettingsHolder.Designer.vb">
       <DependentUpon>frmSettingsHolder.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSettingsHolder.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="cllsAddon.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="My Project\Application.Designer.vb">
+    <Compile Update="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
+    <Compile Update="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="My Project\Settings.Designer.vb">
+    <Compile Update="My Project\Settings.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="dlgExportMovies.resx">
-      <DependentUpon>dlgExportMovies.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSettingsHolder.resx">
-      <DependentUpon>frmSettingsHolder.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="My Project\Resources.resx">
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="My Project\Application.myapp">
+    <None Update="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
-    <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <CustomToolNamespace>My</CustomToolNamespace>
-      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="templates\template modernWallCard\bootstrap\css\bootstrap-theme.css.map">
+    <None Update="templates\template modernWallCard\bootstrap\css\bootstrap-theme.css.map">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\css\bootstrap.css.map">
+    <None Update="templates\template modernWallCard\bootstrap\css\bootstrap.css.map">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\fonts\glyphicons-halflings-regular.eot">
+    <None Update="templates\template modernWallCard\bootstrap\fonts\glyphicons-halflings-regular.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\fonts\glyphicons-halflings-regular.ttf">
+    <None Update="templates\template modernWallCard\bootstrap\fonts\glyphicons-halflings-regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\fonts\glyphicons-halflings-regular.woff">
+    <None Update="templates\template modernWallCard\bootstrap\fonts\glyphicons-halflings-regular.woff">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\fonts\glyphicons-halflings-regular.woff2">
+    <None Update="templates\template modernWallCard\bootstrap\fonts\glyphicons-halflings-regular.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\fa-icon\fontawesome-webfont.eot">
+    <None Update="templates\template modernWallCard\font\fa-icon\fontawesome-webfont.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\fa-icon\fontawesome-webfont.ttf">
+    <None Update="templates\template modernWallCard\font\fa-icon\fontawesome-webfont.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\fa-icon\fontawesome-webfont.woff">
+    <None Update="templates\template modernWallCard\font\fa-icon\fontawesome-webfont.woff">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\fa-icon\fontawesome-webfont.woff2">
+    <None Update="templates\template modernWallCard\font\fa-icon\fontawesome-webfont.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\fa-icon\FontAwesome.otf">
+    <None Update="templates\template modernWallCard\font\fa-icon\FontAwesome.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Italic.eot">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Italic.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Italic.ttf">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Italic.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Italic.woff">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Italic.woff">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Italic.woff2">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Italic.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Light.eot">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Light.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Light.ttf">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Light.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Light.woff">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Light.woff">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Light.woff2">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Light.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-LightItalic.eot">
+    <None Update="templates\template modernWallCard\font\lato\Lato-LightItalic.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-LightItalic.ttf">
+    <None Update="templates\template modernWallCard\font\lato\Lato-LightItalic.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-LightItalic.woff">
+    <None Update="templates\template modernWallCard\font\lato\Lato-LightItalic.woff">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-LightItalic.woff2">
+    <None Update="templates\template modernWallCard\font\lato\Lato-LightItalic.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Regular.eot">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Regular.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Regular.ttf">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Regular.woff">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Regular.woff">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Regular.woff2">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Regular.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\lato\Lato-Semibold.eot">
+    <None Update="templates\template modernWallCard\font\lato\Lato-Semibold.eot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\LICENSE">
+    <None Update="templates\template modernWallCard\LICENSE">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -315,39 +219,35 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EmberAPI\EmberAPI.vbproj">
-      <Project>{208AA35E-C6AE-4D2D-A9DD-B6EFD19A4279}</Project>
-      <Name>EmberAPI</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <ProjectReference Include="..\..\EmberAPI\EmberAPI.vbproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\icon.png" />
-    <None Include="templates\template modernWallCard\bootstrap\css\bootstrap-theme.css">
+    <None Update="templates\template modernWallCard\bootstrap\css\bootstrap-theme.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\css\bootstrap-theme.min.css">
+    <None Update="templates\template modernWallCard\bootstrap\css\bootstrap-theme.min.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\css\bootstrap.css">
+    <None Update="templates\template modernWallCard\bootstrap\css\bootstrap.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\css\bootstrap.min.css">
+    <None Update="templates\template modernWallCard\bootstrap\css\bootstrap.min.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\fonts\glyphicons-halflings-regular.svg">
+    <None Update="templates\template modernWallCard\bootstrap\fonts\glyphicons-halflings-regular.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\js\bootstrap.js">
+    <None Update="templates\template modernWallCard\bootstrap\js\bootstrap.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\js\bootstrap.min.js">
+    <None Update="templates\template modernWallCard\bootstrap\js\bootstrap.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\bootstrap\js\npm.js">
+    <None Update="templates\template modernWallCard\bootstrap\js\npm.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\default-poster.png">
+    <None Update="templates\template modernWallCard\default-poster.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="templates\template modernWallCard\German_%28de_DE%29.html">
@@ -356,73 +256,73 @@
     <None Include="templates\template modernWallCard\English_%28en_US%29.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font-awesome.css">
+    <None Update="templates\template modernWallCard\font-awesome.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\font\fa-icon\fontawesome-webfont.svg">
+    <None Update="templates\template modernWallCard\font\fa-icon\fontawesome-webfont.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\latofonts.css">
+    <None Update="templates\template modernWallCard\latofonts.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template modernWallCard\style.css">
+    <None Update="templates\template modernWallCard\style.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="templates\template MovieHomepage\English_%28en_US%29.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template MovieHomepage\function.js">
+    <None Update="templates\template MovieHomepage\function.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="templates\template MovieHomepage\German_%28de_DE%29.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template MovieHomepage\images\default.jpg">
+    <None Update="templates\template MovieHomepage\images\default.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template MovieHomepage\images\dvd.jpg">
+    <None Update="templates\template MovieHomepage\images\dvd.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template MovieHomepage\images\haken.png">
+    <None Update="templates\template MovieHomepage\images\haken.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template MovieHomepage\images\hd.jpg">
+    <None Update="templates\template MovieHomepage\images\hd.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template MovieHomepage\images\imdb.jpg">
+    <None Update="templates\template MovieHomepage\images\imdb.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template MovieHomepage\images\movie_folder.png">
+    <None Update="templates\template MovieHomepage\images\movie_folder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template MovieHomepage\images\youtube.jpg">
+    <None Update="templates\template MovieHomepage\images\youtube.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template MovieHomepage\style.css">
+    <None Update="templates\template MovieHomepage\style.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="templates\template2\English_%28en_US%29.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template2\jquery.js">
+    <None Update="templates\template2\jquery.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="templates\template3\English_%28en_US%29.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template3\jquery.js">
+    <None Update="templates\template3\jquery.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="templates\template4\English_%28en_US%29.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template4\jquery.js">
+    <None Update="templates\template4\jquery.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template4\prettyPhoto.css">
+    <None Update="templates\template4\prettyPhoto.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template4\prettyPhoto.js">
+    <None Update="templates\template4\prettyPhoto.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="templates\template5\English_%28en_US%29.html">
@@ -431,67 +331,67 @@
     <None Include="templates\template6\English_%28en_US%29.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\jquery.js">
+    <None Update="templates\template6\jquery.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto.css">
+    <None Update="templates\template6\prettyPhoto.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto.js">
+    <None Update="templates\template6\prettyPhoto.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\dark_rounded\btnNext.png">
+    <None Update="templates\template6\prettyPhoto\dark_rounded\btnNext.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\dark_rounded\btnPrevious.png">
+    <None Update="templates\template6\prettyPhoto\dark_rounded\btnPrevious.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\dark_rounded\contentPattern.png">
+    <None Update="templates\template6\prettyPhoto\dark_rounded\contentPattern.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\dark_rounded\loader.gif">
+    <None Update="templates\template6\prettyPhoto\dark_rounded\loader.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\dark_rounded\sprite.png">
+    <None Update="templates\template6\prettyPhoto\dark_rounded\sprite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\dark_square\btnNext.png">
+    <None Update="templates\template6\prettyPhoto\dark_square\btnNext.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\dark_square\btnPrevious.png">
+    <None Update="templates\template6\prettyPhoto\dark_square\btnPrevious.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\dark_square\contentPattern.png">
+    <None Update="templates\template6\prettyPhoto\dark_square\contentPattern.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\dark_square\loader.gif">
+    <None Update="templates\template6\prettyPhoto\dark_square\loader.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\dark_square\sprite.png">
+    <None Update="templates\template6\prettyPhoto\dark_square\sprite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\light_rounded\btnNext.png">
+    <None Update="templates\template6\prettyPhoto\light_rounded\btnNext.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\light_rounded\btnPrevious.png">
+    <None Update="templates\template6\prettyPhoto\light_rounded\btnPrevious.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\light_rounded\loader.gif">
+    <None Update="templates\template6\prettyPhoto\light_rounded\loader.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\light_rounded\sprite.png">
+    <None Update="templates\template6\prettyPhoto\light_rounded\sprite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\light_square\btnNext.png">
+    <None Update="templates\template6\prettyPhoto\light_square\btnNext.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\light_square\btnPrevious.png">
+    <None Update="templates\template6\prettyPhoto\light_square\btnPrevious.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\light_square\loader.gif">
+    <None Update="templates\template6\prettyPhoto\light_square\loader.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="templates\template6\prettyPhoto\light_square\sprite.png">
+    <None Update="templates\template6\prettyPhoto\light_square\sprite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="templates\template\English_%28en_US%29.html">
@@ -502,24 +402,29 @@
     <Folder Include="translations\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="NLog">
       <Version>4.7.14</Version>
     </PackageReference>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Data.SQLite.Core">
       <Version>1.0.115.5</Version>
     </PackageReference>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.1" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.1" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.1" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.1" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="8.1.1" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <AssemblyTitle>addon.websitecreator</AssemblyTitle>
+    <Description>http://forum.xbmc.org/forumdisplay.php%3ffid=195</Description>
+    <Company>Ember Media Manager</Company>
+    <Product>addon.websitecreator</Product>
+    <Copyright>Copyright © 2022</Copyright>
+    <AssemblyVersion>1.12.0.0</AssemblyVersion>
+    <FileVersion>1.12.0.0</FileVersion>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

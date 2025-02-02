@@ -22,6 +22,7 @@ Imports EmberAPI
 Imports System.IO
 Imports NLog
 Imports System.Xml.Serialization
+Imports System.Data
 
 
 Public Class Addon

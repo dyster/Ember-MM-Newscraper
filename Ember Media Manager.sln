@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Addons", "Addons", "{4FD2B6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KodiAPI", "KodiAPI\KodiAPI.csproj", "{FE178193-F90C-42E8-BF0C-5D64E10AB6F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TVDB", "..\TheTVDBApi\src\TVDB\TVDB.csproj", "{A265B83F-495E-43BD-B1F5-C89B58618A84}"
-EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "core.audiovideocodecmapping", "Addons\core.audiovideocodecmapping\core.audiovideocodecmapping.vbproj", "{17FE77F6-AD33-4798-A677-926D1453B31E}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "core.videosourcemapping", "Addons\core.videosourcemapping\core.videosourcemapping.vbproj", "{386116B7-7870-4F91-9DEC-C79062882E3E}"
@@ -124,18 +122,6 @@ Global
 		{FE178193-F90C-42E8-BF0C-5D64E10AB6F0}.Release|x64.Build.0 = Release|x64
 		{FE178193-F90C-42E8-BF0C-5D64E10AB6F0}.Release|x86.ActiveCfg = Release|x86
 		{FE178193-F90C-42E8-BF0C-5D64E10AB6F0}.Release|x86.Build.0 = Release|x86
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Debug|x64.Build.0 = Debug|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Debug|x86.Build.0 = Debug|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Release|x64.ActiveCfg = Release|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Release|x64.Build.0 = Release|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Release|x86.ActiveCfg = Release|Any CPU
-		{A265B83F-495E-43BD-B1F5-C89B58618A84}.Release|x86.Build.0 = Release|Any CPU
 		{17FE77F6-AD33-4798-A677-926D1453B31E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{17FE77F6-AD33-4798-A677-926D1453B31E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17FE77F6-AD33-4798-A677-926D1453B31E}.Debug|x64.ActiveCfg = Debug|x64
