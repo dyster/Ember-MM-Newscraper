@@ -19,6 +19,7 @@
 ' ################################################################################
 
 Imports EmberAPI
+Imports EmberAPI.EFModels
 Imports NLog
 
 Public Class frmMovie_Source
@@ -28,7 +29,7 @@ Public Class frmMovie_Source
 
     Shared _Logger As Logger = LogManager.GetCurrentClassLogger()
 
-    Private _TmpSources As New Dictionary(Of Database.DBSource, State)
+    Private _TmpSources As New Dictionary(Of Moviesource, State)
 
 #End Region 'Fields
 
@@ -362,7 +363,7 @@ Public Class frmMovie_Source
     Private Sub DataGridView_ContextMenu_Edit(ByVal sender As Object, ByVal e As EventArgs) Handles cmnuSourcesEdit.Click
         If dgvSources.SelectedRows.Count = 1 Then
             Dim lngID As Long = CLng(dgvSources.SelectedRows(0).Cells(1).Value)
-            Dim kSource = _TmpSources.FirstOrDefault(Function(f) f.Key.ID = lngID)
+            Dim kSource = _TmpSources.FirstOrDefault(Function(f) f.Key.IdSource = lngID)
             Using dlgSource As New dlgSource_Movie(_TmpSources.Keys.ToList)
                 If dlgSource.ShowDialog(lngID) = DialogResult.OK AndAlso dlgSource.Result IsNot Nothing Then
                     _TmpSources.Remove(kSource.Key)
@@ -414,7 +415,7 @@ Public Class frmMovie_Source
         For Each source In _TmpSources
             dgvSources.Rows.Add(New Object() {
                                 source.Value,
-                                source.Key.ID,
+                                source.Key.IdSource,
                                 source.Key.Name,
                                 source.Key.Path,
                                 source.Key.Language,
@@ -521,10 +522,10 @@ Public Class frmMovie_Source
                     '0 = existing and unedited source 
                 Case CInt(r.Cells(0).Value) = State.[New]
                     '1 = new source
-                    RaiseEvent NeedsDBUpdate_Movie(Master.DB.Save_Source_Movie(_TmpSources.Keys.FirstOrDefault(Function(f) f.ID = CLng(r.Cells(1).Value))))
+                    RaiseEvent NeedsDBUpdate_Movie(Master.DB.Save_Source_Movie(_TmpSources.Keys.FirstOrDefault(Function(f) f.IdSource = CLng(r.Cells(1).Value))))
                 Case CInt(r.Cells(0).Value) = State.Edited
                     '2 = existing and edited source
-                    Master.DB.Save_Source_Movie(_TmpSources.Keys.FirstOrDefault(Function(f) f.ID = CLng(r.Cells(1).Value)))
+                    Master.DB.Save_Source_Movie(_TmpSources.Keys.FirstOrDefault(Function(f) f.IdSource = CLng(r.Cells(1).Value)))
                     RaiseEvent NeedsReload_Movie()
                 Case CInt(r.Cells(0).Value) = State.ExistingToRemove
                     '3 = existing and unedited source is marked to remove

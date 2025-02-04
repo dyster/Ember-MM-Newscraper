@@ -19,6 +19,7 @@
 ' ################################################################################
 
 Imports System.IO
+Imports EmberAPI.EFModels
 Imports NLog
 
 
@@ -294,16 +295,16 @@ Public Class CommandLine
                 Case "-updatemovies"
                     If Args.Count - 1 > i AndAlso Not Args(i + 1).StartsWith("-") Then
                         Dim clArg As String = Args(i + 1).Replace("""", String.Empty)
-                        Dim sSource As Database.DBSource = Master.DB.LoadAll_Sources_Movie.FirstOrDefault(Function(f) f.Name.ToLower = clArg.ToLower)
+                        Dim sSource As EFSourceBase = Master.DB.LoadAll_Sources_Movie.FirstOrDefault(Function(f) f.Name.ToLower = clArg.ToLower)
                         If sSource IsNot Nothing Then
                             RaiseEvent TaskEvent(Enums.AddonEventType.CommandLine,
-                                                    New List(Of Object)(New Object() {"loadmedia", New Scanner.ScanOrCleanOptions With {.Movies = True}, sSource.ID, String.Empty}))
+                                                    New List(Of Object)(New Object() {"loadmedia", New Scanner.ScanOrCleanOptions With {.Movies = True}, sSource.IdSource, String.Empty}))
                             i += 1
                         Else
                             sSource = Master.DB.LoadAll_Sources_Movie.FirstOrDefault(Function(f) f.Path.ToLower = clArg.ToLower)
                             If sSource IsNot Nothing Then
                                 RaiseEvent TaskEvent(Enums.AddonEventType.CommandLine,
-                                                        New List(Of Object)(New Object() {"loadmedia", New Scanner.ScanOrCleanOptions With {.Movies = True}, sSource.ID, String.Empty}))
+                                                        New List(Of Object)(New Object() {"loadmedia", New Scanner.ScanOrCleanOptions With {.Movies = True}, sSource.IdSource, String.Empty}))
                                 i += 1
                             Else
                                 RaiseEvent TaskEvent(Enums.AddonEventType.CommandLine,
@@ -317,16 +318,16 @@ Public Class CommandLine
                 Case "-updatetvshows"
                     If Args.Count - 1 > i AndAlso Not Args(i + 1).StartsWith("-") Then
                         Dim clArg As String = Args(i + 1).Replace("""", String.Empty)
-                        Dim sSource As Database.DBSource = Master.DB.LoadAll_Sources_TVShow.FirstOrDefault(Function(f) f.Name.ToLower = clArg.ToLower)
+                        Dim sSource As EFSourceBase = Master.DB.LoadAll_Sources_TVShow.FirstOrDefault(Function(f) f.Name.ToLower = clArg.ToLower)
                         If sSource IsNot Nothing Then
                             RaiseEvent TaskEvent(Enums.AddonEventType.CommandLine,
-                                                    New List(Of Object)(New Object() {"loadmedia", New Scanner.ScanOrCleanOptions With {.TV = True}, sSource.ID, String.Empty}))
+                                                    New List(Of Object)(New Object() {"loadmedia", New Scanner.ScanOrCleanOptions With {.TV = True}, sSource.IdSource, String.Empty}))
                             i += 1
                         Else
                             sSource = Master.DB.LoadAll_Sources_TVShow.FirstOrDefault(Function(f) f.Path.ToLower = clArg.ToLower)
                             If sSource IsNot Nothing Then
                                 RaiseEvent TaskEvent(Enums.AddonEventType.CommandLine,
-                                                        New List(Of Object)(New Object() {"loadmedia", New Scanner.ScanOrCleanOptions With {.TV = True}, sSource.ID, String.Empty}))
+                                                        New List(Of Object)(New Object() {"loadmedia", New Scanner.ScanOrCleanOptions With {.TV = True}, sSource.IdSource, String.Empty}))
                                 i += 1
                             Else
                                 RaiseEvent TaskEvent(Enums.AddonEventType.CommandLine,

@@ -10,36 +10,14 @@ namespace EmberAPI.EFModels;
 
 [Table("moviesource")]
 [Index("Path", Name = "UniqueMovieSourcePath", IsUnique = true)]
-public partial class Moviesource
+public partial class Moviesource : EFSourceBase
 {
-    [Key]
-    [Column("idSource")]
-    public int IdSource { get; set; }
-
-    [Required]
-    [Column("path")]
-    public string Path { get; set; }
-
-    [Required]
-    [Column("name")]
-    public string Name { get; set; }
-
     [Column("scanRecursive", TypeName = "bool")]
     public bool ScanRecursive { get; set; }
 
     [Column("useFolderName", TypeName = "bool")]
     public bool UseFolderName { get; set; }
 
-    [Column("isSingle", TypeName = "bool")]
-    public bool IsSingle { get; set; }
-
-    [Column("exclude", TypeName = "bool")]
-    public bool Exclude { get; set; }
-
     [Column("getYear", TypeName = "bool")]
     public bool GetYear { get; set; }
-
-    [Required]
-    [Column("language")]
-    public string Language { get; set; }
 }

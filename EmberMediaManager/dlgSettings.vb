@@ -22,6 +22,7 @@
 ' # Move the panels (pnl*) from 0;1000 to 0;0 to edit. Move it back after editing.
 
 Imports EmberAPI
+Imports EmberAPI.EFModels
 Imports NLog
 Imports System.Data
 Imports System.IO
@@ -5076,8 +5077,8 @@ Public Class dlgSettings
     Private Sub RefreshMovieSources()
         Dim lvItem As ListViewItem
         lvMovieSources.Items.Clear()
-        For Each s As Database.DBSource In Master.DB.LoadAll_Sources_Movie
-            lvItem = New ListViewItem(CStr(s.ID))
+        For Each s As Moviesource In Master.DB.LoadAll_Sources_Movie
+            lvItem = New ListViewItem(CStr(s.IdSource))
             lvItem.SubItems.Add(s.Name)
             lvItem.SubItems.Add(s.Path)
             lvItem.SubItems.Add(s.Language)
@@ -5093,8 +5094,8 @@ Public Class dlgSettings
     Private Sub RefreshTVSources()
         Dim lvItem As ListViewItem
         lvTVSources.Items.Clear()
-        For Each s As Database.DBSource In Master.DB.LoadAll_Sources_TVShow
-            lvItem = New ListViewItem(CStr(s.ID))
+        For Each s As Tvshowsource In Master.DB.LoadAll_Sources_TVShow
+            lvItem = New ListViewItem(CStr(s.IdSource))
             lvItem.SubItems.Add(s.Name)
             lvItem.SubItems.Add(s.Path)
             lvItem.SubItems.Add(s.Language)

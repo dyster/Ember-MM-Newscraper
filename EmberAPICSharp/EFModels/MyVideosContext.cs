@@ -128,6 +128,7 @@ public partial class MyVideosContext : DbContext
         {
             entity.Property(e => e.IdEpisode).ValueGeneratedNever();
             entity.Property(e => e.New).HasDefaultValue(false);
+            entity.HasOne(e => e.File);
         });
 
         modelBuilder.Entity<Episodelist>(entity =>

@@ -21,6 +21,7 @@
 Imports System.IO
 Imports System.Text.RegularExpressions
 Imports EmberAPI
+Imports EmberAPI.EFModels
 Imports NLog
 
 Public Class dlgSource_TVShow
@@ -33,7 +34,7 @@ Public Class dlgSource_TVShow
     Private _CurrentName As String = String.Empty
     Private _CurrentPath As String = String.Empty
     Private _ID As Long = -1
-    Private _KnownSources As List(Of Database.DBSource) = New List(Of Database.DBSource)
+    Private _KnownSources As List(Of Tvshowsource) = New List(Of Tvshowsource)
     Private _OldName As String = String.Empty
     Private _OldPath As String = String.Empty
     Private _TempPath As String
@@ -42,13 +43,13 @@ Public Class dlgSource_TVShow
 
 #Region "Properties"
 
-    Public Property Result As Database.DBSource = Nothing
+    Public Property Result As Tvshowsource = Nothing
 
 #End Region 'Properties
 
 #Region "Dialog"
 
-    Public Sub New(ByVal knownSources As List(Of Database.DBSource))
+    Public Sub New(ByVal knownSources As List(Of Tvshowsource))
         ' This call is required by the designer.
         InitializeComponent()
         FormsUtils.ResizeAndMoveDialog(Me, Me)
@@ -58,7 +59,7 @@ Public Class dlgSource_TVShow
     Private Sub Dialog_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
         SetUp()
         If Not _ID = -1 Then
-            Dim s As Database.DBSource = _KnownSources.FirstOrDefault(Function(y) y.ID = _ID)
+            Dim s As Tvshowsource = _KnownSources.FirstOrDefault(Function(y) y.IdSource = _ID)
             If s IsNot Nothing Then
                 _AutoName = False
                 If cbSourceLanguage.Items.Count > 0 Then
@@ -126,11 +127,11 @@ Public Class dlgSource_TVShow
             eEpisodeSorting = DirectCast(cbSourceEpisodeSorting.SelectedIndex, Enums.EpisodeSorting)
         End If
 
-        Result = New Database.DBSource With {
-            .EpisodeOrdering = eEpisodeOrdering,
-            .EpisodeSorting = eEpisodeSorting,
+        Result = New Tvshowsource With {
+            .EpisodeOrdering = CType(eEpisodeOrdering, EpisodeOrdering),
+            .EpisodeSorting = CType(eEpisodeSorting, EpisodeSorting),
             .Exclude = chkExclude.Checked,
-            .ID = _ID,
+            .IdSource = CInt(_ID),
             .IsSingle = chkIsSingle.Checked,
             .Language = strLanguage,
             .Name = txtSourceName.Text.Trim,
@@ -210,7 +211,7 @@ Public Class dlgSource_TVShow
         If String.IsNullOrEmpty(txtSourceName.Text) Then
             pbValidSourceName.Image = My.Resources.invalid
         Else
-            If _KnownSources.FirstOrDefault(Function(f) Not f.ID = _ID AndAlso f.Name = txtSourceName.Text) IsNot Nothing Then
+            If _KnownSources.FirstOrDefault(Function(f) Not f.IdSource = _ID AndAlso f.Name = txtSourceName.Text) IsNot Nothing Then
                 pbValidSourceName.Image = My.Resources.invalid
                 bIsValid_SourceName = False
             Else
@@ -223,7 +224,7 @@ Public Class dlgSource_TVShow
             bIsValid_SourcePath = False
             pbValidSourcePath.Image = My.Resources.invalid
         Else
-            For Each tSource In _KnownSources.Where(Function(f) Not f.ID = _ID)
+            For Each tSource In _KnownSources.Where(Function(f) Not f.IdSource = _ID)
                 'check if the path contains another source or is inside another source
 
                 Dim strOtherSource As String = tSource.Path.ToLower

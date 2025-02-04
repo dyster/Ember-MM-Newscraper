@@ -19,6 +19,7 @@
 ' ################################################################################
 
 Imports EmberAPI
+Imports EmberAPI.EFModels
 Imports NLog
 Imports System.IO
 Imports System.Text.RegularExpressions
@@ -33,7 +34,7 @@ Public Class dlgSource_Movie
     Private _CurrentName As String = String.Empty
     Private _CurrentPath As String = String.Empty
     Private _ID As Long = -1
-    Private _KnownSources As List(Of Database.DBSource) = New List(Of Database.DBSource)
+    Private _KnownSources As List(Of Moviesource) = New List(Of Moviesource)
     Private _OldName As String = String.Empty
     Private _OldPath As String = String.Empty
     Private _TempPath As String = String.Empty
@@ -42,13 +43,13 @@ Public Class dlgSource_Movie
 
 #Region "Properties"
 
-    Public Property Result As Database.DBSource = Nothing
+    Public Property Result As Moviesource = Nothing
 
 #End Region 'Properties
 
 #Region "Dialog"
 
-    Public Sub New(ByVal knownSources As List(Of Database.DBSource))
+    Public Sub New(ByVal knownSources As List(Of Moviesource))
         ' This call is required by the designer.
         InitializeComponent()
         FormsUtils.ResizeAndMoveDialog(Me, Me)
@@ -58,7 +59,7 @@ Public Class dlgSource_Movie
     Private Sub Dialog_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
         Setup()
         If Not _ID = -1 Then
-            Dim s As Database.DBSource = _KnownSources.FirstOrDefault(Function(y) y.ID = _ID)
+            Dim s As Moviesource = _KnownSources.FirstOrDefault(Function(y) y.IdSource = _ID)
             If s IsNot Nothing Then
                 _AutoName = False
                 If cbSourceLanguage.Items.Count > 0 Then
@@ -117,10 +118,10 @@ Public Class dlgSource_Movie
             strLanguage = APIXML.ScraperLanguages.Languages.FirstOrDefault(Function(l) l.Description = cbSourceLanguage.Text).Abbreviation
         End If
 
-        Result = New Database.DBSource With {
+        Result = New Moviesource With {
             .Exclude = chkExclude.Checked,
             .GetYear = chkGetYear.Checked,
-            .ID = _ID,
+            .IdSource = CInt(_ID),
             .IsSingle = chkIsSingle.Checked,
             .Language = strLanguage,
             .Name = txtSourceName.Text.Trim,
@@ -199,7 +200,7 @@ Public Class dlgSource_Movie
             pbValidSourceName.Image = My.Resources.invalid
         Else
             'check duplicate source names 
-            If _KnownSources.FirstOrDefault(Function(f) Not f.ID = _ID AndAlso f.Name = txtSourceName.Text) IsNot Nothing Then
+            If _KnownSources.FirstOrDefault(Function(f) Not f.IdSource = _ID AndAlso f.Name = txtSourceName.Text) IsNot Nothing Then
                 pbValidSourceName.Image = My.Resources.invalid
                 bIsValid_SourceName = False
             Else
@@ -212,7 +213,7 @@ Public Class dlgSource_Movie
             bIsValid_SourcePath = False
             pbValidSourcePath.Image = My.Resources.invalid
         Else
-            For Each tSource In _KnownSources.Where(Function(f) Not f.ID = _ID)
+            For Each tSource In _KnownSources.Where(Function(f) Not f.IdSource = _ID)
                 'check if the path contains another source or is inside another source
 
                 Dim strOtherSource As String = tSource.Path.ToLower

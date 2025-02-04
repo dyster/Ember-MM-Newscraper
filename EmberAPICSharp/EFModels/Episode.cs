@@ -19,7 +19,9 @@ public partial class Episode
     public int IdShow { get; set; }
 
     [Column("idFile")]
-    public int IdFile { get; set; }
+    public int FileId { get; set; }
+
+    public MyFile File { get; set; }
 
     [Column("idSource")]
     public int IdSource { get; set; }

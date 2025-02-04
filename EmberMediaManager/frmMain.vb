@@ -18599,14 +18599,14 @@ Public Class frmMain
                 cmnuTrayUpdateMovies.DropDownItems.Add(New ToolStripSeparator)
             End If
             For Each nSource In Master.DB.LoadAll_Sources_Movie
-                mnuItem = New ToolStripMenuItem With {.CheckOnClick = True, .DoubleClickEnabled = True, .ForeColor = If(nSource.Exclude, Color.Gray, Color.Black), .Tag = nSource.ID, .Text = nSource.Name}
+                mnuItem = New ToolStripMenuItem With {.CheckOnClick = True, .DoubleClickEnabled = True, .ForeColor = If(nSource.Exclude, Color.Gray, Color.Black), .Tag = nSource.IdSource, .Text = nSource.Name}
                 If multipleMovieSources Then
                     AddHandler mnuItem.DoubleClick, AddressOf UpdateDb_SourceSub_Single_DoubleClick_Movie
                 Else
                     AddHandler mnuItem.Click, AddressOf UpdateDb_SourceSub_Single_DoubleClick_Movie
                 End If
                 mnuUpdateMovies.DropDownItems.Add(mnuItem)
-                mnuItem = New ToolStripMenuItem With {.CheckOnClick = True, .DoubleClickEnabled = True, .ForeColor = If(nSource.Exclude, Color.Gray, Color.Black), .Tag = nSource.ID, .Text = nSource.Name}
+                mnuItem = New ToolStripMenuItem With {.CheckOnClick = True, .DoubleClickEnabled = True, .ForeColor = If(nSource.Exclude, Color.Gray, Color.Black), .Tag = nSource.IdSource, .Text = nSource.Name}
                 If multipleMovieSources Then
                     AddHandler mnuItem.DoubleClick, AddressOf UpdateDb_SourceSub_Single_DoubleClick_Movie
                 Else
@@ -18630,14 +18630,14 @@ Public Class frmMain
                 cmnuTrayUpdateShows.DropDownItems.Add(New ToolStripSeparator)
             End If
             For Each nSource In Master.DB.LoadAll_Sources_TVShow
-                mnuItem = New ToolStripMenuItem With {.CheckOnClick = True, .DoubleClickEnabled = True, .ForeColor = If(nSource.Exclude, Color.Gray, Color.Black), .Tag = nSource.ID, .Text = nSource.Name}
+                mnuItem = New ToolStripMenuItem With {.CheckOnClick = True, .DoubleClickEnabled = True, .ForeColor = If(nSource.Exclude, Color.Gray, Color.Black), .Tag = nSource.IdSource, .Text = nSource.Name}
                 If multipleTVShowSources Then
                     AddHandler mnuItem.DoubleClick, AddressOf UpdateDb_SourceSub_Single_DoubleClick_TVShow
                 Else
                     AddHandler mnuItem.Click, AddressOf UpdateDb_SourceSub_Single_DoubleClick_TVShow
                 End If
                 mnuUpdateShows.DropDownItems.Add(mnuItem)
-                mnuItem = New ToolStripMenuItem With {.CheckOnClick = True, .DoubleClickEnabled = True, .ForeColor = If(nSource.Exclude, Color.Gray, Color.Black), .Tag = nSource.ID, .Text = nSource.Name}
+                mnuItem = New ToolStripMenuItem With {.CheckOnClick = True, .DoubleClickEnabled = True, .ForeColor = If(nSource.Exclude, Color.Gray, Color.Black), .Tag = nSource.IdSource, .Text = nSource.Name}
                 If multipleTVShowSources Then
                     AddHandler mnuItem.DoubleClick, AddressOf UpdateDb_SourceSub_Single_DoubleClick_TVShow
                 Else

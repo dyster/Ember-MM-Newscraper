@@ -10,33 +10,31 @@ namespace EmberAPI.EFModels;
 
 [Table("tvshowsource")]
 [Index("Path", Name = "UniqueTVShowSourcePath", IsUnique = true)]
-public partial class Tvshowsource
-{
-    [Key]
-    [Column("idSource")]
-    public int IdSource { get; set; }
-
-    [Required]
-    [Column("path")]
-    public string Path { get; set; }
-
-    [Required]
-    [Column("name")]
-    public string Name { get; set; }
-
-    [Required]
-    [Column("language")]
-    public string Language { get; set; }
-
+public partial class Tvshowsource : EFSourceBase
+{      
     [Column("episodeOrdering")]
-    public int EpisodeOrdering { get; set; }
-
-    [Column("exclude", TypeName = "bool")]
-    public bool Exclude { get; set; }
+    public EpisodeOrdering EpisodeOrdering { get; set; }    
 
     [Column("episodeSorting")]
-    public int EpisodeSorting { get; set; }
+    public EpisodeSorting EpisodeSorting { get; set; }    
+}
 
-    [Column("isSingle", TypeName = "bool")]
-    public bool IsSingle { get; set; }
+/// <summary>
+/// Enum representing valid TV series ordering.
+/// </summary>
+public enum EpisodeOrdering : int
+{
+    Standard = 0,
+    DVD = 1,
+    Absolute = 2,
+    DayOfYear = 3
+}
+
+/// <summary>
+/// Enum representing Order of displaying Episodes
+/// </summary>
+public enum EpisodeSorting : int
+{
+    Episode = 0,
+    Aired = 1
 }

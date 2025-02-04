@@ -19,6 +19,7 @@
 ' ################################################################################
 
 Imports EmberAPI
+Imports EmberAPI.EFModels
 Imports NLog
 
 Public Class dlgHost
@@ -152,10 +153,10 @@ Public Class dlgHost
         Dim sPath As String
 
         'populate all library sources in Ember into embersources
-        For Each moviesources As Database.DBSource In Master.DB.LoadAll_Sources_Movie
+        For Each moviesources As Moviesource In Master.DB.LoadAll_Sources_Movie
             LocalSources.Add(moviesources.Path, Enums.ContentType.Movie)
         Next
-        For Each showsources As Database.DBSource In Master.DB.LoadAll_Sources_TVShow
+        For Each showsources As Tvshowsource In Master.DB.LoadAll_Sources_TVShow
             LocalSources.Add(showsources.Path, Enums.ContentType.TV)
         Next
 
