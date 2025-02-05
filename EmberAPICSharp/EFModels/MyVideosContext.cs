@@ -119,22 +119,21 @@ public partial class MyVideosContext : DbContext
     {
         modelBuilder.Entity<Art>(entity =>
         {
-            entity.Property(e => e.IdArt).ValueGeneratedNever();
+            
         });
 
         modelBuilder.Entity<Certification>(entity =>
         {
-            entity.Property(e => e.IdCertification).ValueGeneratedNever();
+            
         });
 
         modelBuilder.Entity<Country>(entity =>
         {
-            entity.Property(e => e.IdCountry).ValueGeneratedNever();
+            
         });
 
         modelBuilder.Entity<Episode>(entity =>
         {
-            entity.Property(e => e.IdEpisode).ValueGeneratedNever();
             entity.Property(e => e.New).HasDefaultValue(false);
             entity.HasOne(e => e.File);
         });
@@ -146,17 +145,16 @@ public partial class MyVideosContext : DbContext
 
         modelBuilder.Entity<MyFile>(entity =>
         {
-            entity.Property(e => e.IdFile).ValueGeneratedNever();
+            
         });
 
         modelBuilder.Entity<Genre>(entity =>
         {
-            entity.Property(e => e.IdGenre).ValueGeneratedNever();
+            
         });        
 
         modelBuilder.Entity<Movie>(entity =>
         {
-            entity.Property(e => e.IdMovie).ValueGeneratedNever();
             entity.Property(e => e.FileId).HasDefaultValue(-1);
             entity.HasOne(e => e.File);
         });
@@ -168,7 +166,7 @@ public partial class MyVideosContext : DbContext
 
         modelBuilder.Entity<Movieset>(entity =>
         {
-            entity.Property(e => e.IdSet).ValueGeneratedNever();
+            
         });
 
         modelBuilder.Entity<Moviesetlist>(entity =>
@@ -178,14 +176,14 @@ public partial class MyVideosContext : DbContext
 
         modelBuilder.Entity<Moviesource>(entity =>
         {
-            entity.Property(e => e.IdSource).ValueGeneratedNever();
+            
             entity.Property(e => e.GetYear).HasDefaultValue(true);
             entity.Property(e => e.Language).HasDefaultValue("en-US");
         });
 
         modelBuilder.Entity<Season>(entity =>
         {
-            entity.Property(e => e.IdSeason).ValueGeneratedNever();
+            
         });
 
         modelBuilder.Entity<Seasonlist>(entity =>
@@ -195,17 +193,16 @@ public partial class MyVideosContext : DbContext
 
         modelBuilder.Entity<Studio>(entity =>
         {
-            entity.Property(e => e.IdStudio).ValueGeneratedNever();
+            
         });
 
         modelBuilder.Entity<Tag>(entity =>
         {
-            entity.Property(e => e.IdTag).ValueGeneratedNever();
+            
         });
 
         modelBuilder.Entity<Tvshow>(entity =>
         {
-            entity.Property(e => e.IdShow).ValueGeneratedNever();
             entity.Property(e => e.New).HasDefaultValue(false);
         });
 
@@ -216,13 +213,11 @@ public partial class MyVideosContext : DbContext
 
         modelBuilder.Entity<Tvshowsource>(entity =>
         {
-            entity.Property(e => e.IdSource).ValueGeneratedNever();
             entity.Property(e => e.Language).HasDefaultValue("en-US");
         });
 
         modelBuilder.Entity<Uniqueid>(entity =>
         {
-            entity.Property(e => e.IdUniqueId).ValueGeneratedNever();
             entity.Property(e => e.IsDefault).HasDefaultValue(false);
         });
 
