@@ -15,7 +15,7 @@ public partial class Movie
 {
     [Key]
     [Column("idMovie")]
-    public int IdMovie { get; set; }
+    public long IdMovie { get; set; }
 
     [Column("idSource")]
     public int SourceId { get; set; }

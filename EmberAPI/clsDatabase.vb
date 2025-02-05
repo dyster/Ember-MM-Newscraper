@@ -3466,7 +3466,7 @@ Public Class Database
             End If
 
             If dbElement.IDSpecified Then
-                movie.IdMovie = CInt(dbElement.ID)
+                movie.IdMovie = dbElement.ID
             End If
 
             'DateAdded
@@ -3646,7 +3646,7 @@ Public Class Database
                 End If
                 Dim writes = _myvideosEFConn.SaveChanges()
                 If writes > 0 Then
-                    dbElement.ID = Convert.ToInt64(movie.IdMovie)
+                    dbElement.ID = movie.IdMovie
                 Else
                     logger.Error("Something very wrong here: Save_Movie", dbElement.ToString)
                     dbElement.ID = -1

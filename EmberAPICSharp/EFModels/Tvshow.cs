@@ -14,7 +14,7 @@ public partial class Tvshow
 {
     [Key]
     [Column("idShow")]
-    public int IdShow { get; set; }
+    public long IdShow { get; set; }
 
     [Column("idSource")]
     public int IdSource { get; set; }
