@@ -9,6 +9,14 @@ namespace EmberAPI.EFModels;
 public partial class MyVideosContext : DbContext
 {
     private string _dbPath;
+
+    /// <summary>
+    /// This constructor is used by the EF Core Power Tools to generate the model.
+    /// </summary>
+    public MyVideosContext()
+    {
+        _dbPath = @"C:\Users\dyste\SynologyDrive\Coding\Ember-MM-Newscraper\EmberMM - Debug - AnyCPU\net8.0-windows\Profiles\Default\MyVideos49.emm";
+    }
     public MyVideosContext(string dbPath)
     {
         _dbPath = dbPath;
