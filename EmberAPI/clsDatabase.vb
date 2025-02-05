@@ -34,12 +34,14 @@ Imports EmberAPICSharp
 Public Class Database
 
 #Region "Fields"
+
     Shared logger As Logger = LogManager.GetCurrentClassLogger()
 
     Friend WithEvents bwPatchDB As New System.ComponentModel.BackgroundWorker
 
     ReadOnly _connStringTemplate As String = "Data Source=""{0}"";Version=3;Compress=True"
     Protected _myvideosDBConn As SQLiteConnection
+
     ' NOTE: This will use another DB because: can grow alot, Don't want to stress Media DB with this stuff
     'Protected _jobsDBConn As SQLiteConnection
     Protected _myvideosEFConn As MyVideosContext
@@ -95,10 +97,12 @@ Public Class Database
     End Enum
 
     Public Enum ColumnName As Integer
+
         ''' <summary>
         ''' Dummy trigger, not a database column
         ''' </summary>
         ActorName
+
         Aired
         AudioBitrate
         AudioChannels
@@ -160,10 +164,12 @@ Public Class Database
         MarkedEpisodesCount
         MediaType
         MovieCount
+
         ''' <summary>
         ''' Dummy trigger, not a database column
         ''' </summary>
         MoviesInMovieset
+
         MovieTitles
         Name
         [New]
@@ -185,10 +191,12 @@ Public Class Database
         SortMethod
         SortTitle
         SortedTitle
+
         ''' <summary>
         ''' Name of the source (only available in views)
         ''' </summary>
         SourceName
+
         Status
         Studios
         SubEpisode
@@ -268,6 +276,7 @@ Public Class Database
 #End Region 'Enumerations
 
 #Region "Methods"
+
     ''' <summary>
     ''' add or update actor
     ''' </summary>
@@ -422,6 +431,7 @@ Public Class Database
             iOrder += 1
         Next
     End Sub
+
     ''' <summary>
     ''' add an actor to an actorlink* table
     ''' </summary>
@@ -460,6 +470,7 @@ Public Class Database
             Return False
         End If
     End Function
+
     ''' <summary>
     ''' add an actor to an actorlink* table
     ''' </summary>
@@ -706,8 +717,9 @@ Public Class Database
         End Using
         If Not bBatchmode Then SQLtransaction.Commit()
     End Sub
+
     ''' <summary>
-    ''' Iterates db entries to check if the paths to the movie or TV files are valid. 
+    ''' Iterates db entries to check if the paths to the movie or TV files are valid.
     ''' If not, remove all entries pertaining to the movie.
     ''' </summary>
     ''' <param name="CleanMovies">If <c>True</c>, process the movie files</param>
@@ -1242,12 +1254,13 @@ Public Class Database
         logger.Info("[Database] [Cleanup_Studios] Done")
         Return iCounter
     End Function
+
     ''' <summary>
     ''' Remove the New flag from database entries (movies, tvshow, seasons, episode)
     ''' </summary>
     ''' <remarks>
-    ''' 2013/12/13 Dekker500 - Check that MediaDBConn IsNot Nothing before continuing, 
-    '''                        otherwise shutdown after a failed startup (before DB initialized) 
+    ''' 2013/12/13 Dekker500 - Check that MediaDBConn IsNot Nothing before continuing,
+    '''                        otherwise shutdown after a failed startup (before DB initialized)
     '''                        will trow exception
     ''' </remarks>
     Public Sub Clear_New()
@@ -1287,6 +1300,7 @@ Public Class Database
             End Using
         End If
     End Sub
+
     ''' <summary>
     ''' Close the databases
     ''' </summary>
@@ -1302,6 +1316,7 @@ Public Class Database
         '    _jobsDBConn = Nothing
         'End If
     End Sub
+
     ''' <summary>
     ''' Perform the actual closing of the given database connection
     ''' </summary>
@@ -1326,6 +1341,7 @@ Public Class Database
             connection.Dispose()
         End Try
     End Sub
+
     ''' <summary>
     ''' Creates the connection to the MediaDB database
     ''' </summary>
@@ -1389,7 +1405,6 @@ Public Class Database
 
         _myvideosEFConn = New MyVideosContext(MyVideosDBFile)
 
-
         Return isNew
     End Function
 
@@ -1411,6 +1426,7 @@ Public Class Database
                 Return String.Empty
         End Select
     End Function
+
     ''' <summary>
     ''' Remove all empty TV Seasons there has no episodes defined
     ''' </summary>
@@ -1434,6 +1450,7 @@ Public Class Database
 
         If SQLtransaction IsNot Nothing Then SQLtransaction.Dispose()
     End Sub
+
     ''' <summary>
     ''' Remove all TV Episodes they are no longer valid (not in <c>ValidEpisodes</c> list)
     ''' </summary>
@@ -1458,6 +1475,7 @@ Public Class Database
 
         If SQLtransaction IsNot Nothing Then SQLtransaction.Dispose()
     End Sub
+
     ''' <summary>
     ''' Remove all TV Seasons they are no longer valid (not in <c>ValidSeasons</c> list)
     ''' </summary>
@@ -1511,6 +1529,7 @@ Public Class Database
         End Try
         Return True
     End Function
+
     ''' <summary>
     ''' Remove all information related to a movieset from the database.
     ''' </summary>
@@ -1572,6 +1591,7 @@ Public Class Database
         End Try
         Return True
     End Function
+
     ''' <summary>
     ''' Remove all information related to a TV episode from the database.
     ''' </summary>
@@ -1870,6 +1890,7 @@ Public Class Database
         End Using
         Return nList.ToArray
     End Function
+
     ''' <summary>
     ''' Get a list of excluded directories
     ''' </summary>
@@ -2262,6 +2283,7 @@ Public Class Database
     Public Function LoadAll_Sources_Movie() As List(Of Moviesource)
         Return MyVideosEFConn.Moviesources.OrderBy(Of String)(Function(s) s.Name).ToList
     End Function
+
     ''' <summary>
     ''' Get all tv show sources from DB
     ''' </summary>
@@ -2410,6 +2432,7 @@ Public Class Database
         End Using
         Return lstDBELement
     End Function
+
     ''' <summary>
     ''' Load all the information for a movie.
     ''' </summary>
@@ -2420,60 +2443,53 @@ Public Class Database
             .ID = id,
             .MainDetails = New MediaContainers.MainDetails
         }
-        Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = String.Format("SELECT * FROM movie WHERE idMovie = {0};", nDbElement.ID)
-            Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                If SQLreader.HasRows Then
-                    SQLreader.Read()
-                    If Not DBNull.Value.Equals(SQLreader("MoviePath")) Then nDbElement.Filename = SQLreader("MoviePath").ToString
-                    nDbElement.IsSingle = Convert.ToBoolean(SQLreader("Type"))
-                    If Not DBNull.Value.Equals(SQLreader("TrailerPath")) Then nDbElement.Trailer.LocalFilePath = SQLreader("TrailerPath").ToString
-                    If Not DBNull.Value.Equals(SQLreader("NfoPath")) Then nDbElement.NfoPath = SQLreader("NfoPath").ToString
-                    If Not DBNull.Value.Equals(SQLreader("EThumbsPath")) Then nDbElement.ExtrathumbsPath = SQLreader("EThumbsPath").ToString
-                    If Not DBNull.Value.Equals(SQLreader("EFanartsPath")) Then nDbElement.ExtrafanartsPath = SQLreader("EFanartsPath").ToString
-                    If Not DBNull.Value.Equals(SQLreader("ThemePath")) Then nDbElement.Theme.LocalFilePath = SQLreader("ThemePath").ToString
+        Dim movie As Movie = MyVideosEFConn.Movies.Find(id)
 
-                    nDbElement.Source = Load_Source_Movie(Convert.ToInt64(SQLreader("idSource")))
+        nDbElement.Filename = movie.File.Path
+        If movie.IsSingle.HasValue Then nDbElement.IsSingle = movie.IsSingle.Value
+        If movie.TrailerPath IsNot Nothing Then nDbElement.Trailer.LocalFilePath = movie.TrailerPath
+        If movie.NfoPath IsNot Nothing Then nDbElement.NfoPath = movie.NfoPath
+        If movie.EthumbsPath IsNot Nothing Then nDbElement.ExtrathumbsPath = movie.EthumbsPath
+        If movie.EfanartsPath IsNot Nothing Then nDbElement.ExtrafanartsPath = movie.EfanartsPath
+        If movie.ThemePath IsNot Nothing Then nDbElement.Theme.LocalFilePath = movie.ThemePath
 
-                    nDbElement.IsLocked = Convert.ToBoolean(SQLreader("Lock"))
-                    nDbElement.IsMarked = Convert.ToBoolean(SQLreader("Mark"))
-                    nDbElement.IsNew = Convert.ToBoolean(SQLreader("New"))
-                    nDbElement.OutOfTolerance = Convert.ToBoolean(SQLreader("OutOfTolerance"))
-                    nDbElement.IsMarkCustom1 = Convert.ToBoolean(SQLreader("MarkCustom1"))
-                    nDbElement.IsMarkCustom2 = Convert.ToBoolean(SQLreader("MarkCustom2"))
-                    nDbElement.IsMarkCustom3 = Convert.ToBoolean(SQLreader("MarkCustom3"))
-                    nDbElement.IsMarkCustom4 = Convert.ToBoolean(SQLreader("MarkCustom4"))
-                    If Not DBNull.Value.Equals(SQLreader("VideoSource")) Then nDbElement.VideoSource = SQLreader("VideoSource").ToString
-                    If Not DBNull.Value.Equals(SQLreader("Language")) Then nDbElement.Language = SQLreader("Language").ToString
-                    If Not DBNull.Value.Equals(SQLreader("edition")) Then nDbElement.Edition = SQLreader("edition").ToString
+        nDbElement.Source = movie.Source
 
-                    With nDbElement.MainDetails
-                        If Not DBNull.Value.Equals(SQLreader("DateAdded")) Then .DateAdded = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(SQLreader("DateAdded"))).ToString("yyyy-MM-dd HH:mm:ss")
-                        If Not DBNull.Value.Equals(SQLreader("DateModified")) Then .DateModified = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(SQLreader("DateModified"))).ToString("yyyy-MM-dd HH:mm:ss")
-                        If Not DBNull.Value.Equals(SQLreader("Title")) Then .Title = SQLreader("Title").ToString
-                        If Not DBNull.Value.Equals(SQLreader("OriginalTitle")) Then .OriginalTitle = SQLreader("OriginalTitle").ToString
-                        If Not DBNull.Value.Equals(SQLreader("SortTitle")) Then .SortTitle = SQLreader("SortTitle").ToString
-                        If Not DBNull.Value.Equals(SQLreader("MPAA")) Then .MPAA = SQLreader("MPAA").ToString
-                        If Not DBNull.Value.Equals(SQLreader("Top250")) Then .Top250 = Convert.ToInt32(SQLreader("Top250"))
-                        If Not DBNull.Value.Equals(SQLreader("Outline")) Then .Outline = SQLreader("Outline").ToString
-                        If Not DBNull.Value.Equals(SQLreader("Plot")) Then .Plot = SQLreader("Plot").ToString
-                        If Not DBNull.Value.Equals(SQLreader("Tagline")) Then .Tagline = SQLreader("Tagline").ToString
-                        If Not DBNull.Value.Equals(SQLreader("Trailer")) Then .Trailer = SQLreader("Trailer").ToString
-                        If Not DBNull.Value.Equals(SQLreader("Certification")) Then .AddCertificationsFromString(SQLreader("Certification").ToString)
-                        If Not DBNull.Value.Equals(SQLreader("Runtime")) Then .Runtime = SQLreader("Runtime").ToString
-                        If Not DBNull.Value.Equals(SQLreader("premiered")) Then .Premiered = SQLreader("premiered").ToString
-                        If Not DBNull.Value.Equals(SQLreader("PlayCount")) Then .PlayCount = Convert.ToInt32(SQLreader("PlayCount"))
-                        If Not DBNull.Value.Equals(SQLreader("VideoSource")) Then .VideoSource = SQLreader("VideoSource").ToString
-                        If Not DBNull.Value.Equals(SQLreader("iLastPlayed")) Then .LastPlayed = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(SQLreader("iLastPlayed"))).ToString("yyyy-MM-dd HH:mm:ss")
-                        If Not DBNull.Value.Equals(SQLreader("Language")) Then .Language = SQLreader("Language").ToString
-                        If Not DBNull.Value.Equals(SQLreader("iUserRating")) Then .UserRating = Convert.ToInt32(SQLreader("iUserRating"))
-                        If Not DBNull.Value.Equals(SQLreader("userNote")) Then .UserNote = SQLreader("userNote").ToString
-                        If Not DBNull.Value.Equals(SQLreader("edition")) Then .Edition = SQLreader("edition").ToString
-                        If Not DBNull.Value.Equals(SQLreader("year")) Then .Year = SQLreader("year").ToString
-                    End With
-                End If
-            End Using
-        End Using
+        If movie.Locked.HasValue Then nDbElement.IsLocked = movie.Locked.Value
+        nDbElement.IsMarked = movie.Marked
+        nDbElement.IsNew = movie.[New]
+        If movie.OutOfTolerance.HasValue Then nDbElement.OutOfTolerance = movie.OutOfTolerance.Value
+
+        nDbElement.IsMarkCustom1 = movie.MarkCustom1
+        nDbElement.IsMarkCustom2 = movie.MarkCustom2
+        nDbElement.IsMarkCustom3 = movie.MarkCustom3
+        nDbElement.IsMarkCustom4 = movie.MarkCustom4
+
+        'If Not DBNull.Value.Equals(SQLreader("edition")) Then nDbElement.Edition = SQLreader("edition").ToString   missing from db
+        If movie.VideoSource IsNot Nothing Then nDbElement.VideoSource = movie.VideoSource
+        If movie.Language IsNot Nothing Then nDbElement.Language = movie.Language
+
+        With nDbElement.MainDetails
+            If movie.DateAdded.HasValue Then .DateAdded = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(movie.DateAdded)).ToString("yyyy-MM-dd HH:mm:ss")
+            If movie.DateModified.HasValue Then .DateModified = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(movie.DateModified)).ToString("yyyy-MM-dd HH:mm:ss")
+            If movie.Title IsNot Nothing Then .Title = movie.Title
+            If movie.OriginalTitle IsNot Nothing Then .OriginalTitle = movie.OriginalTitle
+            If movie.SortTitle IsNot Nothing Then .SortTitle = movie.SortTitle
+            If movie.Mpaa IsNot Nothing Then .MPAA = movie.Mpaa
+            If movie.Top250.HasValue Then .Top250 = movie.Top250.Value
+            If movie.Outline IsNot Nothing Then .Outline = movie.Outline
+            If movie.Plot IsNot Nothing Then .Plot = movie.Plot
+            If movie.Tagline IsNot Nothing Then .Tagline = movie.Tagline
+            If movie.Trailer IsNot Nothing Then .Trailer = movie.Trailer
+            If movie.Runtime IsNot Nothing Then .Runtime = movie.Runtime
+            If movie.Premiered IsNot Nothing Then .Premiered = movie.Premiered
+            If movie.Playcount.HasValue Then .PlayCount = movie.Playcount.Value
+            If movie.VideoSource IsNot Nothing Then .VideoSource = movie.VideoSource
+            If movie.LastPlayed.HasValue Then .LastPlayed = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(movie.LastPlayed)).ToString("yyyy-MM-dd HH:mm:ss")
+            If movie.Language IsNot Nothing Then .Language = movie.Language
+            .UserRating = movie.UserRating
+            If movie.Premiered IsNot Nothing Then .Year = movie.Premiered
+        End With
 
         'Actors
         Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
@@ -2812,6 +2828,7 @@ Public Class Database
         End Using
         Return _tagDB
     End Function
+
     ''' <summary>
     ''' Load all the information for a TV Episode
     ''' </summary>
@@ -3037,6 +3054,7 @@ Public Class Database
 
         Return nDbElement
     End Function
+
     ''' <summary>
     ''' Load all the information for a TV Season
     ''' </summary>
@@ -3094,6 +3112,7 @@ Public Class Database
 
         Return nDbElement
     End Function
+
     ''' <summary>
     ''' Load all the information for a TV Show
     ''' </summary>
@@ -3122,6 +3141,7 @@ Public Class Database
 
         Return _TVDB
     End Function
+
     ''' <summary>
     ''' Load all the information for a TV Show
     ''' </summary>
@@ -3320,6 +3340,7 @@ Public Class Database
 
         Return nDbElement
     End Function
+
     ''' <summary>
     ''' Load all the information for a TV Show
     ''' </summary>
@@ -3330,6 +3351,7 @@ Public Class Database
         If id < 0 Then Throw New ArgumentOutOfRangeException("ShowID", "Value must be >= 0, was given: " & id)
         Return Master.DB.Load_TVShow(id, True, True, True)
     End Function
+
     ''' <summary>
     ''' Adds TVShow informations to a Database.DBElement
     ''' </summary>
@@ -3419,6 +3441,7 @@ Public Class Database
             End Using
         End If
     End Sub
+
     ''' <summary>
     ''' Saves all information from a Database.DBElement object to the database
     ''' </summary>
@@ -3430,6 +3453,9 @@ Public Class Database
     Public Function Save_Movie(ByVal dbElement As DBElement, ByVal batchMode As Boolean, ByVal toNfo As Boolean, ByVal toDisk As Boolean, ByVal doSync As Boolean, ByVal forceFileCleanup As Boolean) As DBElement
         If dbElement.MainDetails Is Nothing Then Return dbElement
 
+        Dim movie As EFModels.Movie = New EFModels.Movie
+        _myvideosEFConn.Movies.Add(movie)
+
         Dim sqlTransaction As SQLiteTransaction = Nothing
         If Not batchMode Then sqlTransaction = _myvideosDBConn.BeginTransaction()
 
@@ -3439,183 +3465,77 @@ Public Class Database
                 sqlCommand.CommandText = String.Concat(sqlCommand.CommandText, "idMovie,")
             End If
 
-            Dim dbFields As String() = New String() {
-                "idSource",
-                "MoviePath",
-                "Type",
-                "HasSub",
-                "New",
-                "Mark",
-                "Imdb",
-                "Lock",
-                "Title",
-                "OriginalTitle",
-                "SortTitle",
-                "Year",
-                "Rating",
-                "Votes",
-                "MPAA",
-                "Top250",
-                "Outline",
-                "Plot",
-                "Tagline",
-                "Certification",
-                "Runtime",
-                "premiered",
-                "Playcount",
-                "Trailer",
-                "NfoPath",
-                "TrailerPath",
-                "SubPath",
-                "EThumbsPath",
-                "FanartURL",
-                "OutOfTolerance",
-                "VideoSource",
-                "DateAdded",
-                "EFanartsPath",
-                "ThemePath",
-                "TMDB",
-                "TMDBColID",
-                "DateModified",
-                "MarkCustom1",
-                "MarkCustom2",
-                "MarkCustom3",
-                "MarkCustom4",
-                "HasSet",
-                "iLastPlayed",
-                "Language",
-                "iUserRating",
-                "userNote",
-                "edition"
-            }
-            sqlCommand.CommandText = String.Format("{0}{1}) VALUES ({2}",
-                                                   sqlCommand.CommandText,
-                                                   String.Join(",", dbFields),
-                                                   String.Join(",", New String("?"c, dbFields.Count).ToList)
-                                                   )
-
             If dbElement.IDSpecified Then
-                sqlCommand.CommandText = String.Concat(sqlCommand.CommandText, ",?")
-                Dim par_idMovie As SQLiteParameter = sqlCommand.Parameters.Add("par_idMovie", DbType.Int64, 0, "idMovie")
-                par_idMovie.Value = dbElement.ID
+                movie.IdMovie = CInt(dbElement.ID)
             End If
-            sqlCommand.CommandText = String.Concat(sqlCommand.CommandText, "); SELECT LAST_INSERT_ROWID() FROM movie;")
-
-            Dim par_idSource As SQLiteParameter = sqlCommand.Parameters.Add("par_idSource", DbType.Int64, 0, "idSource")
-            Dim par_MoviePath As SQLiteParameter = sqlCommand.Parameters.Add("par_MoviePath", DbType.String, 0, "MoviePath")
-            Dim par_Type As SQLiteParameter = sqlCommand.Parameters.Add("par_Type", DbType.Boolean, 0, "Type")
-            Dim par_HasSub As SQLiteParameter = sqlCommand.Parameters.Add("par_HasSub", DbType.Boolean, 0, "HasSub")
-            Dim par_New As SQLiteParameter = sqlCommand.Parameters.Add("par_New", DbType.Boolean, 0, "New")
-            Dim par_Mark As SQLiteParameter = sqlCommand.Parameters.Add("par_Mark", DbType.Boolean, 0, "Mark")
-            Dim par_Imdb As SQLiteParameter = sqlCommand.Parameters.Add("par_Imdb", DbType.String, 0, "Imdb")
-            Dim par_Lock As SQLiteParameter = sqlCommand.Parameters.Add("par_Lock", DbType.Boolean, 0, "Lock")
-            Dim par_Title As SQLiteParameter = sqlCommand.Parameters.Add("par_Title", DbType.String, 0, "Title")
-            Dim par_OriginalTitle As SQLiteParameter = sqlCommand.Parameters.Add("par_OriginalTitle", DbType.String, 0, "OriginalTitle")
-            Dim par_SortTitle As SQLiteParameter = sqlCommand.Parameters.Add("par_SortTitle", DbType.String, 0, "SortTitle")
-            Dim par_Year As SQLiteParameter = sqlCommand.Parameters.Add("par_Year", DbType.String, 0, "Year")
-            Dim par_Rating As SQLiteParameter = sqlCommand.Parameters.Add("par_Rating", DbType.String, 0, "Rating")
-            Dim par_Votes As SQLiteParameter = sqlCommand.Parameters.Add("par_Votes", DbType.String, 0, "Votes")
-            Dim par_MPAA As SQLiteParameter = sqlCommand.Parameters.Add("par_MPAA", DbType.String, 0, "MPAA")
-            Dim par_Top250 As SQLiteParameter = sqlCommand.Parameters.Add("par_Top250", DbType.Int64, 0, "Top250")
-            Dim par_Outline As SQLiteParameter = sqlCommand.Parameters.Add("par_Outline", DbType.String, 0, "Outline")
-            Dim par_Plot As SQLiteParameter = sqlCommand.Parameters.Add("par_Plot", DbType.String, 0, "Plot")
-            Dim par_Tagline As SQLiteParameter = sqlCommand.Parameters.Add("par_Tagline", DbType.String, 0, "Tagline")
-            Dim par_Certification As SQLiteParameter = sqlCommand.Parameters.Add("par_Certification", DbType.String, 0, "Certification")
-            Dim par_Runtime As SQLiteParameter = sqlCommand.Parameters.Add("par_Runtime", DbType.String, 0, "Runtime")
-            Dim par_premiered As SQLiteParameter = sqlCommand.Parameters.Add("par_premiered", DbType.String, 0, "premiered")
-            Dim par_Playcount As SQLiteParameter = sqlCommand.Parameters.Add("par_Playcount", DbType.Int64, 0, "Playcount")
-            Dim par_Trailer As SQLiteParameter = sqlCommand.Parameters.Add("par_Trailer", DbType.String, 0, "Trailer")
-            Dim par_NfoPath As SQLiteParameter = sqlCommand.Parameters.Add("par_NfoPath", DbType.String, 0, "NfoPath")
-            Dim par_TrailerPath As SQLiteParameter = sqlCommand.Parameters.Add("par_TrailerPath", DbType.String, 0, "TrailerPath")
-            Dim par_SubPath As SQLiteParameter = sqlCommand.Parameters.Add("par_SubPath", DbType.String, 0, "SubPath")
-            Dim par_EThumbsPath As SQLiteParameter = sqlCommand.Parameters.Add("par_EThumbsPath", DbType.String, 0, "EThumbsPath")
-            Dim par_FanartURL As SQLiteParameter = sqlCommand.Parameters.Add("par_FanartURL", DbType.String, 0, "FanartURL")
-            Dim par_OutOfTolerance As SQLiteParameter = sqlCommand.Parameters.Add("par_OutOfTolerance", DbType.Boolean, 0, "OutOfTolerance")
-            Dim par_VideoSource As SQLiteParameter = sqlCommand.Parameters.Add("par_VideoSource", DbType.String, 0, "VideoSource")
-            Dim par_DateAdded As SQLiteParameter = sqlCommand.Parameters.Add("par_DateAdded", DbType.Int64, 0, "DateAdded")
-            Dim par_EFanartsPath As SQLiteParameter = sqlCommand.Parameters.Add("par_EFanartsPath", DbType.String, 0, "EFanartsPath")
-            Dim par_ThemePath As SQLiteParameter = sqlCommand.Parameters.Add("par_ThemePath", DbType.String, 0, "ThemePath")
-            Dim par_TMDB As SQLiteParameter = sqlCommand.Parameters.Add("par_TMDB", DbType.String, 0, "TMDB")
-            Dim par_TMDBColID As SQLiteParameter = sqlCommand.Parameters.Add("par_TMDBColID", DbType.String, 0, "TMDBColID")
-            Dim par_DateModified As SQLiteParameter = sqlCommand.Parameters.Add("par_DateModified", DbType.Int64, 0, "DateModified")
-            Dim par_MarkCustom1 As SQLiteParameter = sqlCommand.Parameters.Add("par_MarkCustom1", DbType.Boolean, 0, "MarkCustom1")
-            Dim par_MarkCustom2 As SQLiteParameter = sqlCommand.Parameters.Add("par_MarkCustom2", DbType.Boolean, 0, "MarkCustom2")
-            Dim par_MarkCustom3 As SQLiteParameter = sqlCommand.Parameters.Add("par_MarkCustom3", DbType.Boolean, 0, "MarkCustom3")
-            Dim par_MarkCustom4 As SQLiteParameter = sqlCommand.Parameters.Add("par_MarkCustom4", DbType.Boolean, 0, "MarkCustom4")
-            Dim par_HasSet As SQLiteParameter = sqlCommand.Parameters.Add("par_HasSet", DbType.Boolean, 0, "HasSet")
-            Dim par_iLastPlayed As SQLiteParameter = sqlCommand.Parameters.Add("par_iLastPlayed", DbType.Int64, 0, "iLastPlayed")
-            Dim par_Language As SQLiteParameter = sqlCommand.Parameters.Add("par_Language", DbType.String, 0, "Language")
-            Dim par_iUserRating As SQLiteParameter = sqlCommand.Parameters.Add("par_iUserRating", DbType.Int64, 0, "iUserRating")
-            Dim par_userNote As SQLiteParameter = sqlCommand.Parameters.Add("par_userNote", DbType.String, 0, "userNote")
-            Dim par_edition As SQLiteParameter = sqlCommand.Parameters.Add("par_edition", DbType.String, 0, "edition")
 
             'DateAdded
             Try
                 If Not Master.eSettings.GeneralDateAddedIgnoreNFO AndAlso dbElement.MainDetails.DateAddedSpecified Then
                     Dim DateTimeAdded As Date = Date.ParseExact(dbElement.MainDetails.DateAdded, "yyyy-MM-dd HH:mm:ss", Globalization.CultureInfo.InvariantCulture)
-                    par_DateAdded.Value = Functions.ConvertToUnixTimestamp(DateTimeAdded)
+                    movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(DateTimeAdded), Integer?)
                 Else
                     Select Case Master.eSettings.GeneralDateTime
                         Case Enums.DateTimeStamp.Now
                             Dim DateTimeAdded As Date
                             If Date.TryParseExact(dbElement.MainDetails.DateAdded, "yyyy-MM-dd HH:mm:ss", Globalization.CultureInfo.InvariantCulture, Globalization.DateTimeStyles.None, DateTimeAdded) Then
-                                par_DateAdded.Value = Functions.ConvertToUnixTimestamp(DateTimeAdded)
+                                movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(DateTimeAdded), Integer?)
                             Else
-                                par_DateAdded.Value = Functions.ConvertToUnixTimestamp(Date.Now)
+                                movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(Date.Now), Integer?)
                             End If
                         Case Enums.DateTimeStamp.ctime
                             Dim ctime As Date = File.GetCreationTime(dbElement.Filename)
                             If ctime.Year > 1601 Then
-                                par_DateAdded.Value = Functions.ConvertToUnixTimestamp(ctime)
+                                movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(ctime), Integer?)
                             Else
                                 Dim mtime As Date = File.GetLastWriteTime(dbElement.Filename)
-                                par_DateAdded.Value = Functions.ConvertToUnixTimestamp(mtime)
+                                movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(mtime), Integer?)
                             End If
                         Case Enums.DateTimeStamp.mtime
                             Dim mtime As Date = File.GetLastWriteTime(dbElement.Filename)
                             If mtime.Year > 1601 Then
-                                par_DateAdded.Value = Functions.ConvertToUnixTimestamp(mtime)
+                                movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(mtime), Integer?)
                             Else
                                 Dim ctime As Date = File.GetCreationTime(dbElement.Filename)
-                                par_DateAdded.Value = Functions.ConvertToUnixTimestamp(ctime)
+                                movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(ctime), Integer?)
                             End If
                         Case Enums.DateTimeStamp.Newer
                             Dim mtime As Date = File.GetLastWriteTime(dbElement.Filename)
                             Dim ctime As Date = File.GetCreationTime(dbElement.Filename)
                             If mtime > ctime Then
-                                par_DateAdded.Value = Functions.ConvertToUnixTimestamp(mtime)
+                                movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(mtime), Integer?)
                             Else
-                                par_DateAdded.Value = Functions.ConvertToUnixTimestamp(ctime)
+                                movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(ctime), Integer?)
                             End If
                     End Select
                 End If
-                dbElement.MainDetails.DateAdded = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(par_DateAdded.Value)).ToString("yyyy-MM-dd HH:mm:ss")
+                dbElement.MainDetails.DateAdded = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(movie.DateAdded)).ToString("yyyy-MM-dd HH:mm:ss")
             Catch
                 Dim DateTimeAdded As Date
                 If Date.TryParseExact(dbElement.MainDetails.DateAdded, "yyyy-MM-dd HH:mm:ss", Globalization.CultureInfo.InvariantCulture, Globalization.DateTimeStyles.None, DateTimeAdded) Then
-                    par_DateAdded.Value = Functions.ConvertToUnixTimestamp(DateTimeAdded)
+                    movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(DateTimeAdded), Integer?)
                 Else
-                    par_DateAdded.Value = Functions.ConvertToUnixTimestamp(Date.Now)
+                    movie.DateAdded = CType(Functions.ConvertToUnixTimestamp(Date.Now), Integer?)
                 End If
-                dbElement.MainDetails.DateAdded = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(par_DateAdded.Value)).ToString("yyyy-MM-dd HH:mm:ss")
+                dbElement.MainDetails.DateAdded = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(movie.DateAdded)).ToString("yyyy-MM-dd HH:mm:ss")
             End Try
 
             'DateModified
             Try
                 If Not dbElement.IDSpecified AndAlso dbElement.MainDetails.DateModifiedSpecified Then
                     Dim DateTimeDateModified As Date = Date.ParseExact(dbElement.MainDetails.DateModified, "yyyy-MM-dd HH:mm:ss", Globalization.CultureInfo.InvariantCulture)
-                    par_DateModified.Value = Functions.ConvertToUnixTimestamp(DateTimeDateModified)
+                    movie.DateModified = CType(Functions.ConvertToUnixTimestamp(DateTimeDateModified), Integer?)
                 ElseIf dbElement.IDSpecified Then
-                    par_DateModified.Value = Functions.ConvertToUnixTimestamp(Date.Now)
+                    movie.DateModified = CType(Functions.ConvertToUnixTimestamp(Date.Now), Integer?)
                 End If
-                If par_DateModified.Value IsNot Nothing Then
-                    dbElement.MainDetails.DateModified = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(par_DateModified.Value)).ToString("yyyy-MM-dd HH:mm:ss")
+                If movie.DateModified IsNot Nothing Then
+                    dbElement.MainDetails.DateModified = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(movie.DateModified)).ToString("yyyy-MM-dd HH:mm:ss")
                 Else
                     dbElement.MainDetails.DateModified = String.Empty
                 End If
             Catch
-                par_DateModified.Value = Functions.ConvertToUnixTimestamp(Date.Now)
-                dbElement.MainDetails.DateModified = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(par_DateAdded.Value)).ToString("yyyy-MM-dd HH:mm:ss")
+                movie.DateModified = CType(Functions.ConvertToUnixTimestamp(Date.Now), Integer?)
+                dbElement.MainDetails.DateModified = Functions.ConvertFromUnixTimestamp(Convert.ToInt64(movie.DateAdded)).ToString("yyyy-MM-dd HH:mm:ss") 'this uses added rather than modified, I think it is intentional
             End Try
 
             'LastPlayed
@@ -3635,9 +3555,9 @@ Public Class Database
                 End Try
             End If
             If DateTimeLastPlayedUnix >= 0 Then
-                par_iLastPlayed.Value = DateTimeLastPlayedUnix
+                movie.LastPlayed = CType(DateTimeLastPlayedUnix, Integer?)
             Else
-                par_iLastPlayed.Value = Nothing 'need to be NOTHING instead of 0
+                movie.LastPlayed = Nothing
                 dbElement.MainDetails.LastPlayed = String.Empty
             End If
 
@@ -3658,81 +3578,82 @@ Public Class Database
                 dbElement.Trailer.Save(dbElement, Enums.ModifierType.MainTrailer, forceFileCleanup)
             End If
 
-            par_MoviePath.Value = dbElement.Filename
-            par_Type.Value = dbElement.IsSingle
+            movie.File = New MyFile()
+            movie.File.Path = dbElement.Filename
+            movie.IsSingle = dbElement.IsSingle
 
-            par_EFanartsPath.Value = dbElement.ExtrafanartsPath
-            par_EThumbsPath.Value = dbElement.ExtrathumbsPath
-            par_NfoPath.Value = dbElement.NfoPath
-            par_ThemePath.Value = If(Not String.IsNullOrEmpty(dbElement.Theme.LocalFilePath), dbElement.Theme.LocalFilePath, String.Empty)
-            par_TrailerPath.Value = If(Not String.IsNullOrEmpty(dbElement.Trailer.LocalFilePath), dbElement.Trailer.LocalFilePath, String.Empty)
+            movie.EfanartsPath = dbElement.ExtrafanartsPath
+            movie.EthumbsPath = dbElement.ExtrathumbsPath
+            movie.NfoPath = dbElement.NfoPath
+            movie.ThemePath = If(Not String.IsNullOrEmpty(dbElement.Theme.LocalFilePath), dbElement.Theme.LocalFilePath, String.Empty)
+            movie.TrailerPath = If(Not String.IsNullOrEmpty(dbElement.Trailer.LocalFilePath), dbElement.Trailer.LocalFilePath, String.Empty)
 
-            par_HasSet.Value = dbElement.MainDetails.SetsSpecified
+            movie.HasSet = dbElement.MainDetails.SetsSpecified
             If dbElement.Subtitles Is Nothing = False Then
-                par_HasSub.Value = dbElement.Subtitles.Count > 0 OrElse dbElement.MainDetails.FileInfo.StreamDetails.Subtitle.Count > 0
+                movie.HasSub = dbElement.Subtitles.Count > 0 OrElse dbElement.MainDetails.FileInfo.StreamDetails.Subtitle.Count > 0
             Else
-                par_HasSub.Value = Nothing
+                movie.HasSub = Nothing
             End If
 
-            par_Lock.Value = dbElement.IsLocked
-            par_Mark.Value = dbElement.IsMarked
-            par_MarkCustom1.Value = dbElement.IsMarkCustom1
-            par_MarkCustom2.Value = dbElement.IsMarkCustom2
-            par_MarkCustom3.Value = dbElement.IsMarkCustom3
-            par_MarkCustom4.Value = dbElement.IsMarkCustom4
-            par_New.Value = Not dbElement.IDSpecified
+            movie.Locked = dbElement.IsLocked
+            movie.Marked = dbElement.IsMarked
+            movie.MarkCustom1 = dbElement.IsMarkCustom1
+            movie.MarkCustom2 = dbElement.IsMarkCustom2
+            movie.MarkCustom3 = dbElement.IsMarkCustom3
+            movie.MarkCustom4 = dbElement.IsMarkCustom4
+            movie.[New] = Not dbElement.IDSpecified
 
             With dbElement.MainDetails
-                par_Certification.Value = String.Join(" / ", .Certifications.ToArray)
-                par_Imdb.Value = If(.UniqueIDs.IMDbIdSpecified, .UniqueIDs.IMDbId, String.Empty)
-                par_iUserRating.Value = .UserRating
-                par_MPAA.Value = .MPAA
-                par_OriginalTitle.Value = .OriginalTitle
-                par_Outline.Value = .Outline
+                'TODO these do not exist in db anymore, some of them have moved to different tables
+                'par_Certification.Value = String.Join(" / ", .Certifications.ToArray)
+                'par_Imdb.Value = If(.UniqueIDs.IMDbIdSpecified, .UniqueIDs.IMDbId, String.Empty) does not exist in db anymore TODO check how to change to uniqueid if that is the intent
+                'par_Rating.Value = .Rating
+                'par_TMDB.Value = If(.UniqueIDs.TMDbIdSpecified, .UniqueIDs.TMDbId.ToString, String.Empty)
+                'par_TMDBColID.Value = If(.UniqueIDs.TMDbCollectionIdSpecified, .UniqueIDs.TMDbCollectionId.ToString, String.Empty)
+                'par_userNote.Value = .UserNote
+                'par_Votes.Value = .Votes
+                movie.UserRating = .UserRating
+                movie.Mpaa = .MPAA
+                movie.OriginalTitle = .OriginalTitle
+                movie.Outline = .Outline
                 If .PlayCountSpecified Then 'need to be NOTHING instead of "0"
-                    par_Playcount.Value = .PlayCount
+                    movie.Playcount = .PlayCount
                 End If
-                par_Plot.Value = .Plot
-                par_Rating.Value = .Rating
-                par_premiered.Value = NumUtils.DateToISO8601Date(.Premiered)
-                par_Runtime.Value = .Runtime
-                par_SortTitle.Value = .SortTitle
-                par_TMDB.Value = If(.UniqueIDs.TMDbIdSpecified, .UniqueIDs.TMDbId.ToString, String.Empty)
-                par_TMDBColID.Value = If(.UniqueIDs.TMDbCollectionIdSpecified, .UniqueIDs.TMDbCollectionId.ToString, String.Empty)
-                par_Tagline.Value = .Tagline
-                par_Title.Value = .Title
+                movie.Plot = .Plot
+                movie.Premiered = NumUtils.DateToISO8601Date(.Premiered)
+                movie.Runtime = .Runtime
+                movie.SortTitle = .SortTitle
+                movie.Tagline = .Tagline
+                movie.Title = .Title
                 If .Top250Specified Then 'need to be NOTHING instead of "0"
-                    par_Top250.Value = .Top250
+                    movie.Top250 = .Top250
                 End If
-                par_Trailer.Value = .Trailer
-                par_userNote.Value = .UserNote
-                par_Votes.Value = .Votes
-                par_Year.Value = .Year
+                movie.Trailer = .Trailer
+                movie.Premiered = .Year 'year no longer exist in db, guess it must be premiered now
             End With
 
-            par_OutOfTolerance.Value = dbElement.OutOfTolerance
-            par_VideoSource.Value = dbElement.VideoSource
-            par_Language.Value = dbElement.Language
-            par_edition.Value = dbElement.Edition
+            'par_edition.Value = dbElement.Edition  does not exist in db
+            movie.OutOfTolerance = dbElement.OutOfTolerance
+            movie.VideoSource = dbElement.VideoSource
+            movie.Language = dbElement.Language
 
-            par_idSource.Value = dbElement.Source.IdSource
+            movie.Source = CType(dbElement.Source, Moviesource) 'casting to moviesource here as otherwise something would be very wrong
 
             If Not dbElement.IDSpecified Then
                 If Master.eSettings.MovieGeneralMarkNew Then
-                    par_Mark.Value = True
+                    movie.Marked = True
                     dbElement.IsMarked = True
                 End If
-                Using rdrMovie As SQLiteDataReader = sqlCommand.ExecuteReader()
-                    If rdrMovie.Read Then
-                        dbElement.ID = Convert.ToInt64(rdrMovie(0))
-                    Else
-                        logger.Error("Something very wrong here: Save_Movie", dbElement.ToString)
-                        dbElement.ID = -1
-                        Return dbElement
-                    End If
-                End Using
+                Dim writes = _myvideosEFConn.SaveChanges()
+                If writes > 0 Then
+                    dbElement.ID = Convert.ToInt64(movie.IdMovie)
+                Else
+                    logger.Error("Something very wrong here: Save_Movie", dbElement.ToString)
+                    dbElement.ID = -1
+                    Return dbElement
+                End If
             Else
-                sqlCommand.ExecuteNonQuery()
+                _myvideosEFConn.SaveChanges()
             End If
 
             If dbElement.IDSpecified Then
@@ -3971,6 +3892,7 @@ Public Class Database
 
         Return dbElement
     End Function
+
     ''' <summary>
     ''' Saves all information from a Database.DBElement object to the database
     ''' </summary>
@@ -4243,6 +4165,7 @@ Public Class Database
         End Using
         Return lngID
     End Function
+
     ''' <summary>
     ''' Saves all episode information from a Database.DBElement object to the database
     ''' </summary>
@@ -4703,6 +4626,7 @@ Public Class Database
 
         Return dbElement
     End Function
+
     ''' <summary>
     ''' Stores information for a single season to the database
     ''' </summary>
@@ -4814,6 +4738,7 @@ Public Class Database
 
         Return dbElement
     End Function
+
     ''' <summary>
     ''' Saves all show information from a Database.DBElement object to the database
     ''' </summary>
@@ -5550,8 +5475,9 @@ Public Class Database
     Private Sub bwPatchDB_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bwPatchDB.RunWorkerCompleted
         Return
     End Sub
+
     ''' <summary>
-    ''' Execute arbitrary SQL commands against the database. Commands are retrieved from fname. 
+    ''' Execute arbitrary SQL commands against the database. Commands are retrieved from fname.
     ''' Commands are serialized Containers.InstallCommands. Only commands marked as CommandType DB are executed.
     ''' </summary>
     ''' <param name="cPath">path to current DB</param>
@@ -6866,6 +6792,7 @@ Public Class Database
                 _name = value
             End Set
         End Property
+
         Public Property Statement() As String
             Get
                 Return _statement
@@ -6991,6 +6918,7 @@ Public Class Database
                 IsLocked = value
             End Set
         End Property
+
         Public Property IsLocked As Boolean
             Get
                 Return MainDetails.IsLocked
@@ -7037,18 +6965,21 @@ Public Class Database
                 Return MainDetails
             End Get
         End Property
+
         <Obsolete("This is a dummie for MainDetails, use that instead")>
         Public ReadOnly Property TVEpisode As MediaContainers.MainDetails
             Get
                 Return MainDetails
             End Get
         End Property
+
         <Obsolete("This is a dummie for MainDetails, use that instead")>
         Public ReadOnly Property TVSeason As MediaContainers.MainDetails
             Get
                 Return MainDetails
             End Get
         End Property
+
         <Obsolete("This is a dummie for MainDetails, use that instead")>
         Public ReadOnly Property Movie As MediaContainers.MainDetails
             Get
@@ -7145,6 +7076,7 @@ Public Class Database
                 Return Trailer.FileOriginal IsNot Nothing AndAlso Trailer.FileOriginal.HasMemoryStream
             End Get
         End Property
+
         ''' <summary>
         ''' Only to set the TVShow informations for TVEpisodes and TVSeasons elements
         ''' </summary>
@@ -7173,11 +7105,11 @@ Public Class Database
             Throw New NotImplementedException("Binaryformatter is obsolete, the Deepclone method needs fixing")
             Dim Stream As New MemoryStream(50000)
             'Dim Formatter As New Runtime.Serialization.Formatters.Binary.BinaryFormatter()
-            ' Serialisierung über alle Objekte hinweg in einen Stream 
+            ' Serialisierung über alle Objekte hinweg in einen Stream
             'Formatter.Serialize(Stream, Me)
-            ' Zurück zum Anfang des Streams und... 
+            ' Zurück zum Anfang des Streams und...
             'Stream.Seek(0, SeekOrigin.Begin)
-            ' ...aus dem Stream in ein Objekt deserialisieren 
+            ' ...aus dem Stream in ein Objekt deserialisieren
             'CloneDeep = Formatter.Deserialize(Stream)
             Stream.Close()
         End Function
@@ -7260,7 +7192,7 @@ Public Class Database
 
         Public Property UseFolderName() As Boolean = False
 
-#End Region 'Properties 
+#End Region 'Properties
 
     End Class
 

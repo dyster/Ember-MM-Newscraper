@@ -18,7 +18,9 @@ public partial class Movie
     public int IdMovie { get; set; }
 
     [Column("idSource")]
-    public int IdSource { get; set; }
+    public int SourceId { get; set; }
+
+    public Moviesource Source { get; set; }
 
     [Column("idFile")]
     public int FileId { get; set; }

@@ -6145,7 +6145,7 @@ Public Class frmMain
             colName = "VideoSource" OrElse
             colName = "Year"
             ) AndAlso e.RowIndex >= 0 Then
-            If Convert.ToBoolean(dgvMovies.Item("Mark", e.RowIndex).Value) Then
+            If Convert.ToBoolean(dgvMovies.Item("Marked", e.RowIndex).Value) Then
                 e.CellStyle.ForeColor = MediaListColors.Marked.ForeColor
                 e.CellStyle.SelectionForeColor = MediaListColors.Marked.SelectionForeColor
             ElseIf Convert.ToBoolean(dgvMovies.Item("New", e.RowIndex).Value) Then
@@ -6173,7 +6173,7 @@ Public Class frmMain
         If e.ColumnIndex >= 2 AndAlso e.RowIndex >= 0 Then
 
             'background
-            If Convert.ToBoolean(dgvMovies.Item("Lock", e.RowIndex).Value) Then
+            If Convert.ToBoolean(dgvMovies.Item("Locked", e.RowIndex).Value) Then
                 e.CellStyle.BackColor = MediaListColors.Locked.BackColor
                 e.CellStyle.SelectionBackColor = MediaListColors.Locked.SelectionBackColor
             ElseIf Convert.ToBoolean(dgvMovies.Item("OutOfTolerance", e.RowIndex).Value) Then
@@ -6466,7 +6466,8 @@ Public Class frmMain
             If dgvMovies.SelectedRows.Count > 1 Then
                 SetStatus(String.Format(Master.eLang.GetString(627, "Selected Items: {0}"), dgvMovies.SelectedRows.Count))
             ElseIf dgvMovies.SelectedRows.Count = 1 Then
-                SetStatus(dgvMovies.SelectedRows(0).Cells("MoviePath").Value.ToString)
+                'SetStatus(dgvMovies.SelectedRows(0).Cells("MoviePath").Value.ToString) TODO investigate if we should bring this back
+                SetStatus(dgvMovies.SelectedRows(0).Cells("ListTitle").Value.ToString)
             End If
             currRow_Movie = dgvMovies.SelectedRows(0).Index
         Else
