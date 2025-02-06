@@ -24,6 +24,7 @@ Imports System.Data
 Imports System.IO
 Imports System.Reflection
 Imports System.Text.RegularExpressions
+Imports EmberAPI.EFModels
 
 Public Class frmMain
 
@@ -12592,10 +12593,11 @@ Public Class frmMain
         alActors = New List(Of String)
         If currMovie.MainDetails.ActorsSpecified Then
             pbActors.Image = My.Resources.actor_silhouette
-            For Each imdbAct As MediaContainers.Person In currMovie.MainDetails.Actors
-                If Not String.IsNullOrEmpty(imdbAct.LocalFilePath) AndAlso File.Exists(imdbAct.LocalFilePath) Then
+            For Each imdbAct As RoleLink In currMovie.MainDetails.Actors
+                Dim thumb = Master.Thumbs(imdbAct.PersonId)
+                If Not String.IsNullOrEmpty(thumb.LocalFilePath) AndAlso File.Exists(thumb.LocalFilePath) Then
                     If Not imdbAct.URLOriginal.ToLower.IndexOf("addtiny.gif") > 0 AndAlso Not imdbAct.URLOriginal.ToLower.IndexOf("no_photo") > 0 Then
-                        alActors.Add(imdbAct.LocalFilePath)
+                        alActors.Add(thumb.LocalFilePath)
                     Else
                         alActors.Add("none")
                     End If
@@ -12610,9 +12612,9 @@ Public Class frmMain
                 End If
 
                 If imdbAct.RoleSpecified Then
-                    lstActors.Items.Add(String.Format(Master.eLang.GetString(131, "{0} as {1}"), imdbAct.Name.Trim, imdbAct.Role.Trim))
+                    lstActors.Items.Add(String.Format(Master.eLang.GetString(131, "{0} as {1}"), imdbAct.Person.Name.Trim, imdbAct.Role.Trim))
                 Else
-                    lstActors.Items.Add(imdbAct.Name.Trim)
+                    lstActors.Items.Add(imdbAct.Person.Name.Trim)
                 End If
             Next
             lstActors.SelectedIndex = 0
@@ -12766,10 +12768,11 @@ Public Class frmMain
         alActors = New List(Of String)
         If currTV.MainDetails.ActorsSpecified Then
             pbActors.Image = My.Resources.actor_silhouette
-            For Each imdbAct As MediaContainers.Person In currTV.MainDetails.Actors
-                If Not String.IsNullOrEmpty(imdbAct.LocalFilePath) AndAlso File.Exists(imdbAct.LocalFilePath) Then
+            For Each imdbAct As RoleLink In currTV.MainDetails.Actors
+                Dim thumb = Master.Thumbs(imdbAct.PersonId)
+                If Not String.IsNullOrEmpty(thumb.LocalFilePath) AndAlso File.Exists(thumb.LocalFilePath) Then
                     If Not imdbAct.URLOriginal.ToLower.IndexOf("addtiny.gif") > 0 AndAlso Not imdbAct.URLOriginal.ToLower.IndexOf("no_photo") > 0 Then
-                        alActors.Add(imdbAct.LocalFilePath)
+                        alActors.Add(thumb.LocalFilePath)
                     Else
                         alActors.Add("none")
                     End If
@@ -12784,9 +12787,9 @@ Public Class frmMain
                 End If
 
                 If String.IsNullOrEmpty(imdbAct.Role.Trim) Then
-                    lstActors.Items.Add(imdbAct.Name.Trim)
+                    lstActors.Items.Add(imdbAct.Person.Name.Trim)
                 Else
-                    lstActors.Items.Add(String.Format(Master.eLang.GetString(131, "{0} as {1}"), imdbAct.Name.Trim, imdbAct.Role.Trim))
+                    lstActors.Items.Add(String.Format(Master.eLang.GetString(131, "{0} as {1}"), imdbAct.Person.Name.Trim, imdbAct.Role.Trim))
                 End If
             Next
             lstActors.SelectedIndex = 0
@@ -12796,10 +12799,11 @@ Public Class frmMain
         alGuestStars = New List(Of String)
         If currTV.MainDetails.GuestStarsSpecified Then
             pbGuestStars.Image = My.Resources.actor_silhouette
-            For Each actor As MediaContainers.Person In currTV.MainDetails.GuestStars
-                If Not String.IsNullOrEmpty(actor.LocalFilePath) AndAlso File.Exists(actor.LocalFilePath) Then
+            For Each actor As RoleLink In currTV.MainDetails.GuestStars
+                Dim thumb = Master.Thumbs(actor.PersonId)
+                If Not String.IsNullOrEmpty(thumb.LocalFilePath) AndAlso File.Exists(thumb.LocalFilePath) Then
                     If Not actor.URLOriginal.ToLower.IndexOf("addtiny.gif") > 0 AndAlso Not actor.URLOriginal.ToLower.IndexOf("no_photo") > 0 Then
-                        alGuestStars.Add(actor.LocalFilePath)
+                        alGuestStars.Add(thumb.LocalFilePath)
                     Else
                         alGuestStars.Add("none")
                     End If
@@ -12814,9 +12818,9 @@ Public Class frmMain
                 End If
 
                 If String.IsNullOrEmpty(actor.Role.Trim) Then
-                    lstGuestStars.Items.Add(actor.Name.Trim)
+                    lstGuestStars.Items.Add(actor.Person.Name.Trim)
                 Else
-                    lstGuestStars.Items.Add(String.Format(Master.eLang.GetString(131, "{0} as {1}"), actor.Name.Trim, actor.Role.Trim))
+                    lstGuestStars.Items.Add(String.Format(Master.eLang.GetString(131, "{0} as {1}"), actor.Person.Name.Trim, actor.Role.Trim))
                 End If
             Next
             lstGuestStars.SelectedIndex = 0
@@ -12908,10 +12912,11 @@ Public Class frmMain
         alActors = New List(Of String)
         If currTV.TVShowDetails.ActorsSpecified Then
             pbActors.Image = My.Resources.actor_silhouette
-            For Each imdbAct As MediaContainers.Person In currTV.TVShowDetails.Actors
-                If Not String.IsNullOrEmpty(imdbAct.LocalFilePath) AndAlso File.Exists(imdbAct.LocalFilePath) Then
+            For Each imdbAct As RoleLink In currTV.TVShowDetails.Actors
+                Dim thumb = Master.Thumbs(imdbAct.PersonId)
+                If Not String.IsNullOrEmpty(thumb.LocalFilePath) AndAlso File.Exists(thumb.LocalFilePath) Then
                     If Not imdbAct.URLOriginal.ToLower.IndexOf("addtiny.gif") > 0 AndAlso Not imdbAct.URLOriginal.ToLower.IndexOf("no_photo") > 0 Then
-                        alActors.Add(imdbAct.LocalFilePath)
+                        alActors.Add(thumb.LocalFilePath)
                     Else
                         alActors.Add("none")
                     End If
@@ -12926,9 +12931,9 @@ Public Class frmMain
                 End If
 
                 If String.IsNullOrEmpty(imdbAct.Role.Trim) Then
-                    lstActors.Items.Add(imdbAct.Name.Trim)
+                    lstActors.Items.Add(imdbAct.Person.Name.Trim)
                 Else
-                    lstActors.Items.Add(String.Format(Master.eLang.GetString(131, "{0} as {1}"), imdbAct.Name.Trim, imdbAct.Role.Trim))
+                    lstActors.Items.Add(String.Format(Master.eLang.GetString(131, "{0} as {1}"), imdbAct.Person.Name.Trim, imdbAct.Role.Trim))
                 End If
             Next
             lstActors.SelectedIndex = 0
@@ -13014,10 +13019,11 @@ Public Class frmMain
         alActors = New List(Of String)
         If currTV.MainDetails.ActorsSpecified Then
             pbActors.Image = My.Resources.actor_silhouette
-            For Each imdbAct As MediaContainers.Person In currTV.MainDetails.Actors
-                If Not String.IsNullOrEmpty(imdbAct.LocalFilePath) AndAlso File.Exists(imdbAct.LocalFilePath) Then
+            For Each imdbAct As RoleLink In currTV.MainDetails.Actors
+                Dim thumb = Master.Thumbs(imdbAct.PersonId)
+                If Not String.IsNullOrEmpty(thumb.LocalFilePath) AndAlso File.Exists(thumb.LocalFilePath) Then
                     If Not imdbAct.URLOriginal.ToLower.IndexOf("addtiny.gif") > 0 AndAlso Not imdbAct.URLOriginal.ToLower.IndexOf("no_photo") > 0 Then
-                        alActors.Add(imdbAct.LocalFilePath)
+                        alActors.Add(thumb.LocalFilePath)
                     Else
                         alActors.Add("none")
                     End If
@@ -13032,9 +13038,9 @@ Public Class frmMain
                 End If
 
                 If String.IsNullOrEmpty(imdbAct.Role.Trim) Then
-                    lstActors.Items.Add(imdbAct.Name.Trim)
+                    lstActors.Items.Add(imdbAct.Person.Name.Trim)
                 Else
-                    lstActors.Items.Add(String.Format(Master.eLang.GetString(131, "{0} as {1}"), imdbAct.Name.Trim, imdbAct.Role.Trim))
+                    lstActors.Items.Add(String.Format(Master.eLang.GetString(131, "{0} as {1}"), imdbAct.Person.Name.Trim, imdbAct.Role.Trim))
                 End If
             Next
             lstActors.SelectedIndex = 0

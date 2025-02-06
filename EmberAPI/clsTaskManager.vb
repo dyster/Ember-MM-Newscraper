@@ -19,6 +19,7 @@
 ' ################################################################################
 
 Imports System.Data
+Imports EmberAPI.EFModels
 Imports NLog
 
 Public Class TaskManager
@@ -367,7 +368,7 @@ Public Class TaskManager
         End If
     End Sub
 
-    Private Sub DataField_ClearList(bEnabled As Boolean, ByRef currList As List(Of MediaContainers.Person))
+    Private Sub DataField_ClearList(bEnabled As Boolean, ByRef currList As List(Of RoleLink))
         If bEnabled AndAlso currList.Count > 0 Then
             currList.Clear()
             _HasChanged = True

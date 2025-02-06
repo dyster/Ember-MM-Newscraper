@@ -21,6 +21,7 @@
 Imports EmberAPI
 Imports NLog
 Imports System.IO
+Imports EmberAPI.EFModels
 
 Public Class dlgEdit_TVEpisode
 
@@ -180,7 +181,7 @@ Public Class dlgEdit_TVEpisode
     Private Sub Actors_Add() Handles btnActorsAdd.Click
         Using dAddEditActor As New dlgAddEditActor
             If dAddEditActor.ShowDialog() = DialogResult.OK Then
-                Dim nActor As MediaContainers.Person = dAddEditActor.Result
+                Dim nActor As RoleLink = dAddEditActor.Result
                 Dim lvItem As ListViewItem = lvActors.Items.Add(nActor.ID.ToString)
                 lvItem.Tag = nActor
                 lvItem.SubItems.Add(nActor.Name)
@@ -224,7 +225,7 @@ Public Class dlgEdit_TVEpisode
     Private Sub Actors_Edit_Click() Handles btnActorsEdit.Click, lvActors.DoubleClick
         If lvActors.SelectedItems.Count > 0 Then
             Dim lvwItem As ListViewItem = lvActors.SelectedItems(0)
-            Dim eActor As MediaContainers.Person = DirectCast(lvwItem.Tag, MediaContainers.Person)
+            Dim eActor As RoleLink = DirectCast(lvwItem.Tag, RoleLink)
             Using dAddEditActor As New dlgAddEditActor
                 If dAddEditActor.ShowDialog(eActor) = DialogResult.OK Then
                     eActor = dAddEditActor.Result
@@ -293,7 +294,7 @@ Public Class dlgEdit_TVEpisode
             'Actors
             Dim lvActorsItem As ListViewItem
             lvActors.Items.Clear()
-            For Each tActor As MediaContainers.Person In .Actors
+            For Each tActor As RoleLink In .Actors
                 lvActorsItem = lvActors.Items.Add(tActor.ID.ToString)
                 lvActorsItem.Tag = tActor
                 lvActorsItem.SubItems.Add(tActor.Name)
@@ -336,7 +337,7 @@ Public Class dlgEdit_TVEpisode
             'GuestStars
             Dim lvGuestStarsItem As ListViewItem
             lvGuestStars.Items.Clear()
-            For Each tGuestStars As MediaContainers.Person In .GuestStars
+            For Each tGuestStars As RoleLink In .GuestStars
                 lvGuestStarsItem = lvGuestStars.Items.Add(tGuestStars.ID.ToString)
                 lvGuestStarsItem.Tag = tGuestStars
                 lvGuestStarsItem.SubItems.Add(tGuestStars.Name)
@@ -472,8 +473,8 @@ Public Class dlgEdit_TVEpisode
             If lvActors.Items.Count > 0 Then
                 Dim iOrder As Integer = 0
                 For Each lviActor As ListViewItem In lvActors.Items
-                    Dim addActor As MediaContainers.Person = DirectCast(lviActor.Tag, MediaContainers.Person)
-                    addActor.Order = iOrder
+                    Dim addActor As RoleLink = DirectCast(lviActor.Tag, RoleLink)
+                    addActor.CastOrder = iOrder
                     iOrder += 1
                     .Actors.Add(addActor)
                 Next
@@ -513,8 +514,8 @@ Public Class dlgEdit_TVEpisode
             If lvGuestStars.Items.Count > 0 Then
                 Dim iOrder As Integer = 0
                 For Each lviGuestStars As ListViewItem In lvGuestStars.Items
-                    Dim addActor As MediaContainers.Person = DirectCast(lviGuestStars.Tag, MediaContainers.Person)
-                    addActor.Order = iOrder
+                    Dim addActor As RoleLink = DirectCast(lviGuestStars.Tag, RoleLink)
+                    addActor.CastOrder = iOrder
                     iOrder += 1
                     .GuestStars.Add(addActor)
                 Next
@@ -700,7 +701,7 @@ Public Class dlgEdit_TVEpisode
     Private Sub GuestStars_Add() Handles btnGuestStarsAdd.Click
         Using dAddEditGuestStar As New dlgAddEditActor
             If dAddEditGuestStar.ShowDialog() = DialogResult.OK Then
-                Dim nGuestStar As MediaContainers.Person = dAddEditGuestStar.Result
+                Dim nGuestStar As RoleLink = dAddEditGuestStar.Result
                 Dim lvItem As ListViewItem = lvGuestStars.Items.Add(nGuestStar.ID.ToString)
                 lvItem.Tag = nGuestStar
                 lvItem.SubItems.Add(nGuestStar.Name)
@@ -744,7 +745,7 @@ Public Class dlgEdit_TVEpisode
     Private Sub GuestStars_Edit_Click() Handles btnGuestStarsEdit.Click, lvGuestStars.DoubleClick
         If lvGuestStars.SelectedItems.Count > 0 Then
             Dim lvwItem As ListViewItem = lvGuestStars.SelectedItems(0)
-            Dim eGuestStar As MediaContainers.Person = DirectCast(lvwItem.Tag, MediaContainers.Person)
+            Dim eGuestStar As RoleLink = DirectCast(lvwItem.Tag, RoleLink)
             Using dAddEditGuestStar As New dlgAddEditActor
                 If dAddEditGuestStar.ShowDialog(eGuestStar) = DialogResult.OK Then
                     eGuestStar = dAddEditGuestStar.Result

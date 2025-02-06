@@ -314,7 +314,7 @@ Public Class Scraper
         If filteredOptions.Actors Then
             If tvshowInfo.Actors IsNot Nothing Then
                 For Each aCast As TVDB.Model.Actor In tvshowInfo.Actors.Where(Function(f) f.Name IsNot Nothing AndAlso f.Role IsNot Nothing).OrderBy(Function(f) f.SortOrder)
-                    nResult.Actors.Add(New MediaContainers.Person With {
+                    nResult.Actors.Add(New RoleLink With {
                                             .Name = aCast.Name,
                                             .Order = aCast.SortOrder,
                                             .Role = aCast.Role,
@@ -449,7 +449,7 @@ Public Class Scraper
         If filteredOptions.Actors Then
             If TVShowInfo.Actors IsNot Nothing Then
                 For Each aCast As TVDB.Model.Actor In TVShowInfo.Actors.Where(Function(f) f.Name IsNot Nothing AndAlso f.Role IsNot Nothing).OrderBy(Function(f) f.SortOrder)
-                    nResult.Actors.Add(New MediaContainers.Person With {
+                    nResult.Actors.Add(New RoleLink With {
                                            .Name = aCast.Name,
                                            .Order = aCast.SortOrder,
                                            .Role = aCast.Role,
@@ -730,8 +730,8 @@ Public Class Scraper
         Return -1
     End Function
 
-    Private Function StringToListOfPerson(ByVal strActors As String) As List(Of MediaContainers.Person)
-        Dim gActors As New List(Of MediaContainers.Person)
+    Private Function StringToListOfPerson(ByVal strActors As String) As List(Of MediaContainers.RoleModel)
+        Dim gActors As New List(Of MediaContainers.RoleModel)
         Dim gRole As String = Master.eLang.GetString(947, "Guest Star")
 
         Dim GuestStarsList As New List(Of String)
@@ -739,7 +739,7 @@ Public Class Scraper
         GuestStarsList.AddRange(strActors.Trim(charsToTrim).Split(charsToTrim))
 
         For Each aGuestStar As String In GuestStarsList
-            gActors.Add(New MediaContainers.Person With {.Name = aGuestStar.Trim, .Role = gRole})
+            gActors.Add(New RoleLink With {.Name = aGuestStar.Trim, .Role = gRole})
         Next
 
         Return gActors

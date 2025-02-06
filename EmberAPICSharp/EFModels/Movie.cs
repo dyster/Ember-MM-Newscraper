@@ -15,7 +15,7 @@ public partial class Movie
 {
     [Key]
     [Column("idMovie")]
-    public long IdMovie { get; set; }
+    public long Id { get; set; }
 
     [Column("idSource")]
     public int SourceId { get; set; }
@@ -26,6 +26,8 @@ public partial class Movie
     public int FileId { get; set; }
 
     public MyFile File { get; set; }
+
+    public List<MovieRoleLink> MovieRoles { get; set; }
 
     [Column("isSingle", TypeName = "bool")]
     public bool? IsSingle { get; set; }

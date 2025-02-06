@@ -14,7 +14,7 @@ public partial class Tvshow
 {
     [Key]
     [Column("idShow")]
-    public long IdShow { get; set; }
+    public long Id { get; set; }
 
     [Column("idSource")]
     public int IdSource { get; set; }
@@ -28,6 +28,8 @@ public partial class Tvshow
     [Required]
     [Column("path")]
     public string Path { get; set; }
+
+    public List<TvshowRoleLink> TvshowRoles { get; set; }
 
     [Column("locked", TypeName = "bool")]
     public bool Locked { get; set; }

@@ -867,11 +867,11 @@ Public Class Scraper
         Return String.Empty
     End Function
 
-    Private Function Parse_Characters(ByRef characters As CharacterDto(), ByVal type As PeopleTypes) As List(Of MediaContainers.Person)
-        Dim Result As New List(Of MediaContainers.Person)
+    Private Function Parse_Characters(ByRef characters As CharacterDto(), ByVal type As PeopleTypes) As List(Of MediaContainers.RoleModel)
+        Dim Result As New List(Of MediaContainers.RoleModel)
         If characters IsNot Nothing Then
             For Each person As CharacterDto In characters.Where(Function(f) f.Type = type).OrderBy(Function(o) o.Sort)
-                Result.Add(New MediaContainers.Person With {
+                Result.Add(New RoleLink With {
                            .Name = person.PersonName,
                            .Role = If(Not String.IsNullOrEmpty(person.Name), person.Name, person.PeopleType),
                            .URLOriginal = Parse_CharacterImage(person),

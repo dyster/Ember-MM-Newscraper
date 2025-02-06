@@ -21,6 +21,7 @@
 Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Drawing
+Imports EmberAPI.EFModels
 Imports NLog
 
 
@@ -950,8 +951,8 @@ Public Class Images
 
     Public Shared Sub Save_Actorthumbs(ByVal dbElement As Database.DBElement)
         'First, (Down)Load all actor thumbs from LocalFilePath or URL
-        For Each Actor As MediaContainers.Person In dbElement.MainDetails.Actors
-            Actor.Thumb.LoadAndCache(dbElement.ContentType, True)
+        For Each Actor As RoleLink In dbElement.MainDetails.Actors
+            Master.Thumbs(Actor.PersonId).LoadAndCache(dbElement.ContentType, True)
         Next
 
         'Second, remove the old ones
@@ -959,9 +960,9 @@ Public Class Images
         If Not dbElement.ContentType = Enums.ContentType.TVEpisode Then Delete(dbElement, Enums.ModifierType.MainActorThumbs, False)
 
         'Thirdly, save all actor thumbs
-        For Each Actor As MediaContainers.Person In dbElement.MainDetails.Actors
-            If Actor.Thumb.LoadAndCache(dbElement.ContentType, True) Then
-                Actor.Thumb.LocalFilePath = Actor.Thumb.ImageOriginal.Save_Actorthumb(dbElement, Actor)
+        For Each Actor As RoleLink In dbElement.MainDetails.Actors
+            If Master.Thumbs(Actor.PersonId).LoadAndCache(dbElement.ContentType, True) Then
+                Master.Thumbs(Actor.PersonId).LocalFilePath = Master.Thumbs(Actor.PersonId).ImageOriginal.Save_Actorthumb(dbElement, Actor)
             End If
         Next
     End Sub
@@ -972,7 +973,7 @@ Public Class Images
     ''' <param name="actor"><c>MediaContainers.Person</c> representing the actor</param>
     ''' <returns><c>String</c> path to the saved image</returns>
     ''' <remarks></remarks>
-    Public Function Save_Actorthumb(ByVal dbElement As Database.DBElement, ByVal actor As MediaContainers.Person) As String
+    Public Function Save_Actorthumb(ByVal dbElement As Database.DBElement, ByVal actor As RoleLink) As String
         Dim ActorthumbFullName As String = String.Empty
         Dim ImageType As Enums.ModifierType
 
@@ -984,7 +985,7 @@ Public Class Images
         End Select
 
         For Each FileName In FileUtils.FileNames.GetFileNames(dbElement, ImageType)
-            ActorthumbFullName = FileName.Replace("<placeholder>", actor.Name.Replace(" ", "_"))
+            ActorthumbFullName = FileName.Replace("<placeholder>", actor.Person.Name.Replace(" ", "_"))
             SaveToFile(ActorthumbFullName)
         Next
 

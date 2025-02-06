@@ -945,8 +945,8 @@ Public Class Scraper
         Return New List(Of String)
     End Function
 
-    Private Function Parse_Actors(ByRef htmldReference As HtmlDocument, Optional ByVal removeepisodecount As Boolean = False) As List(Of MediaContainers.Person)
-        Dim nActors As New List(Of MediaContainers.Person)
+    Private Function Parse_Actors(ByRef htmldReference As HtmlDocument, Optional ByVal removeepisodecount As Boolean = False) As List(Of MediaContainers.RoleModel)
+        Dim nActors As New List(Of MediaContainers.RoleModel)
         Dim strThumbsSize = Master.eAdvancedSettings.GetSetting("ActorThumbsSize", "SX1000_SY1000")
         Dim selNode = htmldReference.DocumentNode.SelectSingleNode("//table[@class=""cast_list""]")
         If selNode IsNot Nothing Then
@@ -956,7 +956,7 @@ Public Class Scraper
                                                        f.Attributes IsNot Nothing AndAlso
                                                        f.Attributes.Where(Function(a) a.Name = "class" AndAlso a.Value = "odd" OrElse a.Value = "even").Any
                                                        )
-                    Dim nActor As New MediaContainers.Person
+                    Dim nActor As New MediaContainers.RoleModel
                     'get actor thumb
                     Dim ndActorthumb = nCast.Descendants("img").FirstOrDefault
                     If ndActorthumb IsNot Nothing AndAlso

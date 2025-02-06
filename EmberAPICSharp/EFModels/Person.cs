@@ -4,21 +4,54 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmberAPI.EFModels;
 
 [Table("person")]
+[Serializable]
 public partial class Person
 {
+    // TODO: Remember to add role and order into the database intermediate
     [Key]
     [Column("idPerson")]
-    public int IdPerson { get; set; }
+    [XmlIgnore]
+    public long ID { get; set; } = -1;
 
     [Required]
     [Column("name")]
+    [XmlElement("name")]
     public string Name { get; set; }
 
+    [NotMapped]
+    [XmlIgnore]
+    public bool NameSpecified => !string.IsNullOrEmpty(Name);
+    
     [Column("thumb")]
-    public string Thumb { get; set; }
+    [XmlElement("thumb")]
+    public string URLOriginal { get; set; }
+
+    [NotMapped]
+    [XmlIgnore]
+    public bool URLOriginalSpecified => !string.IsNullOrEmpty(URLOriginal);
+
+    [XmlElement("imdbid")]
+    [Column("imdbid")]
+    public string IMDbId { get; set; } = string.Empty;
+
+    [XmlElement("tmdbid")]
+    [Column("tmdbid")]
+    public string TMDbId { get; set; } = string.Empty;
+
+    [XmlElement("tvdbid")]
+    [Column("tvdbid")]
+    public string TVDbId { get; set; } = string.Empty;
+
+    public List<MovieRoleLink> MovieRoles { get; set; }
+    public List<TvshowLink> TvshowRoles { get; set; }
+    public List<EpisodeRoleLink> EpisodeRoles { get; set; }
+
+
+
 }

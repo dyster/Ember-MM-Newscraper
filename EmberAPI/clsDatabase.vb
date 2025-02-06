@@ -26,6 +26,8 @@ Imports System.IO
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports EmberAPICSharp
+Imports Microsoft.EntityFrameworkCore
+Imports Microsoft.Extensions.Logging.Abstractions
 
 ''' <summary>
 ''' Class defining and implementing the interface to the database
@@ -344,15 +346,15 @@ Public Class Database
         Add_ToLinkTable("artistlinkmusicvideo", "idArtist", idArtist, "idMVideo", idMVideo)
     End Sub
 
-    Private Sub Add_Cast(ByVal idMedia As Long, ByVal table As String, ByVal field As String, ByVal cast As List(Of MediaContainers.Person))
+    Private Sub Add_Cast(ByVal idMedia As Long, ByVal table As String, ByVal field As String, ByVal cast As List(Of RoleLink))
         If cast Is Nothing Then Return
-
-        Dim iOrder As Integer = 0
-        For Each actor As MediaContainers.Person In cast
-            Dim idActor = Add_Actor(actor.Name, actor.URLOriginal, actor.LocalFilePath, actor.IMDbId, actor.TMDbId, True)
-            Add_LinkToActor(table, idActor, field, idMedia, actor.Role, iOrder)
-            iOrder += 1
-        Next
+        Throw New NotImplementedException
+        'Dim iOrder As Integer = 0
+        'For Each actor As MediaContainers.RoleModel In cast
+        '    Dim idActor = Add_Actor(actor.Person.Name, actor.URLOriginal, actor.LocalFilePath, actor.Person.IMDbId, actor.Person.TMDbId, True)
+        '    Add_LinkToActor(table, idActor, field, idMedia, actor.Role, iOrder)
+        '    iOrder += 1
+        'Next
     End Sub
 
     Private Sub Add_Creator_TVShow(ByVal idShow As Long, ByVal idActor As Long)
@@ -421,15 +423,15 @@ Public Class Database
         Add_ToLinkTable("genrelinktvshow", "idGenre", idGenre, "idShow", idShow, "sorting", sorting)
     End Sub
 
-    Private Sub Add_GuestStar(ByVal idMedia As Long, ByVal table As String, ByVal field As String, ByVal cast As List(Of MediaContainers.Person))
+    Private Sub Add_GuestStar(ByVal idMedia As Long, ByVal table As String, ByVal field As String, ByVal cast As List(Of RoleLink))
         If cast Is Nothing Then Return
-
-        Dim iOrder As Integer = 0
-        For Each actor As MediaContainers.Person In cast
-            Dim idActor = Add_Actor(actor.Name, actor.URLOriginal, actor.LocalFilePath, actor.IMDbId, actor.TMDbId, True)
-            Add_LinkToGuestStar(table, idActor, field, idMedia, actor.Role, iOrder)
-            iOrder += 1
-        Next
+        Throw New NotImplementedException
+        'Dim iOrder As Integer = 0
+        'For Each actor As MediaContainers.RoleModel In cast
+        '    Dim idActor = Add_Actor(actor.Person.Name, actor.URLOriginal, actor.LocalFilePath, actor.Person.IMDbId, actor.Person.TMDbId, True)
+        '    Add_LinkToGuestStar(table, idActor, field, idMedia, actor.Role, iOrder)
+        '    iOrder += 1
+        'Next
     End Sub
 
     ''' <summary>
@@ -1955,7 +1957,7 @@ Public Class Database
     Public Function GetAll_Paths_TVShow() As Hashtable
         Dim nList As New Hashtable
         For Each tShow In _myvideosEFConn.Tvshows
-            nList.Add(tShow.Path, tShow.IdShow)
+            nList.Add(tShow.Path, tShow.Id)
         Next
         Return nList
     End Function
@@ -2443,7 +2445,7 @@ Public Class Database
             .ID = id,
             .MainDetails = New MediaContainers.MainDetails
         }
-        Dim movie As Movie = MyVideosEFConn.Movies.Find(id)
+        Dim movie As Movie = MyVideosEFConn.Movies.Include(Function(m) m.File).FirstOrDefault(Function(m) m.Id = id)
 
         nDbElement.Filename = movie.File.Path
         If movie.IsSingle.HasValue Then nDbElement.IsSingle = movie.IsSingle.Value
@@ -2492,70 +2494,51 @@ Public Class Database
         End With
 
         'Actors
-        Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = String.Concat("SELECT A.strRole, B.idActor, B.strActor, B.strThumb, C.url FROM actorlinkmovie AS A ",
-                        "INNER JOIN actors AS B ON (A.idActor = B.idActor) ",
-                        "LEFT OUTER JOIN art AS C ON (B.idActor = C.media_id AND C.media_type = 'actor' AND C.type = 'thumb') ",
-                        "WHERE A.idMovie = ", nDbElement.ID, " ",
-                        "ORDER BY A.iOrder;")
-            Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                Dim person As MediaContainers.Person
-                While SQLreader.Read
-                    person = New MediaContainers.Person With {
-                        .ID = Convert.ToInt64(SQLreader("idActor")),
-                        .Name = SQLreader("strActor").ToString,
-                        .Role = SQLreader("strRole").ToString,
-                        .LocalFilePath = SQLreader("url").ToString,
-                        .URLOriginal = SQLreader("strThumb").ToString
-                    }
-                    nDbElement.MainDetails.Actors.Add(person)
-                End While
-            End Using
-        End Using
+        nDbElement.MainDetails.Actors = movie.MovieRoles.Select(Function(m) CType(m, RoleLink)).ToList
 
         'Countries
-        Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = String.Concat("SELECT B.strCountry FROM countrylinkmovie ",
-                                                   "AS A INNER JOIN country AS B ON (A.idCountry = B.idCountry) WHERE A.idMovie = ", nDbElement.ID, ";")
-            Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                While SQLreader.Read
-                    If Not DBNull.Value.Equals(SQLreader("strCountry")) Then nDbElement.MainDetails.Countries.Add(SQLreader("strCountry").ToString)
-                End While
-            End Using
-        End Using
+        'Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
+        '    SQLcommand.CommandText = String.Concat("SELECT B.strCountry FROM countrylinkmovie ",
+        '                                           "AS A INNER JOIN country AS B ON (A.idCountry = B.idCountry) WHERE A.idMovie = ", nDbElement.ID, ";")
+        '    Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
+        '        While SQLreader.Read
+        '            If Not DBNull.Value.Equals(SQLreader("strCountry")) Then nDbElement.MainDetails.Countries.Add(SQLreader("strCountry").ToString)
+        '        End While
+        '    End Using
+        'End Using
 
         'Credits
-        Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = String.Concat("SELECT B.strActor FROM writerlinkmovie ",
-                                                   "AS A INNER JOIN actors AS B ON (A.idWriter = B.idActor) WHERE A.idMovie = ", nDbElement.ID, ";")
-            Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                While SQLreader.Read
-                    If Not DBNull.Value.Equals(SQLreader("strActor")) Then nDbElement.MainDetails.Credits.Add(SQLreader("strActor").ToString)
-                End While
-            End Using
-        End Using
+        'Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
+        '    SQLcommand.CommandText = String.Concat("SELECT B.strActor FROM writerlinkmovie ",
+        '                                           "AS A INNER JOIN actors AS B ON (A.idWriter = B.idActor) WHERE A.idMovie = ", nDbElement.ID, ";")
+        '    Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
+        '        While SQLreader.Read
+        '            If Not DBNull.Value.Equals(SQLreader("strActor")) Then nDbElement.MainDetails.Credits.Add(SQLreader("strActor").ToString)
+        '        End While
+        '    End Using
+        'End Using
 
         'Directors
-        Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = String.Concat("SELECT B.strActor FROM directorlinkmovie ",
-                                                   "AS A INNER JOIN actors AS B ON (A.idDirector = B.idActor) WHERE A.idMovie = ", nDbElement.ID, ";")
-            Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                While SQLreader.Read
-                    If Not DBNull.Value.Equals(SQLreader("strActor")) Then nDbElement.MainDetails.Directors.Add(SQLreader("strActor").ToString)
-                End While
-            End Using
-        End Using
+        'Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
+        '    SQLcommand.CommandText = String.Concat("SELECT B.strActor FROM directorlinkmovie ",
+        '                                           "AS A INNER JOIN actors AS B ON (A.idDirector = B.idActor) WHERE A.idMovie = ", nDbElement.ID, ";")
+        '    Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
+        '        While SQLreader.Read
+        '            If Not DBNull.Value.Equals(SQLreader("strActor")) Then nDbElement.MainDetails.Directors.Add(SQLreader("strActor").ToString)
+        '        End While
+        '    End Using
+        'End Using
 
         'Genres
-        Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = String.Concat("SELECT B.strGenre FROM genrelinkmovie ",
-                                                   "AS A INNER JOIN genre AS B ON (A.idGenre = B.idGenre) WHERE A.idMovie = ", nDbElement.ID, " ORDER BY sorting;")
-            Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                While SQLreader.Read
-                    If Not DBNull.Value.Equals(SQLreader("strGenre")) Then nDbElement.MainDetails.Genres.Add(SQLreader("strGenre").ToString)
-                End While
-            End Using
-        End Using
+        'Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
+        '    SQLcommand.CommandText = String.Concat("SELECT B.strGenre FROM genrelinkmovie ",
+        '                                           "AS A INNER JOIN genre AS B ON (A.idGenre = B.idGenre) WHERE A.idMovie = ", nDbElement.ID, " ORDER BY sorting;")
+        '    Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
+        '        While SQLreader.Read
+        '            If Not DBNull.Value.Equals(SQLreader("strGenre")) Then nDbElement.MainDetails.Genres.Add(SQLreader("strGenre").ToString)
+        '        End While
+        '    End Using
+        'End Using
 
         'Moviesets
         nDbElement.MainDetails.Sets.AddRange(Get_Moviesets_Movie(nDbElement.ID))
@@ -2900,16 +2883,16 @@ Public Class Database
                                                    "WHERE A.idEpisode = ", nDbElement.ID, " ",
                                                    "ORDER BY A.iOrder;")
             Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                Dim person As MediaContainers.Person
+                'Dim person As MediaContainers.RoleModel
                 While SQLreader.Read
-                    person = New MediaContainers.Person With {
-                        .ID = Convert.ToInt64(SQLreader("idActor")),
-                        .Name = SQLreader("strActor").ToString,
-                        .Role = SQLreader("strRole").ToString,
-                        .LocalFilePath = SQLreader("url").ToString,
-                        .URLOriginal = SQLreader("strThumb").ToString
-                    }
-                    nDbElement.MainDetails.Actors.Add(person)
+                    'person = New MediaContainers.RoleModel With {      temp comments, change to EF later.
+                    '   .ID = Convert.ToInt64(SQLreader("idActor")), 
+                    '   .Name = SQLreader("strActor").ToString,
+                    '   .Role = SQLreader("strRole").ToString,
+                    '   .LocalFilePath = SQLreader("url").ToString,
+                    '   .URLOriginal = SQLreader("strThumb").ToString
+                    '}
+                    'nDbElement.MainDetails.Actors.Add(person)
                 End While
             End Using
         End Using
@@ -2944,17 +2927,18 @@ Public Class Database
                                                    "WHERE A.idEpisode = ", nDbElement.ID, " ",
                                                    "ORDER BY A.iOrder;")
             Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                Dim person As MediaContainers.Person
-                While SQLreader.Read
-                    person = New MediaContainers.Person With {
-                        .ID = Convert.ToInt64(SQLreader("idActor")),
-                        .Name = SQLreader("strActor").ToString,
-                        .Role = SQLreader("strRole").ToString,
-                        .LocalFilePath = SQLreader("url").ToString,
-                        .URLOriginal = SQLreader("strThumb").ToString
-                    }
-                    nDbElement.MainDetails.GuestStars.Add(person)
-                End While
+                ' temp comment, change to EF later
+                'Dim person As MediaContainers.Person
+                'While SQLreader.Read
+                '    person = New MediaContainers.Person With {
+                '        .ID = Convert.ToInt64(SQLreader("idActor")),
+                '        .Name = SQLreader("strActor").ToString,
+                '        .Role = SQLreader("strRole").ToString,
+                '        .LocalFilePath = SQLreader("url").ToString,
+                '        .URLOriginal = SQLreader("strThumb").ToString
+                '    }
+                '    nDbElement.MainDetails.GuestStars.Add(person)
+                'End While
             End Using
         End Using
 
@@ -3203,17 +3187,18 @@ Public Class Database
                                                    "WHERE A.idShow = ", nDbElement.ID, " ",
                                                    "ORDER BY A.iOrder;")
             Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                Dim actor As MediaContainers.Person
-                While SQLreader.Read
-                    actor = New MediaContainers.Person With {
-                        .ID = Convert.ToInt64(SQLreader("idActor")),
-                        .Name = SQLreader("strActor").ToString,
-                        .Role = SQLreader("strRole").ToString,
-                        .LocalFilePath = SQLreader("url").ToString,
-                        .URLOriginal = SQLreader("strThumb").ToString
-                    }
-                    nDbElement.MainDetails.Actors.Add(actor)
-                End While
+                ' temp comment, change to EF later
+                'Dim actor As MediaContainers.Person
+                'While SQLreader.Read
+                '    actor = New MediaContainers.Person With {
+                '        .id = Convert.ToInt64(SQLreader("idActor")),
+                '        .Name = SQLreader("strActor").ToString,
+                '        .Role = SQLreader("strRole").ToString,
+                '        .LocalFilePath = SQLreader("url").ToString,
+                '        .URLOriginal = SQLreader("strThumb").ToString
+                '    }
+                '    nDbElement.MainDetails.Actors.Add(actor)
+                'End While
             End Using
         End Using
 
@@ -3466,7 +3451,7 @@ Public Class Database
             End If
 
             If dbElement.IDSpecified Then
-                movie.IdMovie = dbElement.ID
+                movie.Id = dbElement.ID
             End If
 
             'DateAdded
@@ -3646,7 +3631,7 @@ Public Class Database
                 End If
                 Dim writes = _myvideosEFConn.SaveChanges()
                 If writes > 0 Then
-                    dbElement.ID = movie.IdMovie
+                    dbElement.ID = movie.Id
                 Else
                     logger.Error("Something very wrong here: Save_Movie", dbElement.ToString)
                     dbElement.ID = -1

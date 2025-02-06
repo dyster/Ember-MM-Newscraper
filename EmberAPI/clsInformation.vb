@@ -18,6 +18,7 @@
 ' # along with Ember Media Manager.  If not, see <http://www.gnu.org/licenses/>. #
 ' ################################################################################
 
+Imports EmberAPI.EFModels
 Imports NLog
 
 Public Class Information
@@ -46,13 +47,13 @@ Public Class Information
         Return False
     End Function
 
-    Private Shared Sub Filter_OnlyPersonsWithImage(ByRef lstPerson As List(Of MediaContainers.Person))
+    Private Shared Sub Filter_OnlyPersonsWithImage(ByRef lstPerson As List(Of RoleLink))
         If lstPerson IsNot Nothing Then
-            lstPerson = lstPerson.Where(Function(f) f.URLOriginalSpecified).ToList
+            lstPerson = lstPerson.Where(Function(f) f.Person.URLOriginalSpecified).ToList
         End If
     End Sub
 
-    Private Shared Sub Filter_CountLimit(ByVal iLimit As Integer, ByRef lstPerson As List(Of MediaContainers.Person))
+    Private Shared Sub Filter_CountLimit(ByVal iLimit As Integer, ByRef lstPerson As List(Of RoleLink))
         If Not iLimit = 0 AndAlso iLimit < lstPerson.Count Then
             lstPerson.RemoveRange(iLimit, lstPerson.Count - iLimit)
         End If
@@ -1741,10 +1742,10 @@ Public Class Information
             (Not oldSpecified OrElse Not settings.Locked)
     End Function
 
-    Private Shared Sub ReorderPersons(ByRef person As List(Of MediaContainers.Person))
+    Private Shared Sub ReorderPersons(ByRef person As List(Of RoleLink))
         Dim Order As Integer = 0
         For Each nPerson In person
-            nPerson.Order = Order
+            nPerson.CastOrder = Order
             Order += 1
         Next
     End Sub

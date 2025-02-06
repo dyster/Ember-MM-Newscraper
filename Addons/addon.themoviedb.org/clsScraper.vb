@@ -21,6 +21,7 @@
 Imports EmberAPI
 Imports NLog
 Imports System.Diagnostics
+Imports EmberAPI.EFModels
 
 Public Class Scraper
     Implements Interfaces.ISearchResultsDialog
@@ -287,7 +288,7 @@ Public Class Scraper
             If type = Enums.ContentType.Movie Then
                 ApiResponse = Task.Run(Function() _TMDbApiG.GetMovieImagesAsync(tmdbID))
                 Results = ApiResponse.Result
-            ElseIf type = Enums.ContentType.MovieSet Then
+            ElseIf type = Enums.ContentType.Movieset Then
                 ApiResponse = Task.Run(Function() _TMDbApiG.GetCollectionImagesAsync(tmdbID))
                 Results = ApiResponse.Result
             End If
@@ -754,7 +755,7 @@ Public Class Scraper
 
         Dim ApiResult As TMDbLib.Objects.Collections.Collection = ApiResponse.Result
         Dim nMainDetails As New MediaContainers.MainDetails With {
-            .UniqueIDs = New MediaContainers.UniqueidContainer(Enums.ContentType.MovieSet) With {.TMDbId = ApiResult.Id}
+            .UniqueIDs = New MediaContainers.UniqueidContainer(Enums.ContentType.Movieset) With {.TMDbId = ApiResult.Id}
         }
 
         If _backgroundWorker.CancellationPending Or ApiResult Is Nothing Then Return Nothing
@@ -800,7 +801,7 @@ Public Class Scraper
         Select Case type
             Case Enums.ContentType.Movie
                 GetInfo_Movie(uniqueId, scrapeModifiers, filteredOptions)
-            Case Enums.ContentType.MovieSet
+            Case Enums.ContentType.Movieset
                 Dim intId As Integer
                 If Integer.TryParse(uniqueId, intId) Then
                     Return GetInfo_Movieset(intId, filteredOptions)
@@ -900,19 +901,20 @@ Public Class Scraper
             End If
         End If
 
+        ' TODO IMPLEMENT
         'Guest Stars
-        If filteredOptions.Episodes.GuestStars Then
-            If ApiResult.GuestStars IsNot Nothing Then
-                For Each aCast As TMDbLib.Objects.TvShows.Cast In ApiResult.GuestStars
-                    nMainDetails.GuestStars.Add(New MediaContainers.Person With {
-                                              .Name = aCast.Name,
-                                              .Role = aCast.Character,
-                                              .URLOriginal = If(Not String.IsNullOrEmpty(aCast.ProfilePath), String.Concat(_TMDbApi.Config.Images.BaseUrl, "original", aCast.ProfilePath), String.Empty),
-                                              .TMDbId = CStr(aCast.Id)
-                                              })
-                Next
-            End If
-        End If
+        'If filteredOptions.Episodes.GuestStars Then
+        '    If ApiResult.GuestStars IsNot Nothing Then
+        '        For Each aCast As TMDbLib.Objects.TvShows.Cast In ApiResult.GuestStars
+        '            nMainDetails.GuestStars.Add(New RoleLink With {
+        '                                      .Name = aCast.Name,
+        '                                      .Role = aCast.Character,
+        '                                      .URLOriginal = If(Not String.IsNullOrEmpty(aCast.ProfilePath), String.Concat(_TMDbApi.Config.Images.BaseUrl, "original", aCast.ProfilePath), String.Empty),
+        '                                      .TMDbId = CStr(aCast.Id)
+        '                                      })
+        '        Next
+        '    End If
+        'End If
 
         'Plot
         If filteredOptions.Episodes.Plot Then
@@ -1264,7 +1266,7 @@ Public Class Scraper
             Select Case type
                 Case Enums.ContentType.Movie
                     TaskType = TaskType.GetInfo_Movie
-                Case Enums.ContentType.MovieSet
+                Case Enums.ContentType.Movieset
                     TaskType = TaskType.GetInfo_Movieset
                 Case Enums.ContentType.TVShow
                     TaskType = TaskType.GetInfo_TVShow
@@ -1313,8 +1315,8 @@ Public Class Scraper
         Return -1
     End Function
 
-    Private Function Parse_Actors(ByRef credits As TMDbLib.Objects.Movies.Credits) As List(Of MediaContainers.Person)
-        Dim Result As New List(Of MediaContainers.Person)
+    Private Function Parse_Actors(ByRef credits As TMDbLib.Objects.Movies.Credits) As List(Of RoleLink)
+        Dim Result As New List(Of RoleLink)
         If credits IsNot Nothing AndAlso credits.Cast IsNot Nothing Then
             For Each item As TMDbLib.Objects.Movies.Cast In credits.Cast
                 Result.Add(Parse_Actors_Create_Person(item.Name, item.Character, item.ProfilePath, item.Id))
@@ -1323,8 +1325,8 @@ Public Class Scraper
         Return Result
     End Function
 
-    Private Function Parse_Actors(ByRef credits As TMDbLib.Objects.TvShows.Credits) As List(Of MediaContainers.Person)
-        Dim Result As New List(Of MediaContainers.Person)
+    Private Function Parse_Actors(ByRef credits As TMDbLib.Objects.TvShows.Credits) As List(Of RoleLink)
+        Dim Result As New List(Of RoleLink)
         If credits IsNot Nothing AndAlso credits.Cast IsNot Nothing Then
             For Each item As TMDbLib.Objects.TvShows.Cast In credits.Cast
                 Result.Add(Parse_Actors_Create_Person(item.Name, item.Character, item.ProfilePath, item.Id))
@@ -1333,8 +1335,8 @@ Public Class Scraper
         Return Result
     End Function
 
-    Private Function Parse_Actors(ByRef credits As TMDbLib.Objects.TvShows.CreditsWithGuestStars) As List(Of MediaContainers.Person)
-        Dim Result As New List(Of MediaContainers.Person)
+    Private Function Parse_Actors(ByRef credits As TMDbLib.Objects.TvShows.CreditsWithGuestStars) As List(Of RoleLink)
+        Dim Result As New List(Of RoleLink)
         If credits IsNot Nothing AndAlso credits.Cast IsNot Nothing Then
             For Each item As TMDbLib.Objects.TvShows.Cast In credits.Cast
                 Result.Add(Parse_Actors_Create_Person(item.Name, item.Character, item.ProfilePath, item.Id))
@@ -1343,13 +1345,15 @@ Public Class Scraper
         Return Result
     End Function
 
-    Private Function Parse_Actors_Create_Person(ByVal name As String, ByVal character As String, ByVal profilePath As String, ByVal id As Integer) As MediaContainers.Person
-        Return New MediaContainers.Person With {
-            .Name = name,
-            .Role = character,
-            .URLOriginal = If(Not String.IsNullOrEmpty(profilePath), String.Concat(_TMDbApi.Config.Images.BaseUrl, "original", profilePath), String.Empty),
-            .TMDbId = id.ToString
-        }
+    Private Function Parse_Actors_Create_Person(ByVal name As String, ByVal character As String, ByVal profilePath As String, ByVal id As Integer) As RoleLink
+        'Return New RoleLink With {
+        '    .Name = name,
+        '    .Role = character,
+        '    .URLOriginal = If(Not String.IsNullOrEmpty(profilePath), String.Concat(_TMDbApi.Config.Images.BaseUrl, "original", profilePath), String.Empty),
+        '    .TMDbId = id.ToString
+        '}
+        Throw New NotImplementedException
+        Return Nothing
     End Function
 
     Private Function Parse_Certifications(ByRef releases As TMDbLib.Objects.Movies.Releases) As List(Of String)

@@ -19,6 +19,7 @@
 ' ################################################################################
 
 Imports EmberAPI
+Imports EmberAPI.EFModels
 Imports NLog
 
 Public Class dlgEdit_TVShow
@@ -202,7 +203,7 @@ Public Class dlgEdit_TVShow
     Private Sub Actors_Add() Handles btnActorsAdd.Click
         Using dAddEditActor As New dlgAddEditActor
             If dAddEditActor.ShowDialog() = DialogResult.OK Then
-                Dim nActor As MediaContainers.Person = dAddEditActor.Result
+                Dim nActor As RoleLink = dAddEditActor.Result
                 Dim lvItem As ListViewItem = lvActors.Items.Add(nActor.ID.ToString)
                 lvItem.Tag = nActor
                 lvItem.SubItems.Add(nActor.Name)
@@ -246,7 +247,7 @@ Public Class dlgEdit_TVShow
     Private Sub Actors_Edit_Click() Handles btnActorsEdit.Click, lvActors.DoubleClick
         If lvActors.SelectedItems.Count > 0 Then
             Dim lvwItem As ListViewItem = lvActors.SelectedItems(0)
-            Dim eActor As MediaContainers.Person = DirectCast(lvwItem.Tag, MediaContainers.Person)
+            Dim eActor As RoleLink = DirectCast(lvwItem.Tag, RoleLink)
             Using dAddEditActor As New dlgAddEditActor
                 If dAddEditActor.ShowDialog(eActor) = DialogResult.OK Then
                     eActor = dAddEditActor.Result
@@ -385,7 +386,7 @@ Public Class dlgEdit_TVShow
             'Actors
             Dim lvItem As ListViewItem
             lvActors.Items.Clear()
-            For Each tActor As MediaContainers.Person In .Actors
+            For Each tActor As RoleLink In .Actors
                 lvItem = lvActors.Items.Add(tActor.ID.ToString)
                 lvItem.Tag = tActor
                 lvItem.SubItems.Add(tActor.Name)
@@ -618,8 +619,8 @@ Public Class dlgEdit_TVShow
             If lvActors.Items.Count > 0 Then
                 Dim iOrder As Integer = 0
                 For Each lviActor As ListViewItem In lvActors.Items
-                    Dim addActor As MediaContainers.Person = DirectCast(lviActor.Tag, MediaContainers.Person)
-                    addActor.Order = iOrder
+                    Dim addActor As RoleLink = DirectCast(lviActor.Tag, RoleLink)
+                    addActor.CastOrder = iOrder
                     iOrder += 1
                     .Actors.Add(addActor)
                 Next

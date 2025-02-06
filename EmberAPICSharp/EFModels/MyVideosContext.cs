@@ -2,6 +2,8 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Sockets;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmberAPI.EFModels;
@@ -109,6 +111,10 @@ public partial class MyVideosContext : DbContext
     public virtual DbSet<Uniqueid> Uniqueids { get; set; }
 
     public virtual DbSet<WriterLink> WriterLinks { get; set; }
+
+    public virtual DbSet<MovieRoleLink> MovieRoleLinks { get; set; }
+    public virtual DbSet<TvshowRoleLink> TvshowRoleLinks { get; set; }
+    public virtual DbSet<EpisodeRoleLink> EpisodeRoleLinks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -225,4 +231,45 @@ public partial class MyVideosContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+}
+
+public class RoleLink
+{
+    public long PersonId { get; set; }
+    public Person Person { get; set; }
+    public string Role { get; set; }
+    public bool RoleSpecified => !string.IsNullOrEmpty(Role);
+    public int CastOrder { get; set; }
+
+    [NotMapped]
+    public string Name => Person.Name;
+    [NotMapped]
+    public string URLOriginal => Person.URLOriginal;
+
+    [Obsolete]
+    [NotMapped] 
+    public long ID => PersonId;
+}
+public class MovieRoleLink : RoleLink
+{
+    public long MovieId { get; set; }
+    public Movie Movie { get; set; }
+    
+    
+    
+}
+
+public class TvshowRoleLink : RoleLink
+{
+    public long TvshowId { get; set; }
+    public Tvshow Tvshow { get; set; }
+    
+    
+}
+
+public class EpisodeRoleLink : RoleLink
+{
+    public long EpisodeId { get; set; }
+    public Episode Episode { get; set; }
+    
 }

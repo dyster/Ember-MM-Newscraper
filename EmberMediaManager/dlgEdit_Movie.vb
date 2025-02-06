@@ -22,6 +22,7 @@ Imports EmberAPI
 Imports NLog
 Imports System.IO
 Imports System.Text.RegularExpressions
+Imports EmberAPI.EFModels
 
 Public Class dlgEdit_Movie
 
@@ -236,12 +237,12 @@ Public Class dlgEdit_Movie
     Private Sub Actors_Add() Handles btnActorsAdd.Click
         Using dAddEditActor As New dlgAddEditActor
             If dAddEditActor.ShowDialog() = DialogResult.OK Then
-                Dim nActor As MediaContainers.Person = dAddEditActor.Result
-                Dim lvItem As ListViewItem = lvActors.Items.Add(nActor.ID.ToString)
+                Dim nActor As RoleLink = dAddEditActor.Result
+                Dim lvItem As ListViewItem = lvActors.Items.Add(nActor.PersonId.ToString)
                 lvItem.Tag = nActor
-                lvItem.SubItems.Add(nActor.Name)
+                lvItem.SubItems.Add(nActor.Person.Name)
                 lvItem.SubItems.Add(nActor.Role)
-                lvItem.SubItems.Add(nActor.URLOriginal)
+                lvItem.SubItems.Add(nActor.Person.URLOriginal)
             End If
         End Using
     End Sub
@@ -280,15 +281,15 @@ Public Class dlgEdit_Movie
     Private Sub Actors_Edit_Click() Handles btnActorsEdit.Click, lvActors.DoubleClick
         If lvActors.SelectedItems.Count > 0 Then
             Dim lvwItem As ListViewItem = lvActors.SelectedItems(0)
-            Dim eActor As MediaContainers.Person = DirectCast(lvwItem.Tag, MediaContainers.Person)
+            Dim eActor As RoleLink = DirectCast(lvwItem.Tag, RoleLink)
             Using dAddEditActor As New dlgAddEditActor
                 If dAddEditActor.ShowDialog(eActor) = DialogResult.OK Then
                     eActor = dAddEditActor.Result
-                    lvwItem.Text = eActor.ID.ToString
+                    lvwItem.Text = eActor.PersonId.ToString
                     lvwItem.Tag = eActor
-                    lvwItem.SubItems(1).Text = eActor.Name
+                    lvwItem.SubItems(1).Text = eActor.Person.Name
                     lvwItem.SubItems(2).Text = eActor.Role
-                    lvwItem.SubItems(3).Text = eActor.URLOriginal
+                    lvwItem.SubItems(3).Text = eActor.Person.URLOriginal
                     lvwItem.Selected = True
                     lvwItem.EnsureVisible()
                 End If
@@ -426,12 +427,12 @@ Public Class dlgEdit_Movie
             'Actors
             Dim lvItem As ListViewItem
             lvActors.Items.Clear()
-            For Each tActor As MediaContainers.Person In .Actors
-                lvItem = lvActors.Items.Add(tActor.ID.ToString)
+            For Each tActor As RoleLink In .Actors
+                lvItem = lvActors.Items.Add(tActor.PersonId.ToString)
                 lvItem.Tag = tActor
-                lvItem.SubItems.Add(tActor.Name)
+                lvItem.SubItems.Add(tActor.Person.Name)
                 lvItem.SubItems.Add(tActor.Role)
-                lvItem.SubItems.Add(tActor.URLOriginal)
+                lvItem.SubItems.Add(tActor.Person.URLOriginal)
             Next
             'Certifications
             For Each v In .Certifications
@@ -763,8 +764,8 @@ Public Class dlgEdit_Movie
             If lvActors.Items.Count > 0 Then
                 Dim iOrder As Integer = 0
                 For Each lviActor As ListViewItem In lvActors.Items
-                    Dim addActor As MediaContainers.Person = DirectCast(lviActor.Tag, MediaContainers.Person)
-                    addActor.Order = iOrder
+                    Dim addActor As RoleLink = DirectCast(lviActor.Tag, RoleLink)
+                    addActor.CastOrder = iOrder
                     iOrder += 1
                     .Actors.Add(addActor)
                 Next

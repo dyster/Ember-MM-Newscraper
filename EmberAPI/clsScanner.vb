@@ -20,6 +20,7 @@
 
 Imports System.Data
 Imports System.IO
+Imports System.Numerics
 Imports System.Text.RegularExpressions
 Imports EmberAPI.EFModels
 Imports NLog
@@ -691,7 +692,7 @@ Public Class Scanner
             'search local actor thumb for each actor in NFO
             If dbElement.MainDetails.ActorsSpecified AndAlso dbElement.ActorThumbsSpecified Then
                 For Each actor In dbElement.MainDetails.Actors
-                    actor.LocalFilePath = dbElement.ActorThumbs.FirstOrDefault(Function(s) Path.GetFileNameWithoutExtension(s).ToLower = actor.Name.Replace(" ", "_").ToLower)
+                    Master.Thumbs(actor.PersonId).LocalFilePath = dbElement.ActorThumbs.FirstOrDefault(Function(s) Path.GetFileNameWithoutExtension(s).ToLower = actor.Person.Name.Replace(" ", "_").ToLower)
                 Next
             End If
 
@@ -845,7 +846,7 @@ Public Class Scanner
             'search local actor thumb for each actor in NFO
             If cEpisode.MainDetails.ActorsSpecified AndAlso cEpisode.ActorThumbsSpecified Then
                 For Each actor In cEpisode.MainDetails.Actors
-                    actor.LocalFilePath = cEpisode.ActorThumbs.FirstOrDefault(Function(s) Path.GetFileNameWithoutExtension(s).ToLower = actor.Name.Replace(" ", "_").ToLower)
+                    Master.Thumbs(actor.PersonId).LocalFilePath = cEpisode.ActorThumbs.FirstOrDefault(Function(s) Path.GetFileNameWithoutExtension(s).ToLower = actor.Person.Name.Replace(" ", "_").ToLower)
                 Next
             End If
 
@@ -971,7 +972,7 @@ Public Class Scanner
                     'search local actor thumb for each actor in NFO
                     If DBTVShow.MainDetails.ActorsSpecified AndAlso DBTVShow.ActorThumbsSpecified Then
                         For Each actor In DBTVShow.MainDetails.Actors
-                            actor.LocalFilePath = DBTVShow.ActorThumbs.FirstOrDefault(Function(s) Path.GetFileNameWithoutExtension(s).ToLower = actor.Name.Replace(" ", "_").ToLower)
+                            Master.Thumbs(actor.PersonId).LocalFilePath = DBTVShow.ActorThumbs.FirstOrDefault(Function(s) Path.GetFileNameWithoutExtension(s).ToLower = actor.Person.Name.Replace(" ", "_").ToLower)
                         Next
                     End If
 

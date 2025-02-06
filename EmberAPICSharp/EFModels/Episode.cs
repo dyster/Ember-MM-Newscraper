@@ -13,7 +13,7 @@ public partial class Episode
 {
     [Key]
     [Column("idEpisode")]
-    public int IdEpisode { get; set; }
+    public long Id { get; set; }
 
     [Column("idShow")]
     public int IdShow { get; set; }
@@ -22,6 +22,8 @@ public partial class Episode
     public int FileId { get; set; }
 
     public MyFile File { get; set; }
+
+    public List<EpisodeRoleLink> EpisodeRoles { get; set; }
 
     [Column("idSource")]
     public int IdSource { get; set; }

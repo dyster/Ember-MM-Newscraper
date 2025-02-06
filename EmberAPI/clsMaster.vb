@@ -39,6 +39,7 @@ Public Class Master
     Public Shared DefaultOptions_TV As New Structures.ScrapeOptions
     Public Shared SettingsPath As String = Path.Combine(Functions.AppPath, "Profiles\Default")
     Public Shared TempPath As String = Path.Combine(Functions.AppPath, "Temp")
+    Public Shared Thumbs As New Dictionary(Of Long, MediaContainers.Image)
     Public Shared eLang As New XmlTranslations
     Public Shared eProfiles As New Profiles
     Public Shared eSettings As New Settings

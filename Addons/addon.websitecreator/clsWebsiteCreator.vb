@@ -748,7 +748,7 @@ Public Class WebsiteCreator
 
         'Actors
         Dim ActorsList As New List(Of String)
-        For Each tActor As MediaContainers.Person In tMovie.Movie.Actors
+        For Each tActor As RoleLink In tMovie.Movie.Actors
             ActorsList.Add(tActor.Name)
         Next
 
@@ -865,13 +865,13 @@ Public Class WebsiteCreator
 
         'Actors
         Dim ActorsList_Episode As New List(Of String)
-        For Each tActor As MediaContainers.Person In tEpisode.TVEpisode.Actors
+        For Each tActor As RoleLink In tEpisode.TVEpisode.Actors
             ActorsList_Episode.Add(tActor.Name)
         Next
 
         'Guest Stars
         Dim GuestStarsList_Episode As New List(Of String)
-        For Each tActor As MediaContainers.Person In tEpisode.TVEpisode.GuestStars
+        For Each tActor As RoleLink In tEpisode.TVEpisode.GuestStars
             GuestStarsList_Episode.Add(tActor.Name)
         Next
 
@@ -996,7 +996,7 @@ Public Class WebsiteCreator
 
         'Actors
         Dim ActorsList As New List(Of String)
-        For Each tActor As MediaContainers.Person In tShow.TVShow.Actors
+        For Each tActor As RoleLink In tShow.TVShow.Actors
             ActorsList.Add(tActor.Name)
         Next
 

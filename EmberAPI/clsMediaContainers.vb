@@ -23,6 +23,8 @@ Imports System.IO
 Imports System.Text.RegularExpressions
 Imports System.Xml
 Imports System.Xml.Serialization
+Imports EmberAPI.EFModels
+Imports System.Numerics
 
 Namespace MediaContainers
 
@@ -514,7 +516,7 @@ Namespace MediaContainers
         End Property
 
         <XmlElement("actor")>
-        Public Property Actors() As New List(Of Person)
+        Public Property Actors() As New List(Of RoleLink)
 
         <XmlIgnore()>
         Public ReadOnly Property ActorsSpecified() As Boolean
@@ -524,7 +526,7 @@ Namespace MediaContainers
         End Property
 
         <XmlElement("gueststar")>
-        Public Property GuestStars() As New List(Of Person)
+        Public Property GuestStars() As New List(Of RoleLink)
 
         <XmlIgnore()>
         Public ReadOnly Property GuestStarsSpecified() As Boolean
@@ -607,10 +609,10 @@ Namespace MediaContainers
         Public Sub CreateCachePaths_ActorsThumbs()
             Dim sPath As String = Path.Combine(Master.TempPath, "Global")
 
-            For Each tActor As Person In Actors
-                tActor.Thumb.CacheOriginalPath = Path.Combine(sPath, String.Concat("actorthumbs", Path.DirectorySeparatorChar, Path.GetFileName(tActor.Thumb.URLOriginal)))
-                If Not String.IsNullOrEmpty(tActor.Thumb.URLThumb) Then
-                    tActor.Thumb.CacheThumbPath = Path.Combine(sPath, String.Concat("actorthumbs\_thumbs", Path.DirectorySeparatorChar, Path.GetFileName(tActor.Thumb.URLOriginal)))
+            For Each tActor As RoleLink In Actors
+                Master.Thumbs(tActor.PersonId).CacheOriginalPath = Path.Combine(sPath, String.Concat("actorthumbs", Path.DirectorySeparatorChar, Path.GetFileName(tActor.Person.URLOriginal)))
+                If Not String.IsNullOrEmpty(Master.Thumbs(tActor.PersonId).URLThumb) Then
+                    Master.Thumbs(tActor.PersonId).CacheThumbPath = Path.Combine(sPath, String.Concat("actorthumbs\_thumbs", Path.DirectorySeparatorChar, Path.GetFileName(tActor.Person.URLOriginal)))
                 End If
             Next
         End Sub
@@ -802,7 +804,7 @@ Namespace MediaContainers
         ''' </summary>
         ''' <returns></returns>
         Public Property LongLanguage() As String
-            Get
+Get
                 Return _longLanguage
             End Get
             Set(value As String)
@@ -1548,7 +1550,7 @@ Namespace MediaContainers
 #Region "Properties"
 
         <XmlElement("actor")>
-        Public Property Actors() As New List(Of Person)
+        Public Property Actors() As New List(Of RoleLink)
 
         <XmlIgnore()>
         Public ReadOnly Property ActorsSpecified() As Boolean
@@ -1750,7 +1752,7 @@ Namespace MediaContainers
         End Property
 
         <XmlElement("gueststar")>
-        Public Property GuestStars() As List(Of Person) = New List(Of Person)
+        Public Property GuestStars() As List(Of RoleLink) = New List(Of RoleLink)
 
         <XmlIgnore()>
         Public ReadOnly Property GuestStarsSpecified() As Boolean
@@ -2395,10 +2397,10 @@ Namespace MediaContainers
         Public Sub CreateCachePaths_ActorsThumbs()
             Dim sPath As String = Path.Combine(Master.TempPath, "Global")
 
-            For Each tActor As Person In Actors
-                tActor.Thumb.CacheOriginalPath = Path.Combine(sPath, String.Concat("actorthumbs", Path.DirectorySeparatorChar, Path.GetFileName(tActor.Thumb.URLOriginal)))
-                If Not String.IsNullOrEmpty(tActor.Thumb.URLThumb) Then
-                    tActor.Thumb.CacheThumbPath = Path.Combine(sPath, String.Concat("actorthumbs\_thumbs", Path.DirectorySeparatorChar, Path.GetFileName(tActor.Thumb.URLOriginal)))
+            For Each tActor As RoleLink In Actors
+                Master.Thumbs(tActor.PersonId).CacheOriginalPath = Path.Combine(sPath, String.Concat("actorthumbs", Path.DirectorySeparatorChar, Path.GetFileName(tActor.Person.URLOriginal)))
+                If Not String.IsNullOrEmpty(Master.Thumbs(tActor.PersonId).URLThumb) Then
+                    Master.Thumbs(tActor.PersonId).CacheThumbPath = Path.Combine(sPath, String.Concat("actorthumbs\_thumbs", Path.DirectorySeparatorChar, Path.GetFileName(tActor.Person.URLOriginal)))
                 End If
             Next
         End Sub
@@ -4084,114 +4086,110 @@ Namespace MediaContainers
 
     End Class
 
-    <Serializable()>
-    Public Class Person
-
-#Region "Properties"
-
-        <XmlIgnore()>
-        Public Property ID() As Long = -1
-
-        <XmlElement("name")>
-        Public Property Name() As String = String.Empty
-
-        <XmlIgnore()>
-        Public ReadOnly Property NameSpecified() As Boolean
-            Get
-                Return Not String.IsNullOrEmpty(Name)
-            End Get
-        End Property
-
-        <XmlElement("role")>
-        Public Property Role() As String = String.Empty
-
-        <XmlIgnore()>
-        Public ReadOnly Property RoleSpecified() As Boolean
-            Get
-                Return Not String.IsNullOrEmpty(Role)
-            End Get
-        End Property
-
-        <XmlElement("order")>
-        Public Property Order() As Integer = -1
-
-        <XmlIgnore()>
-        Public ReadOnly Property OrderSpecified() As Boolean
-            Get
-                Return Not Order = -1
-            End Get
-        End Property
-
-        <XmlIgnore()>
-        Public Property Thumb() As New Image
-
-        <XmlElement("thumb")>
-        Public Property URLOriginal() As String
-            Get
-                Return Thumb.URLOriginal
-            End Get
-            Set(ByVal Value As String)
-                Thumb.URLOriginal = Value
-            End Set
-        End Property
-
-        <XmlIgnore()>
-        Public ReadOnly Property URLOriginalSpecified() As Boolean
-            Get
-                Return Not String.IsNullOrEmpty(Thumb.URLOriginal)
-            End Get
-        End Property
-
-        <XmlIgnore()>
-        Public Property LocalFilePath() As String
-            Get
-                Return Thumb.LocalFilePath
-            End Get
-            Set(ByVal Value As String)
-                Thumb.LocalFilePath = Value
-            End Set
-        End Property
-
-        <XmlIgnore()>
-        Public ReadOnly Property LocalFilePathSpecified() As Boolean
-            Get
-                Return Not String.IsNullOrEmpty(Thumb.LocalFilePath)
-            End Get
-        End Property
-
-        <XmlElement("imdbid")>
-        Public Property IMDbId() As String = String.Empty
-
-        <XmlIgnore()>
-        Public ReadOnly Property IMDbIdSpecified() As Boolean
-            Get
-                Return Not String.IsNullOrEmpty(IMDbId)
-            End Get
-        End Property
-
-        <XmlElement("tmdbid")>
-        Public Property TMDbId() As String = String.Empty
-
-        <XmlIgnore()>
-        Public ReadOnly Property TMDbIdSpecified() As Boolean
-            Get
-                Return Not String.IsNullOrEmpty(TMDbId)
-            End Get
-        End Property
-
-        <XmlElement("tvdbid")>
-        Public Property TVDbId() As String = String.Empty
-
-        <XmlIgnore()>
-        Public ReadOnly Property TVDbIdSpecified() As Boolean
-            Get
-                Return Not String.IsNullOrEmpty(TVDbId)
-            End Get
-        End Property
-
-#End Region 'Properties
-
-    End Class
+    'Public Class RoleModel
+    '
+    '#Region "Properties"
+    '
+    '    Public ReadOnly Property ID As Long
+    '        Get
+    '            Return Person.ID
+    '        End Get
+    '    End Property
+    '
+    '    Public ReadOnly Property Person() As Person
+    '
+    '
+    '    Public Property Role() As String
+    '    Get
+    '            Return Person.
+    '
+    '    <XmlIgnore()>
+    '    Public ReadOnly Property RoleSpecified() As Boolean
+    '        Get
+    '            Return Not String.IsNullOrEmpty(Role)
+    '        End Get
+    '    End Property
+    '
+    '    <XmlElement("order")>
+    '    Public Property Order() As Integer = -1
+    '
+    '    <XmlIgnore()>
+    '    Public ReadOnly Property OrderSpecified() As Boolean
+    '        Get
+    '            Return Not Order = -1
+    '        End Get
+    '    End Property
+    '
+    '    <XmlIgnore()>
+    '    Public Property Thumb() As New Image
+    '
+    '    <XmlElement("thumb")>
+    '    Public Property URLOriginal() As String
+    '        Get
+    '            Return Thumb.URLOriginal
+    '        End Get
+    '        Set(ByVal Value As String)
+    '            Thumb.URLOriginal = Value
+    '        End Set
+    '    End Property
+    '
+    '    <XmlIgnore()>
+    '    Public ReadOnly Property URLOriginalSpecified() As Boolean
+    '        Get
+    '            Return Not String.IsNullOrEmpty(Thumb.URLOriginal)
+    '        End Get
+    '    End Property
+    '
+    '    <XmlIgnore()>
+    '    Public Property LocalFilePath() As String
+    '        Get
+    '            Return Thumb.LocalFilePath
+    '        End Get
+    '        Set(ByVal Value As String)
+    '            Thumb.LocalFilePath = Value
+    '        End Set
+    '    End Property
+    '
+    '    <XmlIgnore()>
+    '    Public ReadOnly Property LocalFilePathSpecified() As Boolean
+    '        Get
+    '            Return Not String.IsNullOrEmpty(Thumb.LocalFilePath)
+    '        End Get
+    '    End Property
+    '
+    '    <XmlIgnore()>
+    '    Public Property Name As String
+    '        Get
+    '            Return Person.Name
+    '        End Get
+    '        Set
+    '            Person.Name = Value
+    '        End Set
+    '    End Property
+    '
+    '    <XmlIgnore()>
+    '    Public Property IMDbId As String
+    '        Get
+    '            Return Person.IMDbId
+    '        End Get
+    '        Set
+    '            Person.IMDbId = Value
+    '        End Set
+    '    End Property
+    '
+    '    <XmlIgnore()>
+    '    Public Property TMDbId As String
+    '        Get
+    '            Return Person.TMDbId
+    '        End Get
+    '        Set
+    '            Person.TMDbId = Value
+    '        End Set
+    '    End Property
+    '
+    '#EndRegion 'Properties
+    '
+    'End Class
 
     <Serializable()>
     Public Class PreferredImagesContainer

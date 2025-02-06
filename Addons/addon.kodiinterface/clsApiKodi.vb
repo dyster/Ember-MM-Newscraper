@@ -24,6 +24,7 @@ Imports XBMCRPC
 Imports System.Globalization
 Imports System.IO
 Imports System.Text.RegularExpressions
+Imports EmberAPI.EFModels
 
 Namespace Kodi
 
@@ -787,16 +788,16 @@ Namespace Kodi
 
             Select Case tDBElement.ContentType
                 Case Enums.ContentType.Movie
-                    For Each tActor As MediaContainers.Person In tDBElement.MainDetails.Actors.Where(Function(f) f.LocalFilePathSpecified)
-                        lImagesToRemove.Add(tActor.LocalFilePath)
+                    For Each tActor As RoleLink In tDBElement.MainDetails.Actors
+                        If Master.Thumbs.ContainsKey(tActor.PersonId) AndAlso Master.Thumbs(tActor.PersonId).LocalFilePathSpecified Then lImagesToRemove.Add(Master.Thumbs(tActor.PersonId).LocalFilePath)
                     Next
                 Case Enums.ContentType.TVEpisode
-                    For Each tActor As MediaContainers.Person In tDBElement.MainDetails.Actors.Where(Function(f) f.LocalFilePathSpecified)
-                        lImagesToRemove.Add(tActor.LocalFilePath)
+                    For Each tActor As RoleLink In tDBElement.MainDetails.Actors
+                        If Master.Thumbs.ContainsKey(tActor.PersonId) AndAlso Master.Thumbs(tActor.PersonId).LocalFilePathSpecified Then lImagesToRemove.Add(Master.Thumbs(tActor.PersonId).LocalFilePath)
                     Next
                 Case Enums.ContentType.TVShow
-                    For Each tActor As MediaContainers.Person In tDBElement.MainDetails.Actors.Where(Function(f) f.LocalFilePathSpecified)
-                        lImagesToRemove.Add(tActor.LocalFilePath)
+                    For Each tActor As RoleLink In tDBElement.MainDetails.Actors
+                        If Master.Thumbs.ContainsKey(tActor.PersonId) AndAlso Master.Thumbs(tActor.PersonId).LocalFilePathSpecified Then lImagesToRemove.Add(Master.Thumbs(tActor.PersonId).LocalFilePath)
                     Next
             End Select
 
