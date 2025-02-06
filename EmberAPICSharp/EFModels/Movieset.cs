@@ -13,7 +13,7 @@ public partial class Movieset
 {
     [Key]
     [Column("idSet")]
-    public int IdSet { get; set; }
+    public long Id { get; set; }
 
     [Column("nfoPath")]
     public string NfoPath { get; set; }
@@ -38,4 +38,6 @@ public partial class Movieset
 
     [Column("language")]
     public string Language { get; set; }
+
+    public List<Movie> Movies { get; }
 }

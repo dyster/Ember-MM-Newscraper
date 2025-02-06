@@ -23,9 +23,7 @@ public partial class MyVideosContext : DbContext
     {
         _dbPath = dbPath;
     }    
-
-    public virtual DbSet<ActorLink> ActorLinks { get; set; }
-
+    
     public virtual DbSet<Art> Arts { get; set; }
 
     public virtual DbSet<Certification> Certifications { get; set; }
@@ -69,9 +67,7 @@ public partial class MyVideosContext : DbContext
     public virtual DbSet<MoviesVstream> MoviesVstreams { get; set; }
 
     public virtual DbSet<Movieset> Moviesets { get; set; }
-
-    public virtual DbSet<MoviesetLink> MoviesetLinks { get; set; }
-
+    
     public virtual DbSet<Moviesetlist> Moviesetlists { get; set; }
 
     public virtual DbSet<Moviesource> Moviesources { get; set; }

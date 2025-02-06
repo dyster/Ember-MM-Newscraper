@@ -2125,20 +2125,19 @@ Public Class Database
 
     Private Function Get_Moviesets_Movie(ByVal movieId As Long) As List(Of MediaContainers.MoviesetDetails)
         Dim lstResults As New List(Of MediaContainers.MoviesetDetails)
-        Using sqlCommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            sqlCommand.CommandText = String.Concat("SELECT A.idMovie, A.idSet, A.iOrder, B.idSet, B.Plot, B.Title, B.TMDBColID FROM setlinkmovie ",
-                                                   "AS A INNER JOIN sets AS B ON (A.idSet = B.idSet) WHERE A.idMovie = ", movieId, ";")
-            Using SQLreader As SQLiteDataReader = sqlCommand.ExecuteReader()
-                While SQLreader.Read
-                    Dim nSet As New MediaContainers.MoviesetDetails
-                    If Not DBNull.Value.Equals(SQLreader("idSet")) Then nSet.ID = Convert.ToInt64(SQLreader("idSet"))
-                    If Not DBNull.Value.Equals(SQLreader("iOrder")) Then nSet.Order = CInt(SQLreader("iOrder"))
-                    If Not DBNull.Value.Equals(SQLreader("Plot")) Then nSet.Plot = SQLreader("plot").ToString
-                    If Not DBNull.Value.Equals(SQLreader("Title")) Then nSet.Title = SQLreader("Title").ToString
-                    lstResults.Add(nSet)
-                End While
-            End Using
-        End Using
+        Dim movie = _myvideosEFConn.Movies.Include(Function(e) e.Moviesets).FirstOrDefault(Function(e) e.Id = movieId)
+        Dim orderCount = 0
+        If movie IsNot Nothing Then
+            For Each mset In movie.Moviesets
+                Dim nSet As New MediaContainers.MoviesetDetails
+                nSet.ID = mset.Id
+                nSet.Order = orderCount
+                nSet.Plot = mset.Plot
+                nSet.Title = mset.Title
+                lstResults.Add(nSet)
+                orderCount += 1
+            Next
+        End If
         Return lstResults
     End Function
 

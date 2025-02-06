@@ -134,4 +134,6 @@ public partial class Movie
 
     [Column("userRating")]
     public int UserRating { get; set; }
+
+    public List<Movieset> Moviesets { get; }
 }
