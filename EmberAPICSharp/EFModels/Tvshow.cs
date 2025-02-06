@@ -29,7 +29,8 @@ public partial class Tvshow
     [Column("path")]
     public string Path { get; set; }
 
-    public List<TvshowRoleLink> TvshowRoles { get; set; }
+    public List<TvshowRole> TvshowRoles { get; set; }
+    public List<Person> Persons { get; set; }
 
     [Column("locked", TypeName = "bool")]
     public bool Locked { get; set; }

@@ -112,9 +112,9 @@ public partial class MyVideosContext : DbContext
 
     public virtual DbSet<WriterLink> WriterLinks { get; set; }
 
-    public virtual DbSet<MovieRoleLink> MovieRoleLinks { get; set; }
-    public virtual DbSet<TvshowRoleLink> TvshowRoleLinks { get; set; }
-    public virtual DbSet<EpisodeRoleLink> EpisodeRoleLinks { get; set; }
+    public virtual DbSet<MovieRole> MovieRoleLinks { get; set; }
+    public virtual DbSet<TvshowRole> TvshowRoleLinks { get; set; }
+    public virtual DbSet<EpisodeRole> EpisodeRoleLinks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -187,6 +187,13 @@ public partial class MyVideosContext : DbContext
             entity.Property(e => e.Language).HasDefaultValue("en-US");
         });
 
+        modelBuilder.Entity<Person>(entity =>
+        {
+            entity.HasMany(e => e.Movies).WithMany(e=>e.Persons).UsingEntity<MovieRole>();
+            entity.HasMany(e => e.Tvshows).WithMany(e=>e.Persons).UsingEntity<TvshowRole>();
+            entity.HasMany(e => e.Episodes).WithMany(e=>e.Persons).UsingEntity<EpisodeRole>();
+        });
+
         modelBuilder.Entity<Season>(entity =>
         {
             
@@ -250,26 +257,20 @@ public class RoleLink
     [NotMapped] 
     public long ID => PersonId;
 }
-public class MovieRoleLink : RoleLink
+public class MovieRole : RoleLink
 {
     public long MovieId { get; set; }
     public Movie Movie { get; set; }
-    
-    
-    
 }
 
-public class TvshowRoleLink : RoleLink
+public class TvshowRole : RoleLink
 {
     public long TvshowId { get; set; }
     public Tvshow Tvshow { get; set; }
-    
-    
 }
 
-public class EpisodeRoleLink : RoleLink
+public class EpisodeRole : RoleLink
 {
     public long EpisodeId { get; set; }
     public Episode Episode { get; set; }
-    
 }

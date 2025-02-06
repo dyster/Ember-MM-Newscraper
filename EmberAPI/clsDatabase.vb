@@ -1925,7 +1925,7 @@ Public Class Database
 
     Public Function GetAll_Paths_Movie() As List(Of String)
         Dim nList As New List(Of String)
-        For Each mPath As String In _myvideosEFConn.Movies.Select(Function(m) m.File.Path)
+        For Each mPath As String In _myvideosEFConn.Movies.Include(Function(m) m.File).Select(Function(m) m.File.Path)
             If Master.eSettings.FileSystemNoStackExts.Contains(Path.GetExtension(mPath)) Then
                 nList.Add(mPath)
             Else
@@ -2494,7 +2494,7 @@ Public Class Database
         End With
 
         'Actors
-        nDbElement.MainDetails.Actors = movie.MovieRoles.Select(Function(m) CType(m, RoleLink)).ToList
+        If movie.MovieRoles IsNot Nothing Then nDbElement.MainDetails.Actors = movie.MovieRoles.Select(Function(m) CType(m, RoleLink)).ToList
 
         'Countries
         'Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()

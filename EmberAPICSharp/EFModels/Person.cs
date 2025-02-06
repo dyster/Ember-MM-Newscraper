@@ -17,7 +17,7 @@ public partial class Person
     [Key]
     [Column("idPerson")]
     [XmlIgnore]
-    public long ID { get; set; } = -1;
+    public long Id { get; set; } = -1;
 
     [Required]
     [Column("name")]
@@ -48,9 +48,12 @@ public partial class Person
     [Column("tvdbid")]
     public string TVDbId { get; set; } = string.Empty;
 
-    public List<MovieRoleLink> MovieRoles { get; set; }
-    public List<TvshowLink> TvshowRoles { get; set; }
-    public List<EpisodeRoleLink> EpisodeRoles { get; set; }
+    public List<MovieRole> MovieRoles { get; set; }
+    public List<Movie> Movies { get; set; }
+    public List<TvshowRole> TvshowRoles { get; set; }
+    public List<Tvshow> Tvshows { get; set; }
+    public List<EpisodeRole> EpisodeRoles { get; set; }
+    public List<Episode> Episodes { get; set; }
 
 
 

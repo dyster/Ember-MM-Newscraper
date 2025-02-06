@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace EmberAPI.EFModels;
 
 [Table("movie")]
-[Index("FileId", "IdMovie", Name = "ix_movie_file_1", IsUnique = true)]
-[Index("IdMovie", "FileId", Name = "ix_movie_file_2", IsUnique = true)]
+[Index("FileId", "Id", Name = "ix_movie_file_1", IsUnique = true)]
+[Index("Id", "FileId", Name = "ix_movie_file_2", IsUnique = true)]
 public partial class Movie
 {
     [Key]
@@ -27,7 +27,8 @@ public partial class Movie
 
     public MyFile File { get; set; }
 
-    public List<MovieRoleLink> MovieRoles { get; set; }
+    public List<MovieRole> MovieRoles { get; set; }
+    public List<Person> Persons { get; set; }
 
     [Column("isSingle", TypeName = "bool")]
     public bool? IsSingle { get; set; }

@@ -23,7 +23,8 @@ public partial class Episode
 
     public MyFile File { get; set; }
 
-    public List<EpisodeRoleLink> EpisodeRoles { get; set; }
+    public List<EpisodeRole> EpisodeRoles { get; set; }
+    public List<Person> Persons { get; set; }
 
     [Column("idSource")]
     public int IdSource { get; set; }
