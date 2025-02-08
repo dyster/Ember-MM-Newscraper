@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using static EmberAPICSharp.EFEnums;
 
 namespace EmberAPI.EFModels;
 
@@ -14,26 +15,26 @@ public partial class Rating
 {
     [Key]
     [Column("idRating")]
-    public int IdRating { get; set; }
+    public int Id { get; set; }
 
     [Column("idMedia")]
-    public int? IdMedia { get; set; }
+    public int IdMedia { get; set; }
 
     [Column("media_type")]
-    public string MediaType { get; set; }
+    public MediaType MediaType { get; set; }
 
     [Column("rating_type")]
     public string RatingType { get; set; }
 
     [Column("rating_max")]
-    public int? RatingMax { get; set; }
+    public int RatingMax { get; set; }
 
-    [Column("rating", TypeName = "float(50)")]
-    public double? Rating1 { get; set; }
+    [Column("rating")]
+    public double Rating1 { get; set; }
 
     [Column("votes")]
-    public int? Votes { get; set; }
+    public int Votes { get; set; }
 
     [Column("isDefault", TypeName = "boolean")]
-    public bool? IsDefault { get; set; }
+    public bool IsDefault { get; set; }
 }

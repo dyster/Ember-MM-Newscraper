@@ -1410,22 +1410,22 @@ Public Class Database
         Return isNew
     End Function
 
-    Private Function Convert_ContentTypeToMediaType(contentType As Enums.ContentType) As String
+    Private Function Convert_ContentTypeToMediaType(contentType As Enums.ContentType) As EFEnums.MediaType
         Select Case contentType
             Case Enums.ContentType.Movie
-                Return "movie"
+                Return EFEnums.MediaType.Movie
             Case Enums.ContentType.Movieset
-                Return "set"
+                Return EFEnums.MediaType.Movieset
             'Case Enums.ContentType.Person
             '    Return "person"
             Case Enums.ContentType.TVEpisode
-                Return "episode"
+                Return EFEnums.MediaType.TVEpisode
             Case Enums.ContentType.TVSeason
-                Return "season"
+                Return EFEnums.MediaType.TVSeason
             Case Enums.ContentType.TVShow
-                Return "tvshow"
+                Return EFEnums.MediaType.TVShow
             Case Else
-                Return String.Empty
+                Throw New InvalidDataException("Invalid content type")
         End Select
     End Function
 
@@ -2143,24 +2143,18 @@ Public Class Database
 
     Private Function Get_RatingsForItem(ByVal idMedia As Long, ByVal contentType As Enums.ContentType) As MediaContainers.RatingContainer
         Dim nResult As New MediaContainers.RatingContainer(contentType)
-        Dim mediaType As String = Convert_ContentTypeToMediaType(contentType)
-        If Not String.IsNullOrEmpty(mediaType) Then
-            Using sqlCommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-                sqlCommand.CommandText = String.Format("SELECT * FROM rating WHERE media_id={0} AND media_type='{1}';", idMedia, mediaType)
-                Using sqlReader As SQLiteDataReader = sqlCommand.ExecuteReader()
-                    While sqlReader.Read
-                        nResult.Items.Add(New MediaContainers.RatingDetails With {
-                                          .ID = CLng(sqlReader("idRating")),
-                                          .IsDefault = CBool(sqlReader("isDefault")),
-                                          .Max = CInt(sqlReader("rating_max")),
-                                          .Type = sqlReader("rating_type").ToString,
-                                          .Value = CDbl(sqlReader("rating")),
-                                          .Votes = CInt(sqlReader("votes"))
-                                          })
-                    End While
-                End Using
-            End Using
-        End If
+        Dim mediaType As EFEnums.MediaType = Convert_ContentTypeToMediaType(contentType)
+        _myvideosEFConn.Ratings.Where(Function(r) r.Id = idMedia AndAlso r.MediaType = mediaType).ToList.ForEach(Sub(r)
+                                                                                                                     nResult.Items.Add(New MediaContainers.RatingDetails With {
+                                                                                                                                            .ID = r.Id,
+                                                                                                                                            .IsDefault = r.IsDefault,
+                                                                                                                                            .Max = r.RatingMax,
+                                                                                                                                            .Type = r.RatingType,
+                                                                                                                                            .Value = r.Rating1,
+                                                                                                                                            .Votes = r.Votes
+                                                                                                                                            })
+                                                                                                                 End Sub)
+
         Return nResult
     End Function
 
@@ -2885,7 +2879,7 @@ Public Class Database
                 'Dim person As MediaContainers.RoleModel
                 While SQLreader.Read
                     'person = New MediaContainers.RoleModel With {      temp comments, change to EF later.
-                    '   .ID = Convert.ToInt64(SQLreader("idActor")), 
+                    '   .ID = Convert.ToInt64(SQLreader("idActor")),
                     '   .Name = SQLreader("strActor").ToString,
                     '   .Role = SQLreader("strRole").ToString,
                     '   .LocalFilePath = SQLreader("url").ToString,
