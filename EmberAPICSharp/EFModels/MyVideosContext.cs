@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Sockets;
+using EmberAPICSharp;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmberAPI.EFModels;
@@ -83,6 +84,14 @@ public partial class MyVideosContext : DbContext
     public virtual DbSet<Streamdetail> Streamdetails { get; set; }
 
     public virtual DbSet<Studio> Studios { get; set; }
+
+    public List<Studio> GetStudios(EFEnums.MediaType mediaType, long mediaId)
+    {
+        // TODO change to join query
+        var idlist = StudioLinks.Where(e => e.MediaType == mediaType && e.IdMedia == mediaId).Select(e => e.Id).ToList();
+        return Studios.Where(e => idlist.Contains(e.Id)).ToList();
+
+    }
 
     public virtual DbSet<StudioLink> StudioLinks { get; set; }
 

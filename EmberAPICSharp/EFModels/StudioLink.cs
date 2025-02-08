@@ -4,23 +4,24 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EmberAPICSharp;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmberAPI.EFModels;
 
 [Keyless]
 [Table("studio_link")]
-[Index("IdStudio", "MediaType", "IdMedia", Name = "ix_studio_link_1", IsUnique = true)]
-[Index("IdMedia", "MediaType", "IdStudio", Name = "ix_studio_link_2", IsUnique = true)]
+[Index("Id", "MediaType", "IdMedia", Name = "ix_studio_link_1", IsUnique = true)]
+[Index("IdMedia", "MediaType", "Id", Name = "ix_studio_link_2", IsUnique = true)]
 [Index("MediaType", Name = "ix_studio_link_3")]
 public partial class StudioLink
 {
     [Column("idStudio")]
-    public int? IdStudio { get; set; }
+    public long Id { get; set; }
 
     [Column("idMedia")]
     public int? IdMedia { get; set; }
 
     [Column("media_type")]
-    public string MediaType { get; set; }
+    public EFEnums.MediaType MediaType { get; set; }
 }

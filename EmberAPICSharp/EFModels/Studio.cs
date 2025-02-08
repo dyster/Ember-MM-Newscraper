@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EmberAPICSharp;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmberAPI.EFModels;
@@ -13,8 +14,8 @@ public partial class Studio
 {
     [Key]
     [Column("idStudio")]
-    public int IdStudio { get; set; }
+    public long Id { get; set; }
 
     [Column("name")]
-    public string Name { get; set; }
+    public string Name { get; set; }    
 }

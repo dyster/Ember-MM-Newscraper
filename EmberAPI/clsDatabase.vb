@@ -2613,15 +2613,10 @@ Public Class Database
         End Using
 
         'Studios
-        Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = String.Concat("SELECT B.strStudio FROM studiolinkmovie ",
-                                                   "AS A INNER JOIN studio AS B ON (A.idStudio = B.idStudio) WHERE A.idMovie = ", nDbElement.ID, ";")
-            Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                While SQLreader.Read
-                    If Not DBNull.Value.Equals(SQLreader("strStudio")) Then nDbElement.MainDetails.Studios.Add(SQLreader("strStudio").ToString)
-                End While
-            End Using
-        End Using
+        Dim studios = _myvideosEFConn.GetStudios(EFEnums.MediaType.Movie, nDbElement.ID)
+        studios.ForEach(Sub(s)
+                            nDbElement.MainDetails.Studios.Add(s.Name)
+                        End Sub)
 
         'Tags
         Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
