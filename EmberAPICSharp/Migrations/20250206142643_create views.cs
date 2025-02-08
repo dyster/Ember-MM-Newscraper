@@ -10,7 +10,7 @@ namespace EmberAPICSharp.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"CREATE VIEW episodelist AS
+            /*migrationBuilder.Sql(@"CREATE VIEW episodelist AS
     SELECT episode.*,
            file.path AS path,
            source.name AS source,
@@ -19,7 +19,7 @@ namespace EmberAPICSharp.Migrations
            GROUP_CONCAT(DISTINCT writers.name) AS credits,
            GROUP_CONCAT(DISTINCT directors.name) AS director,
            CASE WHEN episode.idFile IS -1 THEN 1 ELSE 0 END AS missing,
-           GROUP_CONCAT(DISTINCT uniqueids.type || ':' || uniqueids.value) AS uniqueid
+           GROUP_CONCAT(DISTINCT uniqueid.type || ':' || uniqueid.value) AS uniqueid
       FROM episode
            LEFT OUTER JOIN
            file ON (file.idFile = episode.idFile)
@@ -44,8 +44,8 @@ namespace EmberAPICSharp.Migrations
            LEFT OUTER JOIN
            person AS directors ON (directors.idPerson = directorlink.idPerson)
            LEFT OUTER JOIN
-           uniqueid AS uniqueids ON (uniqueids.idMedia = episode.idEpisode) AND
-                                    (uniqueids.media_type = 'episode')
+           uniqueid AS uniqueids ON (uniqueid.idMedia = episode.idEpisode) AND
+                                    (uniqueid.media_type = 'episode')
      GROUP BY episode.idEpisode;");
 
             migrationBuilder.Sql(@"CREATE VIEW movielist AS
@@ -145,6 +145,7 @@ namespace EmberAPICSharp.Migrations
            uniqueid AS uniqueids ON (uniqueids.idMedia = movie.idMovie) AND
                                     (uniqueids.media_type = 'movie')
      GROUP BY movie.idMovie;");
+            
             migrationBuilder.Sql(@"CREATE VIEW moviesetlist AS
     SELECT movieset.*,
            banner.url AS bannerPath,
@@ -199,7 +200,7 @@ namespace EmberAPICSharp.Migrations
            uniqueid AS uniqueids ON (uniqueids.idMedia = movieset.idSet) AND
                                     (uniqueids.media_type = 'movieset')
      GROUP BY movieset.idSet;");
-
+            
             migrationBuilder.Sql(@"CREATE VIEW seasonlist AS
     SELECT season.*,
            banner.url AS bannerPath,
@@ -335,7 +336,7 @@ namespace EmberAPICSharp.Migrations
            LEFT OUTER JOIN
            uniqueid AS uniqueids ON (uniqueids.idMedia = tvshow.idShow) AND
                                     (uniqueids.media_type = 'tvshow')
-     GROUP BY tvshow.idShow;");
+     GROUP BY tvshow.idShow;");*/
         }
 
         /// <inheritdoc />
