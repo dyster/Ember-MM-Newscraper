@@ -97,6 +97,14 @@ public partial class MyVideosContext : DbContext
 
     public virtual DbSet<Tag> Tags { get; set; }
 
+    public List<Tag> GetTags(EFEnums.MediaType mediaType, long mediaId)
+    {
+        // TODO change to join query
+        var idlist = TagLinks.Where(e => e.MediaType == mediaType && e.IdMedia == mediaId).Select(e => e.Id).ToList();
+        return Tags.Where(e => idlist.Contains(e.Id)).ToList();
+
+    }
+
     public virtual DbSet<TagLink> TagLinks { get; set; }
 
     public virtual DbSet<Tvastream> Tvastreams { get; set; }

@@ -2619,15 +2619,10 @@ Public Class Database
                         End Sub)
 
         'Tags
-        Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = String.Concat("SELECT B.strTag FROM taglinks ",
-                                                   "AS A INNER JOIN tag AS B ON (A.idTag = B.idTag) WHERE A.idMedia = ", nDbElement.ID, " AND A.media_type = 'movie' ORDER BY sorting;")
-            Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                While SQLreader.Read
-                    If Not DBNull.Value.Equals(SQLreader("strTag")) Then nDbElement.MainDetails.Tags.Add(SQLreader("strTag").ToString)
-                End While
-            End Using
-        End Using
+        Dim tags = _myvideosEFConn.GetTags(EFEnums.MediaType.Movie, nDbElement.ID)
+        tags.ForEach(Sub(t)
+                         nDbElement.MainDetails.Tags.Add(t.Name)
+                     End Sub)
 
         'ImagesContainer
         nDbElement.ImagesContainer.Banner.LocalFilePath = Get_ArtForItem(nDbElement.ID, "movie", "banner")

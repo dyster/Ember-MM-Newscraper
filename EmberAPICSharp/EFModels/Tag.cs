@@ -14,7 +14,7 @@ public partial class Tag
 {
     [Key]
     [Column("idTag")]
-    public int IdTag { get; set; }
+    public long Id { get; set; }
 
     [Column("name")]
     public string Name { get; set; }

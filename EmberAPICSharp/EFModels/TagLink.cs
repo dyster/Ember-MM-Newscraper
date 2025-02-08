@@ -4,26 +4,27 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EmberAPICSharp;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmberAPI.EFModels;
 
 [Keyless]
 [Table("tag_link")]
-[Index("IdTag", "MediaType", "IdMedia", Name = "ix_taglinks_1", IsUnique = true)]
-[Index("IdMedia", "MediaType", "IdTag", Name = "ix_taglinks_2", IsUnique = true)]
+[Index("Id", "MediaType", "IdMedia", Name = "ix_taglinks_1", IsUnique = true)]
+[Index("IdMedia", "MediaType", "Id", Name = "ix_taglinks_2", IsUnique = true)]
 [Index("MediaType", Name = "ix_taglinks_3")]
 public partial class TagLink
 {
     [Column("idTag")]
-    public int? IdTag { get; set; }
+    public long Id { get; set; }
 
     [Column("idMedia")]
-    public int? IdMedia { get; set; }
+    public int IdMedia { get; set; }
 
     [Column("media_type")]
-    public string MediaType { get; set; }
+    public EFEnums.MediaType MediaType { get; set; }
 
     [Column("sorting")]
-    public int? Sorting { get; set; }
+    public int Sorting { get; set; }
 }
