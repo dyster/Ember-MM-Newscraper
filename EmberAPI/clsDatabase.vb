@@ -517,9 +517,9 @@ Public Class Database
     End Sub
 
     Private Function Add_Rating(ByVal idMedia As Long,
-                                ByVal mediaType As String,
+                                ByVal mediaType As EFEnums.MediaType,
                                 ByVal rating As MediaContainers.RatingDetails) As Long
-        If Not idMedia = -1 AndAlso Not String.IsNullOrEmpty(mediaType) AndAlso rating.ValueSpecified Then
+        If Not idMedia = -1 AndAlso rating.ValueSpecified Then
             Using sqlCommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
                 sqlCommand.CommandText = String.Format("INSERT OR REPLACE INTO rating (media_id, media_type, rating_type, rating_max, rating, votes, isDefault) VALUES ({0},'{1}',?,?,?,?,?); SELECT LAST_INSERT_ROWID() FROM rating;",
                                                            idMedia, mediaType)
@@ -659,9 +659,9 @@ Public Class Database
     End Sub
 
     Private Function Add_UniqueID(ByVal idMedia As Long,
-                                  ByVal mediaType As String,
+                                  ByVal mediaType As EFEnums.MediaType,
                                   ByVal uniqueID As MediaContainers.Uniqueid) As Long
-        If Not idMedia = -1 AndAlso Not String.IsNullOrEmpty(mediaType) AndAlso uniqueID.TypeSpecified AndAlso uniqueID.ValueSpecified Then
+        If Not idMedia = -1 AndAlso uniqueID.TypeSpecified AndAlso uniqueID.ValueSpecified Then
             Using sqlCommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
                 sqlCommand.CommandText = String.Format("INSERT OR REPLACE INTO uniqueid (media_id, media_type, value, type, isDefault) VALUES ({0},'{1}',?,?,?); SELECT LAST_INSERT_ROWID() FROM uniqueid;",
                                                            idMedia, mediaType)
@@ -3396,13 +3396,13 @@ Public Class Database
     End Sub
 
     Private Sub Remove_FromTable(ByVal table As String, ByVal idMedia As Long, ByVal contentType As Enums.ContentType)
-        Dim mediaType As String = Convert_ContentTypeToMediaType(contentType)
-        If Not String.IsNullOrEmpty(mediaType) Then
-            Using sqlCommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
+        Dim mediaType As EFEnums.MediaType = Convert_ContentTypeToMediaType(contentType)
+        'TODO make this EF
+        Using sqlCommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
                 sqlCommand.CommandText = String.Format("DELETE FROM {0} WHERE media_id={1} AND media_type='{2}';", table, idMedia, mediaType)
                 sqlCommand.ExecuteNonQuery()
             End Using
-        End If
+
     End Sub
 
     Private Sub Remove_FromTable(ByVal table As String, ByVal firstField As String, firstId As Long)
@@ -5012,12 +5012,11 @@ Public Class Database
 
     Private Sub Set_RatingsForItem(ByVal idMedia As Long, ByVal contentType As Enums.ContentType, ByVal ratings As MediaContainers.RatingContainer)
         Remove_RatingsFromItem(idMedia, contentType)
-        Dim mediaType As String = Convert_ContentTypeToMediaType(contentType)
-        If Not String.IsNullOrEmpty(mediaType) Then
-            For Each entry As MediaContainers.RatingDetails In ratings.Items
+        Dim mediaType As EFEnums.MediaType = Convert_ContentTypeToMediaType(contentType)
+        For Each entry As MediaContainers.RatingDetails In ratings.Items
                 entry.ID = Add_Rating(idMedia, mediaType, entry)
             Next
-        End If
+
     End Sub
 
     Private Function Set_MoviesetsForMovie(ByVal dbElement As DBElement, ByRef moviesets As MediaContainers.MoviesetContainer) As Boolean
@@ -5069,12 +5068,12 @@ Public Class Database
 
     Private Sub Set_UniqueIDsForItem(ByVal idMedia As Long, ByVal contentType As Enums.ContentType, ByVal uniqueids As MediaContainers.UniqueidContainer)
         Remove_UniqueIDsFromItem(idMedia, contentType)
-        Dim mediaType As String = Convert_ContentTypeToMediaType(contentType)
-        If Not String.IsNullOrEmpty(mediaType) Then
-            For Each entry As MediaContainers.Uniqueid In uniqueids.Items
+        Dim mediaType As EFEnums.MediaType = Convert_ContentTypeToMediaType(contentType)
+
+        For Each entry As MediaContainers.Uniqueid In uniqueids.Items
                 Add_UniqueID(idMedia, mediaType, entry)
             Next
-        End If
+
     End Sub
 
     Public Function View_Add(ByVal dbCommand As String) As Boolean
