@@ -2176,22 +2176,16 @@ Public Class Database
 
     Private Function Get_UniqueIDsForItem(ByVal idMedia As Long, ByVal contentType As Enums.ContentType) As MediaContainers.UniqueidContainer
         Dim nResult As New MediaContainers.UniqueidContainer(contentType)
-        Dim mediaType As String = Convert_ContentTypeToMediaType(contentType)
-        If Not String.IsNullOrEmpty(mediaType) Then
-            Using sqlCommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-                sqlCommand.CommandText = String.Format("SELECT * FROM uniqueid WHERE media_id={0} AND media_type='{1}' ORDER BY isDefault=0", idMedia, mediaType)
-                Using SQLreader As SQLiteDataReader = sqlCommand.ExecuteReader()
-                    While SQLreader.Read
-                        nResult.Items.Add(New MediaContainers.Uniqueid With {
-                                               .ID = CLng(SQLreader("idUniqueID")),
-                                               .IsDefault = CBool(SQLreader("isDefault")),
-                                               .Type = SQLreader("type").ToString,
-                                               .Value = SQLreader("value").ToString
-                                               })
-                    End While
-                End Using
-            End Using
-        End If
+        Dim mediaType As EFEnums.MediaType = Convert_ContentTypeToMediaType(contentType)
+        _myvideosEFConn.Uniqueids.Where(Function(u) u.IdMedia = idMedia AndAlso u.MediaType = mediaType).ToList.ForEach(Sub(u)
+                                                                                                                            nResult.Items.Add(New MediaContainers.Uniqueid With {
+                                                                                                                                            .ID = u.Id,
+                                                                                                                                            .IsDefault = u.IsDefault,
+                                                                                                                                            .Type = u.Type,
+                                                                                                                                            .Value = u.Value
+                                                                                                                                            })
+                                                                                                                        End Sub)
+
         Return nResult
     End Function
 

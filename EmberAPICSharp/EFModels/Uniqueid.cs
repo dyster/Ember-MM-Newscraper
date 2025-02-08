@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using static EmberAPICSharp.EFEnums;
 
 namespace EmberAPI.EFModels;
 
@@ -15,13 +16,13 @@ public partial class Uniqueid
 {
     [Key]
     [Column("idUniqueID")]
-    public int IdUniqueId { get; set; }
+    public int Id { get; set; }
 
     [Column("idMedia")]
-    public int? IdMedia { get; set; }
+    public int IdMedia { get; set; }
 
     [Column("media_type")]
-    public string MediaType { get; set; }
+    public MediaType MediaType { get; set; }
 
     [Column("value")]
     public string Value { get; set; }
@@ -30,5 +31,5 @@ public partial class Uniqueid
     public string Type { get; set; }
 
     [Column("isDefault", TypeName = "boolean")]
-    public bool? IsDefault { get; set; }
+    public bool IsDefault { get; set; }
 }
