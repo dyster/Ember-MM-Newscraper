@@ -25,6 +25,7 @@ Imports System.IO
 Imports System.Reflection
 Imports System.Text.RegularExpressions
 Imports EmberAPI.EFModels
+Imports EmberAPICSharp
 
 Public Class frmMain
 
@@ -11284,12 +11285,12 @@ Public Class frmMain
                 MainBackground = currTV.ImagesContainer.Fanart.ImageOriginal
             Else
                 Dim SeasonID As Long = Master.DB.Get_TVSeasonIdByEpisode(currTV)
-                Dim TVSeasonFanart As String = Master.DB.Get_ArtForItem(SeasonID, "season", "fanart")
+                Dim TVSeasonFanart As String = Master.DB.Get_ArtForItem(SeasonID, EFEnums.MediaType.TVSeason, "fanart")
                 If Not String.IsNullOrEmpty(TVSeasonFanart) Then
                     MainBackground.LoadFromFile(TVSeasonFanart, True)
                     NeedsGS = True
                 Else
-                    Dim TVShowFanart As String = Master.DB.Get_ArtForItem(currTV.ShowID, "tvshow", "fanart")
+                    Dim TVShowFanart As String = Master.DB.Get_ArtForItem(currTV.ShowID, EFEnums.MediaType.TVShow, "fanart")
                     If Not String.IsNullOrEmpty(TVShowFanart) Then
                         MainBackground.LoadFromFile(TVShowFanart, True)
                         NeedsGS = True
@@ -11352,7 +11353,7 @@ Public Class frmMain
             If currTV.ImagesContainer.Fanart.ImageOriginal.Image IsNot Nothing Then
                 MainBackground = currTV.ImagesContainer.Fanart.ImageOriginal
             Else
-                Dim TVShowFanart As String = Master.DB.Get_ArtForItem(currTV.ShowID, "tvshow", "fanart")
+                Dim TVShowFanart As String = Master.DB.Get_ArtForItem(currTV.ShowID, EFEnums.MediaType.TVShow, "fanart")
                 If Not String.IsNullOrEmpty(TVShowFanart) Then
                     MainBackground.LoadFromFile(TVShowFanart, True)
                     NeedsGS = True

@@ -804,8 +804,8 @@ Namespace MediaContainers
         ''' </summary>
         ''' <returns></returns>
         Public Property LongLanguage() As String
-Get
-                Return _longLanguage
+            Get
+                Return _LongLanguage
             End Get
             Set(value As String)
                 _LongLanguage = value 'Localization.IsoCheckLangByCode2(value)

@@ -2057,17 +2057,8 @@ Public Class Database
         Return nList.ToArray
     End Function
 
-    Public Function Get_ArtForItem(ByVal mediaId As Long, ByVal mediaType As String, ByVal artType As String) As String
-        Using SQLcommand As SQLiteCommand = _myvideosDBConn.CreateCommand()
-            SQLcommand.CommandText = String.Format("SELECT url FROM art WHERE media_id={0} AND media_type='{1}' AND type='{2}'", mediaId, mediaType, artType)
-            Using SQLreader As SQLiteDataReader = SQLcommand.ExecuteReader()
-                While SQLreader.Read
-                    Return SQLreader("url").ToString
-                    Exit While
-                End While
-            End Using
-        End Using
-        Return String.Empty
+    Public Function Get_ArtForItem(ByVal mediaId As Long, ByVal mediaType As EFEnums.MediaType, ByVal artType As String) As String
+        Return _myvideosEFConn.Arts.Where(Function(a) a.IdMedia = mediaId AndAlso a.MediaType = mediaType AndAlso a.Type = artType).Select(Of String)(Function(a) a.Url).FirstOrDefault()
     End Function
 
     Public Function Get_EpisodeSorting_TVShow(ByVal showID As Long) As Enums.EpisodeSorting
@@ -2625,14 +2616,14 @@ Public Class Database
                      End Sub)
 
         'ImagesContainer
-        nDbElement.ImagesContainer.Banner.LocalFilePath = Get_ArtForItem(nDbElement.ID, "movie", "banner")
-        nDbElement.ImagesContainer.ClearArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, "movie", "clearart")
-        nDbElement.ImagesContainer.ClearLogo.LocalFilePath = Get_ArtForItem(nDbElement.ID, "movie", "clearlogo")
-        nDbElement.ImagesContainer.DiscArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, "movie", "discart")
-        nDbElement.ImagesContainer.Fanart.LocalFilePath = Get_ArtForItem(nDbElement.ID, "movie", "fanart")
-        nDbElement.ImagesContainer.Keyart.LocalFilePath = Get_ArtForItem(nDbElement.ID, "movie", "keyart")
-        nDbElement.ImagesContainer.Landscape.LocalFilePath = Get_ArtForItem(nDbElement.ID, "movie", "landscape")
-        nDbElement.ImagesContainer.Poster.LocalFilePath = Get_ArtForItem(nDbElement.ID, "movie", "poster")
+        nDbElement.ImagesContainer.Banner.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movie, "banner")
+        nDbElement.ImagesContainer.ClearArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movie, "clearart")
+        nDbElement.ImagesContainer.ClearLogo.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movie, "clearlogo")
+        nDbElement.ImagesContainer.DiscArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movie, "discart")
+        nDbElement.ImagesContainer.Fanart.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movie, "fanart")
+        nDbElement.ImagesContainer.Keyart.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movie, "keyart")
+        nDbElement.ImagesContainer.Landscape.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movie, "landscape")
+        nDbElement.ImagesContainer.Poster.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movie, "poster")
         If Not String.IsNullOrEmpty(nDbElement.ExtrafanartsPath) AndAlso Directory.Exists(nDbElement.ExtrafanartsPath) Then
             For Each ePath As String In Directory.GetFiles(nDbElement.ExtrafanartsPath, "*.jpg")
                 nDbElement.ImagesContainer.Extrafanarts.Add(New MediaContainers.Image With {.LocalFilePath = ePath})
@@ -2730,14 +2721,14 @@ Public Class Database
         End Using
 
         'ImagesContainer
-        nDbElement.ImagesContainer.Banner.LocalFilePath = Get_ArtForItem(nDbElement.ID, "set", "banner")
-        nDbElement.ImagesContainer.ClearArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, "set", "clearart")
-        nDbElement.ImagesContainer.ClearLogo.LocalFilePath = Get_ArtForItem(nDbElement.ID, "set", "clearlogo")
-        nDbElement.ImagesContainer.DiscArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, "set", "discart")
-        nDbElement.ImagesContainer.Fanart.LocalFilePath = Get_ArtForItem(nDbElement.ID, "set", "fanart")
-        nDbElement.ImagesContainer.Keyart.LocalFilePath = Get_ArtForItem(nDbElement.ID, "set", "keyart")
-        nDbElement.ImagesContainer.Landscape.LocalFilePath = Get_ArtForItem(nDbElement.ID, "set", "landscape")
-        nDbElement.ImagesContainer.Poster.LocalFilePath = Get_ArtForItem(nDbElement.ID, "set", "poster")
+        nDbElement.ImagesContainer.Banner.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movieset, "banner")
+        nDbElement.ImagesContainer.ClearArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movieset, "clearart")
+        nDbElement.ImagesContainer.ClearLogo.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movieset, "clearlogo")
+        nDbElement.ImagesContainer.DiscArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movieset, "discart")
+        nDbElement.ImagesContainer.Fanart.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movieset, "fanart")
+        nDbElement.ImagesContainer.Keyart.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movieset, "keyart")
+        nDbElement.ImagesContainer.Landscape.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movieset, "landscape")
+        nDbElement.ImagesContainer.Poster.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.Movieset, "poster")
 
         'UniqueIDs
         nDbElement.MainDetails.UniqueIDs = Get_UniqueIDsForItem(nDbElement.ID, nDbElement.ContentType)
@@ -3002,8 +2993,8 @@ Public Class Database
         End Using
 
         'ImagesContainer
-        nDbElement.ImagesContainer.Fanart.LocalFilePath = Get_ArtForItem(nDbElement.ID, "episode", "fanart")
-        nDbElement.ImagesContainer.Poster.LocalFilePath = Get_ArtForItem(nDbElement.ID, "episode", "thumb")
+        nDbElement.ImagesContainer.Fanart.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVEpisode, "fanart")
+        nDbElement.ImagesContainer.Poster.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVEpisode, "thumb")
 
         'Show container
         If withShow Then
@@ -3050,10 +3041,10 @@ Public Class Database
         End Using
 
         'ImagesContainer
-        nDbElement.ImagesContainer.Banner.LocalFilePath = Get_ArtForItem(nDbElement.ID, "season", "banner")
-        nDbElement.ImagesContainer.Fanart.LocalFilePath = Get_ArtForItem(nDbElement.ID, "season", "fanart")
-        nDbElement.ImagesContainer.Landscape.LocalFilePath = Get_ArtForItem(nDbElement.ID, "season", "landscape")
-        nDbElement.ImagesContainer.Poster.LocalFilePath = Get_ArtForItem(nDbElement.ID, "season", "poster")
+        nDbElement.ImagesContainer.Banner.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVSeason, "banner")
+        nDbElement.ImagesContainer.Fanart.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVSeason, "fanart")
+        nDbElement.ImagesContainer.Landscape.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVSeason, "landscape")
+        nDbElement.ImagesContainer.Poster.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVSeason, "poster")
 
         'UniqueIDs
         nDbElement.MainDetails.UniqueIDs = Get_UniqueIDsForItem(nDbElement.ID, nDbElement.ContentType)
@@ -3265,14 +3256,14 @@ Public Class Database
         nDbElement.MainDetails.UniqueIDs = Get_UniqueIDsForItem(nDbElement.ID, nDbElement.ContentType)
 
         'ImagesContainer
-        nDbElement.ImagesContainer.Banner.LocalFilePath = Get_ArtForItem(nDbElement.ID, "tvshow", "banner")
-        nDbElement.ImagesContainer.CharacterArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, "tvshow", "characterart")
-        nDbElement.ImagesContainer.ClearArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, "tvshow", "clearart")
-        nDbElement.ImagesContainer.ClearLogo.LocalFilePath = Get_ArtForItem(nDbElement.ID, "tvshow", "clearlogo")
-        nDbElement.ImagesContainer.Fanart.LocalFilePath = Get_ArtForItem(nDbElement.ID, "tvshow", "fanart")
-        nDbElement.ImagesContainer.Keyart.LocalFilePath = Get_ArtForItem(nDbElement.ID, "tvshow", "keyart")
-        nDbElement.ImagesContainer.Landscape.LocalFilePath = Get_ArtForItem(nDbElement.ID, "tvshow", "landscape")
-        nDbElement.ImagesContainer.Poster.LocalFilePath = Get_ArtForItem(nDbElement.ID, "tvshow", "poster")
+        nDbElement.ImagesContainer.Banner.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVShow, "banner")
+        nDbElement.ImagesContainer.CharacterArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVShow, "characterart")
+        nDbElement.ImagesContainer.ClearArt.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVShow, "clearart")
+        nDbElement.ImagesContainer.ClearLogo.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVShow, "clearlogo")
+        nDbElement.ImagesContainer.Fanart.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVShow, "fanart")
+        nDbElement.ImagesContainer.Keyart.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVShow, "keyart")
+        nDbElement.ImagesContainer.Landscape.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVShow, "landscape")
+        nDbElement.ImagesContainer.Poster.LocalFilePath = Get_ArtForItem(nDbElement.ID, EFEnums.MediaType.TVShow, "poster")
         If Not String.IsNullOrEmpty(nDbElement.ExtrafanartsPath) AndAlso Directory.Exists(nDbElement.ExtrafanartsPath) Then
             For Each ePath As String In Directory.GetFiles(nDbElement.ExtrafanartsPath, "*.jpg")
                 nDbElement.ImagesContainer.Extrafanarts.Add(New MediaContainers.Image With {.LocalFilePath = ePath})

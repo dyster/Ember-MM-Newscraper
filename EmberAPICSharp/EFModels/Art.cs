@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EmberAPICSharp;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmberAPI.EFModels;
@@ -14,13 +15,13 @@ public partial class Art
 {
     [Key]
     [Column("idArt")]
-    public int IdArt { get; set; }
+    public long Id { get; set; }
 
     [Column("idMedia")]
-    public int? IdMedia { get; set; }
+    public int IdMedia { get; set; }
 
     [Column("media_type")]
-    public string MediaType { get; set; }
+    public EFEnums.MediaType MediaType { get; set; }
 
     [Column("type")]
     public string Type { get; set; }
@@ -29,8 +30,8 @@ public partial class Art
     public string Url { get; set; }
 
     [Column("width")]
-    public int? Width { get; set; }
+    public int Width { get; set; }
 
     [Column("height")]
-    public int? Height { get; set; }
+    public int Height { get; set; }
 }
