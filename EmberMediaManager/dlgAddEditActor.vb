@@ -19,6 +19,7 @@
 ' ################################################################################
 
 Imports EmberAPI
+Imports EmberAPI.EFModels
 Imports NLog
 
 Public Class dlgAddEditActor
@@ -29,7 +30,7 @@ Public Class dlgAddEditActor
 
     Public Shared selIndex As Integer = 0
 
-    Private tmpActor As MediaContainers.Person
+    Private tmpActor As RoleLink
     Private strOldURLOriginal As String
     Private isNew As Boolean = True
     Private sHTTP As New HTTP
@@ -38,7 +39,7 @@ Public Class dlgAddEditActor
 
 #Region "Properties"
 
-    Public ReadOnly Property Result As MediaContainers.Person
+    Public ReadOnly Property Result As RoleLink
         Get
             Return tmpActor
         End Get
@@ -62,21 +63,21 @@ Public Class dlgAddEditActor
         lblThumb.Text = Master.eLang.GetString(156, "Actor Thumb (URL):")
     End Sub
 
-    Public Overloads Function ShowDialog(Optional ByVal inActor As MediaContainers.Person = Nothing) As DialogResult
+    Public Overloads Function ShowDialog(Optional ByVal inActor As RoleLink = Nothing) As DialogResult
         isNew = inActor Is Nothing
         If isNew Then
-            tmpActor = New MediaContainers.Person
+            tmpActor = New RoleLink
             strOldURLOriginal = String.Empty
         Else
             tmpActor = inActor
-            strOldURLOriginal = inActor.URLOriginal
+            strOldURLOriginal = inActor.Person.URLOriginal
         End If
         Return MyBase.ShowDialog()
     End Function
 
     Private Sub btnVerify_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnVerify.Click
         If Not String.IsNullOrEmpty(txtThumb.Text) Then
-            If StringUtils.isValidURL(txtThumb.Text) Then
+            If StringUtils.IsValidURL(txtThumb.Text) Then
                 If bwDownloadPic.IsBusy Then
                     bwDownloadPic.CancelAsync()
                 End If
@@ -108,8 +109,8 @@ Public Class dlgAddEditActor
     Private Sub bwDownloadPic_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bwDownloadPic.RunWorkerCompleted
         pbActLoad.Visible = False
         pbActors.Image = DirectCast(e.Result, Image)
-        tmpActor.Thumb = New MediaContainers.Image With {.URLOriginal = txtThumb.Text}
-        tmpActor.Thumb.ImageOriginal.UpdateMSfromImg(pbActors.Image)
+        Master.Thumbs(tmpActor.PersonId) = New MediaContainers.Image With {.URLOriginal = txtThumb.Text}
+        Master.Thumbs(tmpActor.PersonId).ImageOriginal.UpdateMSfromImg(pbActors.Image)
     End Sub
 
     Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
@@ -123,16 +124,16 @@ Public Class dlgAddEditActor
             Text = Master.eLang.GetString(157, "New Actor")
         Else
             Text = Master.eLang.GetString(158, "Edit Actor")
-            txtName.Text = tmpActor.Name
+            txtName.Text = tmpActor.Person.Name
             txtRole.Text = tmpActor.Role
-            txtThumb.Text = tmpActor.URLOriginal
+            txtThumb.Text = tmpActor.Person.URLOriginal
         End If
 
         Activate()
     End Sub
 
     Private Sub btnOK_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnOK.Click
-        tmpActor.Name = txtName.Text
+        tmpActor.Person.Name = txtName.Text
         tmpActor.Role = txtRole.Text
         DialogResult = DialogResult.OK
     End Sub

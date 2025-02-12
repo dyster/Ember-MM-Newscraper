@@ -19,6 +19,7 @@
 ' ################################################################################
 
 Imports EmberAPI
+Imports EmberAPI.EFModels
 Imports NLog
 
 Public Class dlgEdit_TVShow
@@ -65,11 +66,11 @@ Public Class dlgEdit_TVShow
     Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()
-        FormUtils.Forms.ResizeAndMoveDialog(Me, Me)
+        FormsUtils.ResizeAndMoveDialog(Me, Me)
     End Sub
 
     Private Sub Dialog_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
-        If tmpDBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus_TVShow(tmpDBElement, True) Then
+        If tmpDBElement.IsOnline OrElse FileUtils.Common.CheckOnlineStatus(tmpDBElement, True) Then
             pbBanner.AllowDrop = True
             pbCharacterArt.AllowDrop = True
             pbClearArt.AllowDrop = True
@@ -119,11 +120,11 @@ Public Class dlgEdit_TVShow
 
     Private Sub Setup()
         With Master.eLang
-            Dim mTitle As String = tmpDBElement.TVShow.Title
+            Dim mTitle As String = tmpDBElement.MainDetails.Title
             Text = String.Concat(.GetString(663, "Edit Show"), If(String.IsNullOrEmpty(mTitle), String.Empty, String.Concat(" - ", mTitle)))
-            btnCancel.Text = .Cancel
+            btnCancel.Text = .CommonWordsList.Cancel
             btnChange.Text = .GetString(767, "Change TV Show")
-            btnOK.Text = .OK
+            btnOK.Text = .CommonWordsList.OK
             btnRescrape.Text = .GetString(716, "Re-Scrape")
             chkLocked.Text = .GetString(43, "Locked")
             chkMarked.Text = .GetString(48, "Marked")
@@ -159,7 +160,7 @@ Public Class dlgEdit_TVShow
             lblPlot.Text = String.Concat(.GetString(65, "Plot"), ":")
             lblPoster.Text = .GetString(148, "Poster")
             lblPremiered.Text = String.Concat(.GetString(724, "Premiered"), ":")
-            lblRatings.Text = String.Concat(.GetString(245, "Ratings"), ":")
+            lblRatings.Text = String.Concat(.GetString(1145, "Ratings"), ":")
             lblRuntime.Text = String.Concat(.GetString(238, "Runtime"), ":")
             lblSortTilte.Text = String.Concat(.GetString(642, "Sort Title"), ":")
             lblStatus.Text = String.Concat(.GetString(215, "Status"), ":")
@@ -202,7 +203,7 @@ Public Class dlgEdit_TVShow
     Private Sub Actors_Add() Handles btnActorsAdd.Click
         Using dAddEditActor As New dlgAddEditActor
             If dAddEditActor.ShowDialog() = DialogResult.OK Then
-                Dim nActor As MediaContainers.Person = dAddEditActor.Result
+                Dim nActor As RoleLink = dAddEditActor.Result
                 Dim lvItem As ListViewItem = lvActors.Items.Add(nActor.ID.ToString)
                 lvItem.Tag = nActor
                 lvItem.SubItems.Add(nActor.Name)
@@ -246,7 +247,7 @@ Public Class dlgEdit_TVShow
     Private Sub Actors_Edit_Click() Handles btnActorsEdit.Click, lvActors.DoubleClick
         If lvActors.SelectedItems.Count > 0 Then
             Dim lvwItem As ListViewItem = lvActors.SelectedItems(0)
-            Dim eActor As MediaContainers.Person = DirectCast(lvwItem.Tag, MediaContainers.Person)
+            Dim eActor As RoleLink = DirectCast(lvwItem.Tag, RoleLink)
             Using dAddEditActor As New dlgAddEditActor
                 If dAddEditActor.ShowDialog(eActor) = DialogResult.OK Then
                     eActor = dAddEditActor.Result
@@ -356,10 +357,10 @@ Public Class dlgEdit_TVShow
     Private Sub Data_Fill(Optional ByVal DoAll As Boolean = True)
         'Database related part
         With tmpDBElement
-            cbEpisodeOrdering.SelectedIndex = .Ordering
+            cbEpisodeOrdering.SelectedIndex = .EpisodeOrdering
             cbEpisodeSorting.SelectedIndex = .EpisodeSorting
-            chkLocked.Checked = .IsLock
-            chkMarked.Checked = .IsMark
+            chkLocked.Checked = .IsLocked
+            chkMarked.Checked = .IsMarked
             chkMarkedCustom1.Checked = .IsMarkCustom1
             chkMarkedCustom2.Checked = .IsMarkCustom2
             chkMarkedCustom3.Checked = .IsMarkCustom3
@@ -381,11 +382,11 @@ Public Class dlgEdit_TVShow
         End With
 
         'Information part
-        With tmpDBElement.TVShow
+        With tmpDBElement.MainDetails
             'Actors
             Dim lvItem As ListViewItem
             lvActors.Items.Clear()
-            For Each tActor As MediaContainers.Person In .Actors
+            For Each tActor As RoleLink In .Actors
                 lvItem = lvActors.Items.Add(tActor.ID.ToString)
                 lvItem.Tag = tActor
                 lvItem.SubItems.Add(tActor.Name)
@@ -462,7 +463,7 @@ Public Class dlgEdit_TVShow
 
                 'Banner
                 If Master.eSettings.TVShowBannerAnyEnabled Then
-                    btnScrapeBanner.Enabled = ModulesManager.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainBanner)
+                    btnScrapeBanner.Enabled = Addons.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainBanner)
                     If .Banner.ImageOriginal.Image IsNot Nothing Then
                         Image_LoadPictureBox(Enums.ModifierType.MainBanner)
                     End If
@@ -473,7 +474,7 @@ Public Class dlgEdit_TVShow
 
                 'CharacterArt
                 If Master.eSettings.TVShowCharacterArtAnyEnabled Then
-                    btnScrapeCharacterArt.Enabled = ModulesManager.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainCharacterArt)
+                    btnScrapeCharacterArt.Enabled = Addons.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainCharacterArt)
                     If .CharacterArt.ImageOriginal.Image IsNot Nothing Then
                         Image_LoadPictureBox(Enums.ModifierType.MainCharacterArt)
                     End If
@@ -484,7 +485,7 @@ Public Class dlgEdit_TVShow
 
                 'ClearArt
                 If Master.eSettings.TVShowClearArtAnyEnabled Then
-                    btnScrapeClearArt.Enabled = ModulesManager.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainClearArt)
+                    btnScrapeClearArt.Enabled = Addons.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainClearArt)
                     If .ClearArt.ImageOriginal.Image IsNot Nothing Then
                         Image_LoadPictureBox(Enums.ModifierType.MainClearArt)
                     End If
@@ -495,7 +496,7 @@ Public Class dlgEdit_TVShow
 
                 'ClearLogo
                 If Master.eSettings.TVShowClearLogoAnyEnabled Then
-                    btnScrapeClearLogo.Enabled = ModulesManager.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainClearLogo)
+                    btnScrapeClearLogo.Enabled = Addons.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainClearLogo)
                     If .ClearLogo.ImageOriginal.Image IsNot Nothing Then
                         Image_LoadPictureBox(Enums.ModifierType.MainClearLogo)
                     End If
@@ -506,7 +507,7 @@ Public Class dlgEdit_TVShow
 
                 'Extrafanarts
                 If Master.eSettings.TVShowExtrafanartsAnyEnabled Then
-                    btnScrapeExtrafanarts.Enabled = ModulesManager.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainFanart)
+                    btnScrapeExtrafanarts.Enabled = Addons.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainFanart)
                     If .Extrafanarts.Count > 0 Then
                         Dim iIndex As Integer = 0
                         For Each tImg As MediaContainers.Image In .Extrafanarts
@@ -521,7 +522,7 @@ Public Class dlgEdit_TVShow
 
                 'Fanart
                 If Master.eSettings.TVShowFanartAnyEnabled Then
-                    btnScrapeFanart.Enabled = ModulesManager.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainExtrafanarts)
+                    btnScrapeFanart.Enabled = Addons.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainExtrafanarts)
                     If .Fanart.ImageOriginal.Image IsNot Nothing Then
                         Image_LoadPictureBox(Enums.ModifierType.MainFanart)
                     End If
@@ -532,7 +533,7 @@ Public Class dlgEdit_TVShow
 
                 'Keyart
                 If Master.eSettings.TVShowKeyartAnyEnabled Then
-                    btnScrapeKeyart.Enabled = ModulesManager.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainKeyart)
+                    btnScrapeKeyart.Enabled = Addons.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainKeyart)
                     If .Keyart.ImageOriginal.Image IsNot Nothing Then
                         Image_LoadPictureBox(Enums.ModifierType.MainKeyart)
                     End If
@@ -543,7 +544,7 @@ Public Class dlgEdit_TVShow
 
                 'Landscape
                 If Master.eSettings.TVShowLandscapeAnyEnabled Then
-                    btnScrapeLandscape.Enabled = ModulesManager.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainLandscape)
+                    btnScrapeLandscape.Enabled = Addons.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainLandscape)
                     If .Landscape.ImageOriginal.Image IsNot Nothing Then
                         Image_LoadPictureBox(Enums.ModifierType.MainLandscape)
                     End If
@@ -554,7 +555,7 @@ Public Class dlgEdit_TVShow
 
                 'Poster
                 If Master.eSettings.TVShowPosterAnyEnabled Then
-                    btnScrapePoster.Enabled = ModulesManager.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainPoster)
+                    btnScrapePoster.Enabled = Addons.Instance.ScraperWithCapabilityAnyEnabled_Image_TV(Enums.ModifierType.MainPoster)
                     If .Poster.ImageOriginal.Image IsNot Nothing Then
                         Image_LoadPictureBox(Enums.ModifierType.MainPoster)
                     End If
@@ -566,7 +567,7 @@ Public Class dlgEdit_TVShow
 
             'Theme
             If Master.eSettings.TvShowThemeAnyEnabled Then
-                btnSetThemeScrape.Enabled = ModulesManager.Instance.ScraperWithCapabilityAnyEnabled_Theme_TV(Enums.ModifierType.MainTheme)
+                btnSetThemeScrape.Enabled = Addons.Instance.ScraperWithCapabilityAnyEnabled_Theme_TV()
                 If tmpDBElement.Theme.LocalFilePathSpecified OrElse tmpDBElement.Theme.UrlAudioStreamSpecified Then
                     Theme_Load(tmpDBElement.Theme)
                 End If
@@ -593,10 +594,10 @@ Public Class dlgEdit_TVShow
 
         'Database related part
         With tmpDBElement
-            .Ordering = DirectCast(cbEpisodeOrdering.SelectedIndex, Enums.EpisodeOrdering)
+            .EpisodeOrdering = DirectCast(cbEpisodeOrdering.SelectedIndex, Enums.EpisodeOrdering)
             .EpisodeSorting = DirectCast(cbEpisodeSorting.SelectedIndex, Enums.EpisodeSorting)
-            .IsLock = chkLocked.Checked
-            .IsMark = chkMarked.Checked
+            .IsLocked = chkLocked.Checked
+            .IsMarked = chkMarked.Checked
             .IsMarkCustom1 = chkMarkedCustom1.Checked
             .IsMarkCustom2 = chkMarkedCustom2.Checked
             .IsMarkCustom3 = chkMarkedCustom3.Checked
@@ -604,22 +605,22 @@ Public Class dlgEdit_TVShow
             'Language
             If Not String.IsNullOrEmpty(cbSourceLanguage.Text) Then
                 .Language = APIXML.ScraperLanguages.Languages.FirstOrDefault(Function(l) l.Description = cbSourceLanguage.Text).Abbreviation
-                .TVShow.Language = .Language
+                .MainDetails.Language = .Language
             Else
                 .Language = "en-US"
-                .TVShow.Language = .Language
+                .MainDetails.Language = .Language
             End If
         End With
 
         'Information part
-        With tmpDBElement.TVShow
+        With tmpDBElement.MainDetails
             'Actors
             .Actors.Clear()
             If lvActors.Items.Count > 0 Then
                 Dim iOrder As Integer = 0
                 For Each lviActor As ListViewItem In lvActors.Items
-                    Dim addActor As MediaContainers.Person = DirectCast(lviActor.Tag, MediaContainers.Person)
-                    addActor.Order = iOrder
+                    Dim addActor As RoleLink = DirectCast(lviActor.Tag, RoleLink)
+                    addActor.CastOrder = iOrder
                     iOrder += 1
                     .Actors.Add(addActor)
                 Next
@@ -723,8 +724,8 @@ Public Class dlgEdit_TVShow
     End Sub
 
     Private Sub Genres_Fill()
-        If tmpDBElement.TVShow.GenresSpecified Then
-            lbGenres.Items.AddRange(tmpDBElement.TVShow.Genres.ToArray)
+        If tmpDBElement.MainDetails.GenresSpecified Then
+            lbGenres.Items.AddRange(tmpDBElement.MainDetails.Genres.ToArray)
         End If
         'add the rest of all genres to the ComboBox
         cbGenres.Items.AddRange(APIXML.GetGenreList.ToArray)
@@ -1180,60 +1181,57 @@ Public Class dlgEdit_TVShow
         btnScrapePoster.Click
 
         Cursor = Cursors.WaitCursor
-        Dim nContainer As New MediaContainers.SearchResultsContainer
-        Dim nScrapeModifiers As New Structures.ScrapeModifiers
 
         Dim eImageType As Enums.ModifierType = ConvertControlToImageType(sender)
-        Functions.SetScrapeModifiers(nScrapeModifiers, eImageType, True)
-        If Not ModulesManager.Instance.ScrapeImage_TV(tmpDBElement, nContainer, nScrapeModifiers, True) Then
-            Dim iImageCount = 0
-            Dim strNoImagesFound As String = String.Empty
-            Select Case eImageType
-                Case Enums.ModifierType.MainBanner
-                    iImageCount = nContainer.MainBanners.Count
-                    strNoImagesFound = Master.eLang.GetString(1363, "No Banners found")
-                Case Enums.ModifierType.MainClearArt
-                    iImageCount = nContainer.MainClearArts.Count
-                    strNoImagesFound = Master.eLang.GetString(1102, "No ClearArts found")
-                Case Enums.ModifierType.MainClearLogo
-                    iImageCount = nContainer.MainClearLogos.Count
-                    strNoImagesFound = Master.eLang.GetString(1103, "No ClearLogos found")
-                Case Enums.ModifierType.MainCharacterArt
-                    iImageCount = nContainer.MainCharacterArts.Count
-                    strNoImagesFound = Master.eLang.GetString(1343, "No CharacterArts found")
-                Case Enums.ModifierType.MainExtrafanarts, Enums.ModifierType.MainExtrathumbs, Enums.ModifierType.MainFanart
-                    iImageCount = nContainer.MainFanarts.Count
-                    strNoImagesFound = Master.eLang.GetString(970, "No Fanarts found")
-                Case Enums.ModifierType.MainKeyart
-                    iImageCount = nContainer.MainKeyarts.Count
-                    strNoImagesFound = Master.eLang.GetString(1239, "No Keyarts found")
-                Case Enums.ModifierType.MainLandscape
-                    iImageCount = nContainer.MainLandscapes.Count
-                    strNoImagesFound = Master.eLang.GetString(1197, "No Landscapes found")
-                Case Enums.ModifierType.MainPoster
-                    iImageCount = nContainer.MainPosters.Count
-                    strNoImagesFound = Master.eLang.GetString(972, "No Posters found")
-            End Select
-            If iImageCount > 0 Then
-                Dim dlgImgS = New dlgImgSelect()
-                If dlgImgS.ShowDialog(tmpDBElement, nContainer, nScrapeModifiers) = DialogResult.OK Then
-                    Select Case eImageType
-                        Case Enums.ModifierType.MainExtrafanarts
-                            tmpDBElement.ImagesContainer.Extrafanarts = dlgImgS.Result.ImagesContainer.Extrafanarts
-                            Image_Extrafanarts_Refresh()
-                        Case Else
-                            tmpDBElement.ImagesContainer.SetImageByType(dlgImgS.Result.ImagesContainer.GetImageByType(eImageType), eImageType)
-                            If tmpDBElement.ImagesContainer.GetImageByType(eImageType) IsNot Nothing AndAlso
+        Functions.SetScrapeModifiers(tmpDBElement.ScrapeModifiers, eImageType, True)
+        Dim ScrapeResults = Scraper.Run(tmpDBElement)
+        Dim iImageCount = 0
+        Dim strNoImagesFound As String = String.Empty
+        Select Case eImageType
+            Case Enums.ModifierType.MainBanner
+                iImageCount = ScrapeResults.Images.MainBanners.Count
+                strNoImagesFound = Master.eLang.GetString(1363, "No Banners found")
+            Case Enums.ModifierType.MainClearArt
+                iImageCount = ScrapeResults.Images.MainClearArts.Count
+                strNoImagesFound = Master.eLang.GetString(1102, "No ClearArts found")
+            Case Enums.ModifierType.MainClearLogo
+                iImageCount = ScrapeResults.Images.MainClearLogos.Count
+                strNoImagesFound = Master.eLang.GetString(1103, "No ClearLogos found")
+            Case Enums.ModifierType.MainCharacterArt
+                iImageCount = ScrapeResults.Images.MainCharacterArts.Count
+                strNoImagesFound = Master.eLang.GetString(1343, "No CharacterArts found")
+            Case Enums.ModifierType.MainExtrafanarts, Enums.ModifierType.MainExtrathumbs, Enums.ModifierType.MainFanart
+                iImageCount = ScrapeResults.Images.MainFanarts.Count
+                strNoImagesFound = Master.eLang.GetString(970, "No Fanarts found")
+            Case Enums.ModifierType.MainKeyart
+                iImageCount = ScrapeResults.Images.MainKeyarts.Count
+                strNoImagesFound = Master.eLang.GetString(1239, "No Keyarts found")
+            Case Enums.ModifierType.MainLandscape
+                iImageCount = ScrapeResults.Images.MainLandscapes.Count
+                strNoImagesFound = Master.eLang.GetString(1197, "No Landscapes found")
+            Case Enums.ModifierType.MainPoster
+                iImageCount = ScrapeResults.Images.MainPosters.Count
+                strNoImagesFound = Master.eLang.GetString(972, "No Posters found")
+        End Select
+        If iImageCount > 0 Then
+            Dim dlgImgS = New dlgImgSelect()
+            If dlgImgS.ShowDialog(tmpDBElement, ScrapeResults.Images) = DialogResult.OK Then
+                Select Case eImageType
+                    Case Enums.ModifierType.MainExtrafanarts
+                        tmpDBElement.ImagesContainer.Extrafanarts = dlgImgS.Result.ImagesContainer.Extrafanarts
+                        Image_Extrafanarts_Refresh()
+                    Case Else
+                        tmpDBElement.ImagesContainer.SetImageByType(dlgImgS.Result.ImagesContainer.GetImageByType(eImageType), eImageType)
+                        If tmpDBElement.ImagesContainer.GetImageByType(eImageType) IsNot Nothing AndAlso
                                 tmpDBElement.ImagesContainer.GetImageByType(eImageType).ImageOriginal.LoadFromMemoryStream Then
-                                Image_LoadPictureBox(eImageType)
-                            Else
-                                Image_Remove_Click(sender, e)
-                            End If
-                    End Select
-                End If
-            Else
-                MessageBox.Show(strNoImagesFound, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Image_LoadPictureBox(eImageType)
+                        Else
+                            Image_Remove_Click(sender, e)
+                        End If
+                End Select
             End If
+        Else
+            MessageBox.Show(strNoImagesFound, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
         Cursor = Cursors.Default
     End Sub
@@ -1259,18 +1257,18 @@ Public Class dlgEdit_TVShow
     End Sub
 
     Private Sub MPAA_Fill()
-        lbMPAA.Items.Add(Master.eLang.None)
+        lbMPAA.Items.Add(Master.eLang.CommonWordsList.None)
         If Not String.IsNullOrEmpty(Master.eSettings.TVScraperShowMPAANotRated) Then lbMPAA.Items.Add(Master.eSettings.TVScraperShowMPAANotRated)
         lbMPAA.Items.AddRange(APIXML.GetRatingList_TV)
     End Sub
 
     Private Sub MPAA_Select()
-        If tmpDBElement.TVShow.MPAASpecified Then
+        If tmpDBElement.MainDetails.MPAASpecified Then
             If Master.eSettings.TVScraperShowCertOnlyValue Then
                 Dim sItem As String = String.Empty
                 For i As Integer = 0 To lbMPAA.Items.Count - 1
                     sItem = lbMPAA.Items(i).ToString
-                    If sItem.Contains(":") AndAlso sItem.Split(Convert.ToChar(":"))(1) = tmpDBElement.TVShow.MPAA Then
+                    If sItem.Contains(":") AndAlso sItem.Split(Convert.ToChar(":"))(1) = tmpDBElement.MainDetails.MPAA Then
                         lbMPAA.SelectedIndex = i
                         lbMPAA.TopIndex = i
                         Exit For
@@ -1279,7 +1277,7 @@ Public Class dlgEdit_TVShow
             Else
                 Dim i As Integer = 0
                 For ctr As Integer = 0 To lbMPAA.Items.Count - 1
-                    If tmpDBElement.TVShow.MPAA.ToLower.StartsWith(lbMPAA.Items.Item(ctr).ToString.ToLower) Then
+                    If tmpDBElement.MainDetails.MPAA.ToLower.StartsWith(lbMPAA.Items.Item(ctr).ToString.ToLower) Then
                         i = ctr
                         Exit For
                     End If
@@ -1288,9 +1286,9 @@ Public Class dlgEdit_TVShow
                 lbMPAA.TopIndex = i
 
                 If i > 0 Then
-                    txtMPAADescription.Text = tmpDBElement.TVShow.MPAA.Replace(lbMPAA.Items.Item(i).ToString, String.Empty).Trim
+                    txtMPAADescription.Text = tmpDBElement.MainDetails.MPAA.Replace(lbMPAA.Items.Item(i).ToString, String.Empty).Trim
                 Else
-                    txtMPAA.Text = tmpDBElement.TVShow.MPAA
+                    txtMPAA.Text = tmpDBElement.MainDetails.MPAA
                 End If
             End If
         End If
@@ -1304,7 +1302,7 @@ Public Class dlgEdit_TVShow
     Private Sub Ratings_Fill()
         dgvRatings.SuspendLayout()
 
-        For Each tRating In tmpDBElement.TVShow.Ratings.Items.OrderBy(Function(f) Not f.IsDefault)
+        For Each tRating In tmpDBElement.MainDetails.Ratings.Items.OrderBy(Function(f) Not f.IsDefault)
             Dim i As Integer = dgvRatings.Rows.Add
             dgvRatings.Rows(i).Tag = tRating
             dgvRatings.Rows(i).Cells(colRatingsDefault.Name).Value = tRating.IsDefault
@@ -1368,8 +1366,8 @@ Public Class dlgEdit_TVShow
     End Sub
 
     Private Sub Tags_Fill()
-        If tmpDBElement.TVShow.TagsSpecified Then
-            lbTags.Items.AddRange(tmpDBElement.TVShow.Tags.ToArray)
+        If tmpDBElement.MainDetails.TagsSpecified Then
+            lbTags.Items.AddRange(tmpDBElement.MainDetails.Tags.ToArray)
         End If
         'add the rest of all tags to the ComboBox
         cbTags.Items.AddRange(Master.DB.GetAll_Tags)
@@ -1457,7 +1455,7 @@ Public Class dlgEdit_TVShow
     Private Sub UniqueIds_Fill()
         dgvUniqueIds.SuspendLayout()
 
-        For Each tId In tmpDBElement.TVShow.UniqueIDs.Items.OrderBy(Function(f) Not f.IsDefault)
+        For Each tId In tmpDBElement.MainDetails.UniqueIDs.Items.OrderBy(Function(f) Not f.IsDefault)
             Dim i As Integer = dgvUniqueIds.Rows.Add
             dgvUniqueIds.Rows(i).Tag = tId
             dgvUniqueIds.Rows(i).Cells(colUniqueIdsDefault.Name).Value = tId.IsDefault
