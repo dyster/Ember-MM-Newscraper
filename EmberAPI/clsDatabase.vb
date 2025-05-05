@@ -1786,6 +1786,7 @@ Public Class Database
 
     Public Sub FillDataTable_Movie(ByRef table As DataTable, ByVal command As String)
         table = New DataTable
+        Dim table2 = Master.DB.MyVideosEFConn.GetMovielist()
         FillDataTable(table, command)
 
         'Table manipulation

@@ -3,7 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Net.Sockets;
+using System.Reflection;
 using EmberAPICSharp;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,6 +60,46 @@ public partial class MyVideosContext : DbContext
     public virtual DbSet<GueststarLink> GueststarLinks { get; set; }
 
     public virtual DbSet<Movie> Movies { get; set; }
+
+    public DataTable GetMovielist()
+    {
+        var dt = new DataTable();
+        var query = Movies.Include(e => e.File);
+
+        List<PropertyInfo> properties = new List<PropertyInfo>();
+
+        foreach (PropertyInfo info in typeof(Movie).GetProperties())
+        {
+            if (info.PropertyType.IsValueType || info.PropertyType == typeof(string))
+            {
+                dt.Columns.Add(new DataColumn(info.Name, Nullable.GetUnderlyingType(info.PropertyType) ?? info.PropertyType));
+                properties.Add(info);
+            }
+        }
+        
+        foreach (var row in query)
+        {
+            int i = 0;
+            object[] values = new object[properties.Count];
+            foreach (PropertyInfo info in properties)
+            {
+                values[i] = properties[i].GetValue(row);
+                i++;
+            }
+
+            dt.Rows.Add(values);
+        }
+
+        //var conn = Database.GetDbConnection();
+        //conn.Open();
+        //var cmd = conn.CreateCommand();
+        //cmd.CommandText = "SELECT * FROM movielist";
+        //var reader = cmd.ExecuteReader();
+        //
+        //dt.Load(reader);
+        
+        return dt;
+    }
 
     public virtual DbSet<Movielist> Movielists { get; set; }
 

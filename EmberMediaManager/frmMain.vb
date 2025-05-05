@@ -433,7 +433,7 @@ Public Class frmMain
         RemoveHandler dgvMovies.RowsAdded, AddressOf dgvMovies_RowsAdded
         RemoveHandler dgvMovieSets.RowsAdded, AddressOf dgvMovieSets_RowsAdded
         RemoveHandler dgvTVShows.RowsAdded, AddressOf dgvTVShows_RowsAdded
-        DataGridView_FillList_Main(True, True, True)
+        DataGridView_FillList_Main(True, False, False) 'Disabling the shows for now to focus on getting movies working
         AddHandler dgvMovies.CellEnter, AddressOf dgvMovies_CellEnter
         AddHandler dgvMovies.RowsAdded, AddressOf dgvMovies_RowsAdded
         AddHandler dgvMovieSets.RowsAdded, AddressOf dgvMovieSets_RowsAdded
@@ -4038,7 +4038,13 @@ Public Class frmMain
                 Try
                     If Master.eSettings.MovieGeneralMediaListSorting.Count > 0 Then
                         For Each mColumn In Master.eSettings.MovieGeneralMediaListSorting
-                            dgvMovies.Columns(mColumn.Column.ToString).DisplayIndex = mColumn.DisplayIndex
+                            Dim colname = mColumn.Column.ToString
+                            If dgvMovies.Columns.Contains(colname) Then
+                                dgvMovies.Columns(colname).DisplayIndex = mColumn.DisplayIndex
+                            Else
+                                logger.Warn("Column {0} not found in database columns", colname)
+                            End If
+
                         Next
                     End If
                 Catch ex As Exception
@@ -4055,12 +4061,12 @@ Public Class frmMain
                     dgvMovies.Columns(i).Visible = False
                 Next
 
-                dgvMovies.Columns("BannerPath").Width = 20
-                dgvMovies.Columns("BannerPath").Resizable = DataGridViewTriState.False
-                dgvMovies.Columns("BannerPath").ReadOnly = True
-                dgvMovies.Columns("BannerPath").SortMode = DataGridViewColumnSortMode.Automatic
-                dgvMovies.Columns("BannerPath").Visible = Not DataGridView_CheckColumnHide_Movie("BannerPath")
-                dgvMovies.Columns("BannerPath").ToolTipText = Master.eLang.GetString(838, "Banner")
+                'dgvMovies.Columns("BannerPath").Width = 20
+                'dgvMovies.Columns("BannerPath").Resizable = DataGridViewTriState.False
+                'dgvMovies.Columns("BannerPath").ReadOnly = True
+                'dgvMovies.Columns("BannerPath").SortMode = DataGridViewColumnSortMode.Automatic
+                'dgvMovies.Columns("BannerPath").Visible = Not DataGridView_CheckColumnHide_Movie("BannerPath")
+                'dgvMovies.Columns("BannerPath").ToolTipText = Master.eLang.GetString(838, "Banner")
                 dgvMovies.Columns("ClearArtPath").Width = 20
                 dgvMovies.Columns("ClearArtPath").Resizable = DataGridViewTriState.False
                 dgvMovies.Columns("ClearArtPath").ReadOnly = True
@@ -14364,12 +14370,12 @@ Public Class frmMain
             Case Enums.ScannerEventType.ScannerEnded
                 If Not Master.isCL Then
                     SetStatus(String.Empty)
-                    DataGridView_FillList_Main(False, True, False)
+                    DataGridView_FillList_Main(False, False, False) ' focusing on movies for now
                     tspbLoading.Visible = False
                     tslLoading.Visible = False
                     LoadingDone = True
                 Else
-                    DataGridView_FillList_Main(True, True, True)
+                    DataGridView_FillList_Main(True, False, False) ' focusing on movies for now
                     LoadingDone = True
                 End If
         End Select
@@ -16115,7 +16121,7 @@ Public Class frmMain
             If Not fScanner.IsBusy AndAlso Not bwLoadImages_Movie.IsBusy AndAlso Not bwMovieScraper.IsBusy AndAlso Not bwReload_Movies.IsBusy AndAlso
                     Not bwLoadImages_Movieset.IsBusy AndAlso Not bwMovieSetScraper.IsBusy AndAlso Not bwReload_MovieSets.IsBusy AndAlso
                     Not bwLoadImages_TVEpisode.IsBusy AndAlso Not bwLoadImages_TVSeason.IsBusy AndAlso Not bwLoadImages_TVShow.IsBusy AndAlso Not bwReload_TVShows.IsBusy AndAlso Not bwCleanDB.IsBusy Then
-                DataGridView_FillList_Main(True, True, True)
+                DataGridView_FillList_Main(True, False, False) ' only doing movies for now
             End If
 
             SetMenus(True)
