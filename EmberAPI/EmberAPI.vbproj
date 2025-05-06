@@ -601,7 +601,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)$(PlatformName)" "$(TargetDir)Bin" /E /I /R /Y</PostBuildEvent>
+	<PostBuildEvent></PostBuildEvent>
+    <!-- I'm not sure what this does but its broken <PostBuildEvent>xcopy "$(ProjectDir)$(PlatformName)" "$(TargetDir)Bin" /E /I /R /Y</PostBuildEvent> -->
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

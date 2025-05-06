@@ -23,6 +23,7 @@ Imports System.IO
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports System.Drawing
+Imports System.Windows.Forms
 
 Public Class Containers
 
@@ -746,6 +747,13 @@ Public Class Enums
         SelectedAsk = 19
         SelectedSkip = 20
         None = 99
+    End Enum
+
+    ''' <summary>
+    ''' This is a placeholder enum to find where the missing one is, just to get a build
+    ''' </summary>
+    Public Enum ScraperEventType As Integer
+        VOID = 0
     End Enum
 
     Public Enum SelectionType As Integer

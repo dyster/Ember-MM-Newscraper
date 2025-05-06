@@ -406,7 +406,7 @@ Public Class APIXML
                 Else
                     sourceCheck = If(Master.eSettings.GeneralSourceFromFolder, String.Concat(Directory.GetParent(filenamePath).Name.ToLower, Path.DirectorySeparatorChar, Path.GetFileName(filenamePath).ToLower), Path.GetFileName(filenamePath).ToLower)
                 End If
-                Dim mySources As New List(Of TableItem)
+                Dim mySources As New List(Of AdvancedSettingsComplexSettingsTableItem)
                 mySources = AdvancedSettings.GetComplexSetting("VideoSourceMapping")
                 If Not mySources Is Nothing Then
                     For Each k In mySources

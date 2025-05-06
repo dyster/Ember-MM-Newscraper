@@ -492,17 +492,18 @@ Public Class dlgTagManager
                     tmpDBMovieTag.Movies = list.Movies
                 End If
 
+                Throw New NotImplementedException("I've commented this section out as it references methods that doesn't exist, but this handler has no references, so this seemed the easiest course for now")
                 'Step 2: save tag to DB
-                If list.IsNew = True Then
-                    'save tag to database
-                    Master.DB.Save_Tag_Movie(tmpDBMovieTag, True, False, True, True)
-                ElseIf list.IsDeleted = True Then
-                    'remove tag from database/nfo
-                    Master.DB.Delete_Tag(tmpDBMovieTag.ID, 1, False)
-                ElseIf list.IsModified = True Then
-                    'save tag to database
-                    Master.DB.Save_Tag_Movie(tmpDBMovieTag, False, False, True, True)
-                End If
+                'If list.IsNew = True Then
+                '    'save tag to database
+                '    Master.DB.Save_Tag_Movie(tmpDBMovieTag, True, False, True, True)
+                'ElseIf list.IsDeleted = True Then
+                '    'remove tag from database/nfo
+                '    Master.DB.Delete_Tag(tmpDBMovieTag.ID, 1, False)
+                'ElseIf list.IsModified = True Then
+                '    'save tag to database
+                '    Master.DB.Save_Tag_Movie(tmpDBMovieTag, False, False, True, True)
+                'End If
             Else
                 'no name !
             End If
