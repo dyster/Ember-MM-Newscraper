@@ -252,7 +252,7 @@
     <value>..\Resources\EmberSplashScreen.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="urlEmberBugTracker" xml:space="preserve">
-    <value>http://bugs.embermediamanager.org</value>
+    <value>https://github.com/dyster/Ember-MM-Newscraper/issues</value>
   </data>
   <data name="urlIMPAwards" xml:space="preserve">
     <value>http://www.impawards.com/</value>
@@ -331,7 +331,7 @@
     <value>..\Resources\actor_silhouette.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="urlReleaseThread" xml:space="preserve">
-    <value>https://github.com/DanCooper/Ember-MM-Newscraper/releases</value>
+    <value>https://github.com/dyster/Ember-MM-Newscraper/releases</value>
   </data>
   <data name="urlMediaInfo" xml:space="preserve">
     <value>http://mediainfo.sourceforge.net</value>
