@@ -2608,7 +2608,7 @@ Public Class frmMain
         Functions.SetScrapeModifiers(ScrapeModifiers, Enums.ModifierType.MainNFO, True)
         Functions.SetScrapeModifiers(ScrapeModifiers, Enums.ModifierType.withEpisodes, True)
 
-        If ModulesManager.Instance.ScrapeData_TVShow(tmpShow, ScrapeModifiers, Enums.ScrapeType.SingleScrape, Master.DefaultOptions_TV, True) Then
+        If Not ModulesManager.Instance.ScrapeData_TVShow(tmpShow, ScrapeModifiers, Enums.ScrapeType.SingleScrape, Master.DefaultOptions_TV, True) Then
             If tmpShow.Episodes.Count > 0 Then
                 Dim dlgChangeEp As New dlgTVChangeEp(tmpShow)
                 If dlgChangeEp.ShowDialog = DialogResult.OK Then
