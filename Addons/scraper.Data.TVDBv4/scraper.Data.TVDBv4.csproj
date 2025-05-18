@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	  
+	  <!--<BaseOutputPath>..\..\EmberMM - Debug - AnyCPU\Modules\scraper.data.tvdbv4\</BaseOutputPath>-->
+  </PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<OutputPath>..\..\EmberMM - Debug - AnyCPU\Modules\scraper.data.tvdbv4\</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<OutputPath>..\..\EmberMM - Release - AnyCPU\Modules\scraper.data.tvdbv4\</OutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+    <ProjectReference Include="..\..\EmberAPI\EmberAPI.vbproj">
+      <Private>False</Private>
+    </ProjectReference>
+	
+
+	</ItemGroup>
+
+</Project>
