@@ -2683,7 +2683,11 @@ Public Class frmMain
         If lstTVEpisodeID.Count > 0 Then
             Using dlg As New dlgDeleteConfirm
                 If dlg.ShowDialog(lstTVEpisodeID, Enums.ContentType.TVEpisode) = DialogResult.OK Then
-                    DataGridView_FillList_TVEpisode(Convert.ToInt64(dgvTVSeasons.Item("idShow", currRow_TVSeason).Value), Convert.ToInt32(dgvTVSeasons.Item("Season", currRow_TVSeason).Value))
+                    Dim dgvIdCell = dgvTVSeasons.Item("idShow", currRow_TVSeason)
+                    Dim lngID As Long = Convert.ToInt64(dgvIdCell.Value)
+                    Dim dgvSeasonCell = dgvTVSeasons.Item("Season", currRow_TVSeason)
+                    Dim lngSeason As Integer = Convert.ToInt32(dgvSeasonCell.Value)
+                    DataGridView_FillList_TVEpisode(lngID, lngSeason)
                     MainTab_SetCount_TV()
                 End If
             End Using

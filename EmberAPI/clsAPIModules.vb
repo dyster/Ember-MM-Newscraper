@@ -1941,6 +1941,10 @@ Public Class ModulesManager
         Public AssemblyName As String
         Public AssemblyVersion As Version
 
+        Public Overrides Function ToString() As String
+            Return AssemblyName
+        End Function
+
 #End Region 'Fields
 
     End Structure
