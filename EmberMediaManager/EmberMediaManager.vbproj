@@ -5314,6 +5314,10 @@
       <Name>EmberAPI</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\EmberSharp\EmberSharp.csproj">
+      <Project>{6737c717-0496-4c92-b35c-540bb24bb6db}</Project>
+      <Name>EmberSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bin\" />

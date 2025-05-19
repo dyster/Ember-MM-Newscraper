@@ -20,6 +20,7 @@
 
 Imports EmberAPI
 Imports NLog
+Imports NLog.Targets
 Imports System.IO
 
 Namespace My
@@ -45,6 +46,7 @@ Namespace My
             Net.ServicePointManager.SecurityProtocol = Net.ServicePointManager.SecurityProtocol Or Net.SecurityProtocolType.Tls11 Or Net.SecurityProtocolType.Tls12
 
             Master.fLoading = New frmSplash
+
             Master.appArgs = e
 
             ' #############################################
@@ -170,7 +172,11 @@ Namespace My
         ''' </summary>
         Private Sub MyApplication_UnhandledException(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.UnhandledExceptionEventArgs) Handles Me.UnhandledException
             logger.Error(e.Exception, e.Exception.Source)
-            MessageBox.Show(e.Exception.Message, "Ember Media Manager", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+            Dim target As MemoryTarget = CType(LogManager.Configuration.ConfiguredNamedTargets.First(Function(t) t.Name = "memory"), MemoryTarget)
+            Dim edlg As EmberSharp.ErrorWindow = New EmberSharp.ErrorWindow(e.Exception, target.Logs)
+            edlg.ShowDialog()
+
             Application.Log.WriteException(e.Exception, TraceEventType.Critical, "Unhandled Exception.")
         End Sub
 

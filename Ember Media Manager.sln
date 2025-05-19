@@ -102,6 +102,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "scraper.Data.OMDb", "Addons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scraper.Data.TVDBv4", "addons\scraper.Data.TVDBv4\scraper.Data.TVDBv4.csproj", "{ADFECE5A-F10A-4823-BBD6-635073C7690D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmberSharp", "EmberSharp\EmberSharp.csproj", "{6737C717-0496-4C92-B35C-540BB24BB6DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -508,6 +510,18 @@ Global
 		{ADFECE5A-F10A-4823-BBD6-635073C7690D}.Release|x64.Build.0 = Release|Any CPU
 		{ADFECE5A-F10A-4823-BBD6-635073C7690D}.Release|x86.ActiveCfg = Release|Any CPU
 		{ADFECE5A-F10A-4823-BBD6-635073C7690D}.Release|x86.Build.0 = Release|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Debug|x64.Build.0 = Debug|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Release|x64.ActiveCfg = Release|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Release|x64.Build.0 = Release|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{6737C717-0496-4C92-B35C-540BB24BB6DB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
