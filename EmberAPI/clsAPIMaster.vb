@@ -54,10 +54,11 @@ Public Class Master
 
     Public Shared ReadOnly Property Version() As String
         Get
-            Return String.Format("Version {0}.{1}.{2} {3}",
+            Return String.Format("Version {0}.{1}.{2}.{3} {4}",
                                  My.Application.Info.Version.Major,
                                  My.Application.Info.Version.Minor,
                                  My.Application.Info.Version.Build,
+                                 My.Application.Info.Version.Revision,
                                  If(is32Bit, "x86", "x64"))
         End Get
     End Property
