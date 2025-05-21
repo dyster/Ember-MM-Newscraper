@@ -18,23 +18,21 @@
 ' # along with Ember Media Manager.  If not, see <http://www.gnu.org/licenses/>. #
 ' ################################################################################
 
-Imports System.IO
 Imports EmberAPI
 Imports NLog
 
 Public Class TelevisionTunes_Theme
+    Inherits Interfaces.Scraper
     Implements Interfaces.ScraperModule_Theme_Movie
     Implements Interfaces.ScraperModule_Theme_TV
 
-
 #Region "Fields"
+
     Shared logger As Logger = NLog.LogManager.GetCurrentClassLogger()
 
     Public Shared ConfigScrapeModifier_Movie As New Structures.ScrapeModifiers
     Public Shared ConfigScrapeModifier_TV As New Structures.ScrapeModifiers
     Public Shared _AssemblyName As String
-
-    Private _Name As String = "TelevisionTunes_Theme"
     Private _ScraperEnabled_Movie As Boolean = False
     Private _ScraperEnabled_TV As Boolean = False
     Private _setup_Movie As frmSettingsHolder_Movie
@@ -46,31 +44,27 @@ Public Class TelevisionTunes_Theme
 
     'Movie part
     Public Event ModuleSettingsChanged_Movie() Implements Interfaces.ScraperModule_Theme_Movie.ModuleSettingsChanged
+
     Public Event ScraperEvent_Movie(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object) Implements Interfaces.ScraperModule_Theme_Movie.ScraperEvent
+
     Public Event SetupScraperChanged_Movie(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer) Implements Interfaces.ScraperModule_Theme_Movie.ScraperSetupChanged
+
     Public Event SetupNeedsRestart_Movie() Implements Interfaces.ScraperModule_Theme_Movie.SetupNeedsRestart
 
     'TV part
     Public Event ModuleSettingsChanged_TV() Implements Interfaces.ScraperModule_Theme_TV.ModuleSettingsChanged
+
     Public Event ScraperEvent_TV(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object) Implements Interfaces.ScraperModule_Theme_TV.ScraperEvent
+
     Public Event SetupScraperChanged_TV(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer) Implements Interfaces.ScraperModule_Theme_TV.ScraperSetupChanged
+
     Public Event SetupNeedsRestart_TV() Implements Interfaces.ScraperModule_Theme_TV.SetupNeedsRestart
 
 #End Region 'Events
 
 #Region "Properties"
 
-    ReadOnly Property ModuleName() As String Implements Interfaces.ScraperModule_Theme_TV.ModuleName, Interfaces.ScraperModule_Theme_Movie.ModuleName
-        Get
-            Return _Name
-        End Get
-    End Property
-
-    ReadOnly Property ModuleVersion() As String Implements Interfaces.ScraperModule_Theme_TV.ModuleVersion, Interfaces.ScraperModule_Theme_Movie.ModuleVersion
-        Get
-            Return FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileVersion.ToString
-        End Get
-    End Property
+    Public Overrides ReadOnly Property ModuleName() As String = "TelevisionTunes_Theme"
 
     Property ScraperEnabled_TV() As Boolean Implements Interfaces.ScraperModule_Theme_TV.ScraperEnabled
         Get
@@ -104,12 +98,12 @@ Public Class TelevisionTunes_Theme
 
     Private Sub Handle_SetupScraperChanged_Movie(ByVal state As Boolean, ByVal difforder As Integer)
         ScraperEnabled_Movie = state
-        RaiseEvent SetupScraperChanged_Movie(String.Concat(Me._Name, "_Movie"), state, difforder)
+        RaiseEvent SetupScraperChanged_Movie(String.Concat(Me.ModuleName, "_Movie"), state, difforder)
     End Sub
 
     Private Sub Handle_SetupScraperChanged_TV(ByVal state As Boolean, ByVal difforder As Integer)
         ScraperEnabled_TV = state
-        RaiseEvent SetupScraperChanged_TV(String.Concat(Me._Name, "_TV"), state, difforder)
+        RaiseEvent SetupScraperChanged_TV(String.Concat(Me.ModuleName, "_TV"), state, difforder)
     End Sub
 
     Sub Init_Movie(ByVal sAssemblyName As String) Implements Interfaces.ScraperModule_Theme_Movie.Init
@@ -130,7 +124,7 @@ Public Class TelevisionTunes_Theme
 
         _setup_Movie.orderChanged()
 
-        SPanel.Name = String.Concat(Me._Name, "_Movie")
+        SPanel.Name = String.Concat(Me.ModuleName, "_Movie")
         SPanel.Text = "TelevisionTunes"
         SPanel.Prefix = "TelevisionTunesTVTheme_"
         SPanel.Order = 110
@@ -151,7 +145,7 @@ Public Class TelevisionTunes_Theme
 
         _setup_TV.orderChanged()
 
-        SPanel.Name = String.Concat(Me._Name, "_TV")
+        SPanel.Name = String.Concat(Me.ModuleName, "_TV")
         SPanel.Text = "TelevisionTunes"
         SPanel.Prefix = "TelevisionTunesTVTheme_"
         SPanel.Order = 110

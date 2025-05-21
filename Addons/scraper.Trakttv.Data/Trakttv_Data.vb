@@ -18,14 +18,14 @@
 ' # along with Ember Media Manager.  If not, see <http://www.gnu.org/licenses/>. #
 ' ################################################################################
 
+Imports System.Threading.Tasks
 Imports EmberAPI
 Imports NLog
-Imports System.Threading.Tasks
 
 Public Class Addon
+    Inherits Interfaces.Scraper
     Implements Interfaces.ScraperModule_Data_Movie
     Implements Interfaces.ScraperModule_Data_TV
-
 
 #Region "Fields"
 
@@ -36,8 +36,6 @@ Public Class Addon
     Public Shared ConfigScrapeOptions_TV As New Structures.ScrapeOptions
     Public Shared ConfigScrapeModifier_Movie As New Structures.ScrapeModifiers
     Public Shared ConfigScrapeModifier_TV As New Structures.ScrapeModifiers
-
-    Private _Name As String = "Trakttv_Data"
     Private _ScraperEnabled_Movie As Boolean = False
     Private _ScraperEnabled_TV As Boolean = False
     Private _setup_Movie As frmSettingsHolder_Movie
@@ -54,31 +52,27 @@ Public Class Addon
 
     'Movie part
     Public Event ModuleSettingsChanged_Movie() Implements Interfaces.ScraperModule_Data_Movie.ModuleSettingsChanged
+
     Public Event ScraperEvent_Movie(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object) Implements Interfaces.ScraperModule_Data_Movie.ScraperEvent
+
     Public Event ScraperSetupChanged_Movie(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer) Implements Interfaces.ScraperModule_Data_Movie.ScraperSetupChanged
+
     Public Event SetupNeedsRestart_Movie() Implements Interfaces.ScraperModule_Data_Movie.SetupNeedsRestart
 
     'TV part
     Public Event ModuleSettingsChanged_TV() Implements Interfaces.ScraperModule_Data_TV.ModuleSettingsChanged
+
     Public Event ScraperEvent_TV(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object) Implements Interfaces.ScraperModule_Data_TV.ScraperEvent
+
     Public Event ScraperSetupChanged_TV(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer) Implements Interfaces.ScraperModule_Data_TV.ScraperSetupChanged
+
     Public Event SetupNeedsRestart_TV() Implements Interfaces.ScraperModule_Data_TV.SetupNeedsRestart
 
 #End Region 'Events
 
 #Region "Properties"
 
-    ReadOnly Property ModuleName() As String Implements Interfaces.ScraperModule_Data_Movie.ModuleName, Interfaces.ScraperModule_Data_TV.ModuleName
-        Get
-            Return _Name
-        End Get
-    End Property
-
-    ReadOnly Property ModuleVersion() As String Implements Interfaces.ScraperModule_Data_Movie.ModuleVersion, Interfaces.ScraperModule_Data_TV.ModuleVersion
-        Get
-            Return FileVersionInfo.GetVersionInfo(Reflection.Assembly.GetExecutingAssembly.Location).FileVersion.ToString
-        End Get
-    End Property
+    Public Overrides ReadOnly Property ModuleName() As String = "Trakttv_Data"
 
     Property ScraperEnabled_Movie() As Boolean Implements Interfaces.ScraperModule_Data_Movie.ScraperEnabled
         Get
@@ -142,12 +136,12 @@ Public Class Addon
 
     Private Sub Handle_SetupScraperChanged_Movie(ByVal state As Boolean, ByVal difforder As Integer)
         ScraperEnabled_Movie = state
-        RaiseEvent ScraperSetupChanged_Movie(String.Concat(_Name, "_Movie"), state, difforder)
+        RaiseEvent ScraperSetupChanged_Movie(String.Concat(ModuleName, "_Movie"), state, difforder)
     End Sub
 
     Private Sub Handle_SetupScraperChanged_TV(ByVal state As Boolean, ByVal difforder As Integer)
         ScraperEnabled_TV = state
-        RaiseEvent ScraperSetupChanged_TV(String.Concat(_Name, "_TV"), state, difforder)
+        RaiseEvent ScraperSetupChanged_TV(String.Concat(ModuleName, "_TV"), state, difforder)
     End Sub
 
     Sub Init_Movie(ByVal sAssemblyName As String) Implements Interfaces.ScraperModule_Data_Movie.Init
@@ -173,7 +167,7 @@ Public Class Addon
 
         _setup_Movie.orderChanged()
 
-        SPanel.Name = String.Concat(_Name, "_Movie")
+        SPanel.Name = String.Concat(ModuleName, "_Movie")
         SPanel.Text = "Trakttv"
         SPanel.Prefix = "TrakttvMovieInfo_"
         SPanel.Order = 110
@@ -200,7 +194,7 @@ Public Class Addon
 
         _setup_TV.orderChanged()
 
-        SPanel.Name = String.Concat(_Name, "_TV")
+        SPanel.Name = String.Concat(ModuleName, "_TV")
         SPanel.Text = "Trakttv"
         SPanel.Prefix = "TrakttvTVInfo_"
         SPanel.Order = 110
@@ -283,6 +277,7 @@ Public Class Addon
             _setup_TV.Dispose()
         End If
     End Sub
+
     ''' <summary>
     '''  Scrape MovieDetails from Trakttv
     ''' </summary>
@@ -346,6 +341,7 @@ Public Class Addon
         logger.Trace("[Tracktv_Data] [Scraper_TV] [Done]")
         Return New Interfaces.ModuleResult_Data_TVShow With {.Result = nTVShow}
     End Function
+
     ''' <summary>
     '''  Scrape episode details from Trakttv
     ''' </summary>
@@ -376,6 +372,7 @@ Public Class Addon
         logger.Trace("[Tracktv_Data] [Scraper_TVEpisode] [Done]")
         Return New Interfaces.ModuleResult_Data_TVEpisode With {.Result = nTVEpisode}
     End Function
+
     ''' <summary>
     '''  Scrape season details from Trakttv
     ''' </summary>

@@ -28,8 +28,11 @@ Public Class Interfaces
 #Region "Events"
 
         Event GenericEvent(ByVal mType As Enums.ModuleEventType, ByRef _params As List(Of Object))
+
         Event ModuleSettingsChanged()
+
         Event ModuleSetupChanged(ByVal Name As String, ByVal State As Boolean, ByVal diffOrder As Integer)
+
         Event SetupNeedsRestart()
 
 #End Region 'Events
@@ -47,29 +50,52 @@ Public Class Interfaces
 #Region "Methods"
 
         Sub Init(ByVal sAssemblyName As String, ByVal sExecutable As String)
+
         Function InjectSetup() As Containers.SettingsPanel
+
         Function RunGeneric(ByVal mType As Enums.ModuleEventType, ByRef _params As List(Of Object), ByRef _singleobjekt As Object, ByRef _dbelement As Database.DBElement) As ModuleResult
+
         Sub SaveSetup(ByVal DoDispose As Boolean)
 
 #End Region 'Methods
 
     End Interface
 
+    'This odd mix of interface and abstract is just to ease the transition into a more generic structure in the future, one step at a time
+    Public Interface iScraper
+        ReadOnly Property ModuleName() As String
+        ReadOnly Property ModuleVersion() As String
+    End Interface
+
+    Public MustInherit Class Scraper
+        Implements iScraper
+        MustOverride ReadOnly Property ModuleName() As String Implements iScraper.ModuleName
+
+        ReadOnly Property ModuleVersion() As String Implements iScraper.ModuleVersion
+            Get
+                Return FileVersionInfo.GetVersionInfo(Reflection.Assembly.GetExecutingAssembly.Location).FileVersion.ToString
+            End Get
+        End Property
+
+    End Class
+
     Public Interface ScraperModule_Data_Movie
+        Inherits iScraper
 
 #Region "Events"
 
         Event ModuleSettingsChanged()
+
         Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
+
         Event SetupNeedsRestart()
 
 #End Region 'Events
 
 #Region "Properties"
 
-        ReadOnly Property ModuleName() As String
-        ReadOnly Property ModuleVersion() As String
         Property ScraperEnabled() As Boolean
 
 #End Region 'Properties
@@ -77,13 +103,19 @@ Public Class Interfaces
 #Region "Methods"
 
         Sub ScraperOrderChanged()
+
         Function GetMovieStudio(ByRef DBMovie As Database.DBElement, ByRef sStudio As List(Of String)) As ModuleResult
+
         Function GetTMDbIdByIMDbId(ByVal imdbId As String, ByRef tmdbId As Integer) As ModuleResult
+
         Sub Init(ByVal sAssemblyName As String)
+
         Function InjectSetupScraper() As Containers.SettingsPanel
+
         Sub SaveSetupScraper(ByVal DoDispose As Boolean)
+
         ''' <summary>
-        ''' 
+        '''
         ''' </summary>
         ''' <param name="oDBElement">Clone of original DBMovie. To fill with new IMDB or TMDB ID's for subsequent scrapers.</param>
         ''' <param name="ScrapeType">What kind of data is being requested from the scrape(global scraper settings)</param>
@@ -97,20 +129,22 @@ Public Class Interfaces
     End Interface
 
     Public Interface ScraperModule_Data_MovieSet
+        Inherits iScraper
 
 #Region "Events"
 
         Event ModuleSettingsChanged()
+
         Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
+
         Event SetupNeedsRestart()
 
 #End Region 'Events
 
 #Region "Properties"
 
-        ReadOnly Property ModuleName() As String
-        ReadOnly Property ModuleVersion() As String
         Property ScraperEnabled() As Boolean
 
 #End Region 'Properties
@@ -118,12 +152,17 @@ Public Class Interfaces
 #Region "Methods"
 
         Sub ScraperOrderChanged()
+
         Function GetTMDbCollectionId(ByVal imdbIdOrTmdbId As String, ByRef tmdbCollectionId As Integer) As ModuleResult
+
         Sub Init(ByVal sAssemblyName As String)
+
         Function InjectSetupScraper() As Containers.SettingsPanel
+
         Sub SaveSetupScraper(ByVal DoDispose As Boolean)
+
         ''' <summary>
-        ''' 
+        '''
         ''' </summary>
         ''' <param name="oDBElement">Clone of original DBMovieSet. To fill with new TMDB ID's for subsequent scrapers.</param>
         ''' <param name="ScrapeModifiers"></param>
@@ -138,20 +177,22 @@ Public Class Interfaces
     End Interface
 
     Public Interface ScraperModule_Data_TV
+        Inherits iScraper
 
 #Region "Events"
 
         Event ModuleSettingsChanged()
+
         Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
+
         Event SetupNeedsRestart()
 
 #End Region 'Events
 
 #Region "Properties"
 
-        ReadOnly Property ModuleName() As String
-        ReadOnly Property ModuleVersion() As String
         Property ScraperEnabled() As Boolean
 
 #End Region 'Properties
@@ -159,11 +200,15 @@ Public Class Interfaces
 #Region "Methods"
 
         Sub ScraperOrderChanged()
+
         Sub Init(ByVal sAssemblyName As String)
+
         Function InjectSetupScraper() As Containers.SettingsPanel
+
         Sub SaveSetupScraper(ByVal DoDispose As Boolean)
+
         ''' <summary>
-        ''' 
+        '''
         ''' </summary>
         ''' <param name="oDBTV">Clone of original DBTV. To fill with new TVDB, IMDB or TMDB ID's for subsequent scrapers.</param>
         ''' <param name="ScrapeType">What kind of data is being requested from the scrape(global scraper settings)</param>
@@ -171,6 +216,7 @@ Public Class Interfaces
         ''' <returns></returns>
         ''' <remarks></remarks>
         Function Scraper_TVShow(ByRef oDBTV As Database.DBElement, ByRef ScrapeModifiers As Structures.ScrapeModifiers, ByRef ScrapeType As Enums.ScrapeType, ByRef ScrapeOptions As Structures.ScrapeOptions) As ModuleResult_Data_TVShow
+
         ''' <summary>
         ''' Get single episode information
         ''' </summary>
@@ -179,6 +225,7 @@ Public Class Interfaces
         ''' <returns></returns>
         ''' <remarks></remarks>
         Function Scraper_TVEpisode(ByRef oDBElement As Database.DBElement, ByVal ScrapeOptions As Structures.ScrapeOptions) As ModuleResult_Data_TVEpisode
+
         ''' <summary>
         ''' Get single season information
         ''' </summary>
@@ -193,22 +240,26 @@ Public Class Interfaces
     End Interface
 
     Public Interface ScraperModule_Image_Movie
+        Inherits iScraper
 
 #Region "Events"
 
         Event ModuleSettingsChanged()
+
         Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
+
         Event SetupNeedsRestart()
+
         Event ImagesDownloaded(ByVal Images As List(Of MediaContainers.Image))
+
         Event ProgressUpdated(ByVal iPercent As Integer)
 
 #End Region 'Events
 
 #Region "Properties"
 
-        ReadOnly Property ModuleName() As String
-        ReadOnly Property ModuleVersion() As String
         Property ScraperEnabled() As Boolean
 
 #End Region 'Properties
@@ -216,10 +267,15 @@ Public Class Interfaces
 #Region "Methods"
 
         Sub ScraperOrderChanged()
+
         Sub Init(ByVal sAssemblyName As String)
+
         Function InjectSetupScraper() As Containers.SettingsPanel
+
         Function QueryScraperCapabilities(ByVal cap As Enums.ModifierType) As Boolean
+
         Sub SaveSetupScraper(ByVal DoDispose As Boolean)
+
         Function Scraper(ByRef DBMovie As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.ModuleResult
 
 #End Region 'Methods
@@ -227,22 +283,26 @@ Public Class Interfaces
     End Interface
 
     Public Interface ScraperModule_Image_MovieSet
+        Inherits iScraper
 
 #Region "Events"
 
         Event ModuleSettingsChanged()
+
         Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
+
         Event SetupNeedsRestart()
+
         Event ImagesDownloaded(ByVal Posters As List(Of MediaContainers.Image))
+
         Event ProgressUpdated(ByVal iPercent As Integer)
 
 #End Region 'Events
 
 #Region "Properties"
 
-        ReadOnly Property ModuleName() As String
-        ReadOnly Property ModuleVersion() As String
         Property ScraperEnabled() As Boolean
 
 #End Region 'Properties
@@ -250,10 +310,15 @@ Public Class Interfaces
 #Region "Methods"
 
         Sub ScraperOrderChanged()
+
         Sub Init(ByVal sAssemblyName As String)
+
         Function InjectSetupScraper() As Containers.SettingsPanel
+
         Function QueryScraperCapabilities(ByVal cap As Enums.ModifierType) As Boolean
+
         Sub SaveSetupScraper(ByVal DoDispose As Boolean)
+
         Function Scraper(ByRef DBMovieSet As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.ModuleResult
 
 #End Region 'Methods
@@ -261,22 +326,26 @@ Public Class Interfaces
     End Interface
 
     Public Interface ScraperModule_Image_TV
+        Inherits iScraper
 
 #Region "Events"
 
         Event ModuleSettingsChanged()
+
         Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
+
         Event SetupNeedsRestart()
+
         Event ImagesDownloaded(ByVal Images As List(Of MediaContainers.Image))
+
         Event ProgressUpdated(ByVal iPercent As Integer)
 
 #End Region 'Events
 
 #Region "Properties"
 
-        ReadOnly Property ModuleName() As String
-        ReadOnly Property ModuleVersion() As String
         Property ScraperEnabled() As Boolean
 
 #End Region 'Properties
@@ -284,10 +353,15 @@ Public Class Interfaces
 #Region "Methods"
 
         Sub ScraperOrderChanged()
+
         Sub Init(ByVal sAssemblyName As String)
+
         Function InjectSetupScraper() As Containers.SettingsPanel
+
         Function QueryScraperCapabilities(ByVal cap As Enums.ModifierType) As Boolean
+
         Sub SaveSetupScraper(ByVal DoDispose As Boolean)
+
         Function Scraper(ByRef DBTV As Database.DBElement, ByRef ImagesContainer As MediaContainers.SearchResultsContainer, ByVal ScrapeModifiers As Structures.ScrapeModifiers) As Interfaces.ModuleResult
 
 #End Region 'Methods
@@ -295,20 +369,22 @@ Public Class Interfaces
     End Interface
 
     Public Interface ScraperModule_Theme_Movie
+        Inherits iScraper
 
 #Region "Events"
 
         Event ModuleSettingsChanged()
+
         Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
+
         Event SetupNeedsRestart()
 
 #End Region 'Events
 
 #Region "Properties"
 
-        ReadOnly Property ModuleName() As String
-        ReadOnly Property ModuleVersion() As String
         Property ScraperEnabled() As Boolean
 
 #End Region 'Properties
@@ -316,9 +392,13 @@ Public Class Interfaces
 #Region "Methods"
 
         Sub ScraperOrderChanged()
+
         Sub Init(ByVal sAssemblyName As String)
+
         Function InjectSetupScraper() As Containers.SettingsPanel
+
         Function Scraper(ByRef DBMovie As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef ThemeList As List(Of MediaContainers.MediaFile)) As Interfaces.ModuleResult
+
         Sub SaveSetupScraper(ByVal DoDispose As Boolean)
 
 #End Region 'Methods
@@ -326,20 +406,22 @@ Public Class Interfaces
     End Interface
 
     Public Interface ScraperModule_Theme_TV
+        Inherits iScraper
 
 #Region "Events"
 
         Event ModuleSettingsChanged()
+
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
+
         Event SetupNeedsRestart()
+
         Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
 #End Region 'Events
 
 #Region "Properties"
 
-        ReadOnly Property ModuleName() As String
-        ReadOnly Property ModuleVersion() As String
         Property ScraperEnabled() As Boolean
 
 #End Region 'Properties
@@ -347,9 +429,13 @@ Public Class Interfaces
 #Region "Methods"
 
         Sub ScraperOrderChanged()
+
         Sub Init(ByVal sAssemblyName As String)
+
         Function InjectSetupScraper() As Containers.SettingsPanel
+
         Function Scraper(ByRef DBTV As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef ThemeList As List(Of MediaContainers.MediaFile)) As Interfaces.ModuleResult
+
         Sub SaveSetupScraper(ByVal DoDispose As Boolean)
 
 #End Region 'Methods
@@ -357,20 +443,22 @@ Public Class Interfaces
     End Interface
 
     Public Interface ScraperModule_Trailer_Movie
+        Inherits iScraper
 
 #Region "Events"
 
         Event ModuleSettingsChanged()
+
         Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
+
         Event SetupNeedsRestart()
 
 #End Region 'Events
 
 #Region "Properties"
 
-        ReadOnly Property ModuleName() As String
-        ReadOnly Property ModuleVersion() As String
         Property ScraperEnabled() As Boolean
 
 #End Region 'Properties
@@ -378,9 +466,13 @@ Public Class Interfaces
 #Region "Methods"
 
         Sub ScraperOrderChanged()
+
         Sub Init(ByVal sAssemblyName As String)
+
         Function InjectSetupScraper() As Containers.SettingsPanel
+
         Function Scraper(ByRef DBMovie As Database.DBElement, ByVal Type As Enums.ModifierType, ByRef TrailerList As List(Of MediaContainers.MediaFile)) As Interfaces.ModuleResult
+
         Sub SaveSetupScraper(ByVal DoDispose As Boolean)
 
 #End Region 'Methods
@@ -390,6 +482,7 @@ Public Class Interfaces
 #End Region 'Nested Interfaces
 
 #Region "Nested Types"
+
     ''' <summary>
     ''' This structure is returned by most scraper interfaces to represent the
     ''' status of the operation that was requested
@@ -398,13 +491,15 @@ Public Class Interfaces
     Public Structure ModuleResult
 
 #Region "Fields"
+
         ''' <summary>
-        ''' 
+        '''
         ''' </summary>
         ''' <remarks></remarks>
         Public breakChain As Boolean
+
         ''' <summary>
-        ''' An error has occurred in the module, and its operation has been cancelled. 
+        ''' An error has occurred in the module, and its operation has been cancelled.
         ''' </summary>
         ''' <remarks></remarks>
         Public Cancelled As Boolean
@@ -412,6 +507,7 @@ Public Class Interfaces
 #End Region 'Fields
 
     End Structure
+
     ''' <summary>
     ''' This structure is returned by movie data scraper interfaces to represent the
     ''' status of the operation that was requested
@@ -420,13 +516,15 @@ Public Class Interfaces
     Public Structure ModuleResult_Data_Movie
 
 #Region "Fields"
+
         ''' <summary>
-        ''' 
+        '''
         ''' </summary>
         ''' <remarks></remarks>
         Public breakChain As Boolean
+
         ''' <summary>
-        ''' An error has occurred in the module, and its operation has been cancelled. 
+        ''' An error has occurred in the module, and its operation has been cancelled.
         ''' </summary>
         ''' <remarks></remarks>
         Public Cancelled As Boolean
@@ -436,6 +534,7 @@ Public Class Interfaces
 #End Region 'Fields
 
     End Structure
+
     ''' <summary>
     ''' This structure is returned by movieset data scraper interfaces to represent the
     ''' status of the operation that was requested
@@ -444,13 +543,15 @@ Public Class Interfaces
     Public Structure ModuleResult_Data_MovieSet
 
 #Region "Fields"
+
         ''' <summary>
-        ''' 
+        '''
         ''' </summary>
         ''' <remarks></remarks>
         Public breakChain As Boolean
+
         ''' <summary>
-        ''' An error has occurred in the module, and its operation has been cancelled. 
+        ''' An error has occurred in the module, and its operation has been cancelled.
         ''' </summary>
         ''' <remarks></remarks>
         Public Cancelled As Boolean
@@ -460,6 +561,7 @@ Public Class Interfaces
 #End Region 'Fields
 
     End Structure
+
     ''' <summary>
     ''' This structure is returned by tv episode data scraper interfaces to represent the
     ''' status of the operation that was requested
@@ -468,13 +570,15 @@ Public Class Interfaces
     Public Structure ModuleResult_Data_TVEpisode
 
 #Region "Fields"
+
         ''' <summary>
-        ''' 
+        '''
         ''' </summary>
         ''' <remarks></remarks>
         Public breakChain As Boolean
+
         ''' <summary>
-        ''' An error has occurred in the module, and its operation has been cancelled. 
+        ''' An error has occurred in the module, and its operation has been cancelled.
         ''' </summary>
         ''' <remarks></remarks>
         Public Cancelled As Boolean
@@ -484,6 +588,7 @@ Public Class Interfaces
 #End Region 'Fields
 
     End Structure
+
     ''' <summary>
     ''' This structure is returned by tv season data scraper interfaces to represent the
     ''' status of the operation that was requested
@@ -492,13 +597,15 @@ Public Class Interfaces
     Public Structure ModuleResult_Data_TVSeason
 
 #Region "Fields"
+
         ''' <summary>
-        ''' 
+        '''
         ''' </summary>
         ''' <remarks></remarks>
         Public breakChain As Boolean
+
         ''' <summary>
-        ''' An error has occurred in the module, and its operation has been cancelled. 
+        ''' An error has occurred in the module, and its operation has been cancelled.
         ''' </summary>
         ''' <remarks></remarks>
         Public Cancelled As Boolean
@@ -508,6 +615,7 @@ Public Class Interfaces
 #End Region 'Fields
 
     End Structure
+
     ''' <summary>
     ''' This structure is returned by tv show data scraper interfaces to represent the
     ''' status of the operation that was requested
@@ -516,13 +624,15 @@ Public Class Interfaces
     Public Structure ModuleResult_Data_TVShow
 
 #Region "Fields"
+
         ''' <summary>
-        ''' 
+        '''
         ''' </summary>
         ''' <remarks></remarks>
         Public breakChain As Boolean
+
         ''' <summary>
-        ''' An error has occurred in the module, and its operation has been cancelled. 
+        ''' An error has occurred in the module, and its operation has been cancelled.
         ''' </summary>
         ''' <remarks></remarks>
         Public Cancelled As Boolean

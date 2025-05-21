@@ -18,19 +18,18 @@
 ' # along with Ember Media Manager.  If not, see <http://www.gnu.org/licenses/>. #
 ' ################################################################################
 
-Imports System.IO
 Imports EmberAPI
-Imports ScraperModule.FanartTVs
 Imports NLog
-Imports System.Diagnostics
+Imports ScraperModule.FanartTVs
 
 Public Class FanartTV_Image
+    Inherits Interfaces.Scraper
     Implements Interfaces.ScraperModule_Image_Movie
     Implements Interfaces.ScraperModule_Image_MovieSet
     Implements Interfaces.ScraperModule_Image_TV
 
-
 #Region "Fields"
+
     Shared logger As Logger = NLog.LogManager.GetCurrentClassLogger()
     Public Shared ConfigModifier_Movie As New Structures.ScrapeModifiers
     Public Shared ConfigModifier_MovieSet As New Structures.ScrapeModifiers
@@ -42,9 +41,9 @@ Public Class FanartTV_Image
     ''' </summary>
     ''' <remarks></remarks>
     Private _SpecialSettings_Movie As New SpecialSettings
+
     Private _SpecialSettings_MovieSet As New SpecialSettings
     Private _SpecialSettings_TV As New SpecialSettings
-    Private _Name As String = "FanartTV_Image"
     Private _ScraperEnabled_Movie As Boolean = False
     Private _ScraperEnabled_MovieSet As Boolean = False
     Private _ScraperEnabled_TV As Boolean = False
@@ -58,43 +57,48 @@ Public Class FanartTV_Image
 
     'Movie part
     Public Event ModuleSettingsChanged_Movie() Implements Interfaces.ScraperModule_Image_Movie.ModuleSettingsChanged
+
     Public Event MovieScraperEvent_Movie(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object) Implements Interfaces.ScraperModule_Image_Movie.ScraperEvent
+
     Public Event SetupScraperChanged_Movie(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer) Implements Interfaces.ScraperModule_Image_Movie.ScraperSetupChanged
+
     Public Event SetupNeedsRestart_Movie() Implements Interfaces.ScraperModule_Image_Movie.SetupNeedsRestart
+
     Public Event ImagesDownloaded_Movie(ByVal Posters As List(Of MediaContainers.Image)) Implements Interfaces.ScraperModule_Image_Movie.ImagesDownloaded
+
     Public Event ProgressUpdated_Movie(ByVal iPercent As Integer) Implements Interfaces.ScraperModule_Image_Movie.ProgressUpdated
 
     'MovieSet part
     Public Event ModuleSettingsChanged_MovieSet() Implements Interfaces.ScraperModule_Image_MovieSet.ModuleSettingsChanged
+
     Public Event MovieScraperEvent_MovieSet(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object) Implements Interfaces.ScraperModule_Image_MovieSet.ScraperEvent
+
     Public Event SetupScraperChanged_MovieSet(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer) Implements Interfaces.ScraperModule_Image_MovieSet.ScraperSetupChanged
+
     Public Event SetupNeedsRestart_MovieSet() Implements Interfaces.ScraperModule_Image_MovieSet.SetupNeedsRestart
+
     Public Event ImagesDownloaded_MovieSet(ByVal Posters As List(Of MediaContainers.Image)) Implements Interfaces.ScraperModule_Image_MovieSet.ImagesDownloaded
+
     Public Event ProgressUpdated_MovieSet(ByVal iPercent As Integer) Implements Interfaces.ScraperModule_Image_MovieSet.ProgressUpdated
 
     'TV part
     Public Event ModuleSettingsChanged_TV() Implements Interfaces.ScraperModule_Image_TV.ModuleSettingsChanged
+
     Public Event MovieScraperEvent_TV(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object) Implements Interfaces.ScraperModule_Image_TV.ScraperEvent
+
     Public Event SetupScraperChanged_TV(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer) Implements Interfaces.ScraperModule_Image_TV.ScraperSetupChanged
+
     Public Event SetupNeedsRestart_TV() Implements Interfaces.ScraperModule_Image_TV.SetupNeedsRestart
+
     Public Event ImagesDownloaded_TV(ByVal Posters As List(Of MediaContainers.Image)) Implements Interfaces.ScraperModule_Image_TV.ImagesDownloaded
+
     Public Event ProgressUpdated_TV(ByVal iPercent As Integer) Implements Interfaces.ScraperModule_Image_TV.ProgressUpdated
 
 #End Region 'Events
 
 #Region "Properties"
 
-    ReadOnly Property ModuleName() As String Implements Interfaces.ScraperModule_Image_Movie.ModuleName, Interfaces.ScraperModule_Image_MovieSet.ModuleName, Interfaces.ScraperModule_Image_TV.ModuleName
-        Get
-            Return _Name
-        End Get
-    End Property
-
-    ReadOnly Property ModuleVersion() As String Implements Interfaces.ScraperModule_Image_Movie.ModuleVersion, Interfaces.ScraperModule_Image_MovieSet.ModuleVersion, Interfaces.ScraperModule_Image_TV.ModuleVersion
-        Get
-            Return System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly.Location).FileVersion.ToString
-        End Get
-    End Property
+    Public Overrides ReadOnly Property ModuleName() As String = "FanartTV_Image"
 
     Property ScraperEnabled_Movie() As Boolean Implements Interfaces.ScraperModule_Image_Movie.ScraperEnabled
         Get
@@ -219,17 +223,17 @@ Public Class FanartTV_Image
 
     Private Sub Handle_SetupScraperChanged_Movie(ByVal state As Boolean, ByVal difforder As Integer)
         ScraperEnabled_Movie = state
-        RaiseEvent SetupScraperChanged_Movie(String.Concat(Me._Name, "_Movie"), state, difforder)
+        RaiseEvent SetupScraperChanged_Movie(String.Concat(Me.ModuleName, "_Movie"), state, difforder)
     End Sub
 
     Private Sub Handle_SetupScraperChanged_MovieSet(ByVal state As Boolean, ByVal difforder As Integer)
         ScraperEnabled_MovieSet = state
-        RaiseEvent SetupScraperChanged_MovieSet(String.Concat(Me._Name, "_MovieSet"), state, difforder)
+        RaiseEvent SetupScraperChanged_MovieSet(String.Concat(Me.ModuleName, "_MovieSet"), state, difforder)
     End Sub
 
     Private Sub Handle_SetupScraperChanged_TV(ByVal state As Boolean, ByVal difforder As Integer)
         ScraperEnabled_TV = state
-        RaiseEvent SetupScraperChanged_TV(String.Concat(Me._Name, "_TV"), state, difforder)
+        RaiseEvent SetupScraperChanged_TV(String.Concat(Me.ModuleName, "_TV"), state, difforder)
     End Sub
 
     Sub Init_Movie(ByVal sAssemblyName As String) Implements Interfaces.ScraperModule_Image_Movie.Init
@@ -271,7 +275,7 @@ Public Class FanartTV_Image
 
         _setup_Movie.orderChanged()
 
-        Spanel.Name = String.Concat(Me._Name, "_Movie")
+        Spanel.Name = String.Concat(Me.ModuleName, "_Movie")
         Spanel.Text = "FanartTV"
         Spanel.Prefix = "FanartTVMovieMedia_"
         Spanel.Order = 110
@@ -310,7 +314,7 @@ Public Class FanartTV_Image
 
         _setup_MovieSet.orderChanged()
 
-        Spanel.Name = String.Concat(Me._Name, "_MovieSet")
+        Spanel.Name = String.Concat(Me.ModuleName, "_MovieSet")
         Spanel.Text = "FanartTV"
         Spanel.Prefix = "FanartTVMovieSetMedia_"
         Spanel.Order = 110
@@ -352,7 +356,7 @@ Public Class FanartTV_Image
 
         _setup_TV.orderChanged()
 
-        Spanel.Name = String.Concat(Me._Name, "_TV")
+        Spanel.Name = String.Concat(Me.ModuleName, "_TV")
         Spanel.Text = "FanartTV"
         Spanel.Prefix = "FanartTVTVMedia_"
         Spanel.Order = 110

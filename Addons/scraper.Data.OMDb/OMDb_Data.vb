@@ -22,9 +22,9 @@ Imports EmberAPI
 Imports NLog
 
 Public Class OMDb_Data
+    Inherits Interfaces.Scraper
     Implements Interfaces.ScraperModule_Data_Movie
     Implements Interfaces.ScraperModule_Data_TV
-
 
 #Region "Fields"
 
@@ -39,7 +39,6 @@ Public Class OMDb_Data
     Private _SpecialSettings_Movie As New SpecialSettings
     Private _SpecialSettings_TV As New SpecialSettings
     Private _SpecialSettings_TVEpisode As New SpecialSettings
-    Private _Name As String = "OMDb_Data"
     Private _ScraperEnabled_Movie As Boolean = False
     Private _ScraperEnabled_TV As Boolean = False
     Private _setup_Movie As frmSettingsHolder_Movie
@@ -53,31 +52,27 @@ Public Class OMDb_Data
 
     'Movie part
     Public Event ModuleSettingsChanged_Movie() Implements Interfaces.ScraperModule_Data_Movie.ModuleSettingsChanged
+
     Public Event ScraperEvent_Movie(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object) Implements Interfaces.ScraperModule_Data_Movie.ScraperEvent
+
     Public Event ScraperSetupChanged_Movie(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer) Implements Interfaces.ScraperModule_Data_Movie.ScraperSetupChanged
+
     Public Event SetupNeedsRestart_Movie() Implements Interfaces.ScraperModule_Data_Movie.SetupNeedsRestart
 
     'TV part
     Public Event ModuleSettingsChanged_TV() Implements Interfaces.ScraperModule_Data_TV.ModuleSettingsChanged
+
     Public Event ScraperEvent_TV(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object) Implements Interfaces.ScraperModule_Data_TV.ScraperEvent
+
     Public Event ScraperSetupChanged_TV(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer) Implements Interfaces.ScraperModule_Data_TV.ScraperSetupChanged
+
     Public Event SetupNeedsRestart_TV() Implements Interfaces.ScraperModule_Data_TV.SetupNeedsRestart
 
 #End Region 'Events
 
 #Region "Properties"
 
-    ReadOnly Property ModuleName() As String Implements Interfaces.ScraperModule_Data_Movie.ModuleName, Interfaces.ScraperModule_Data_TV.ModuleName
-        Get
-            Return _Name
-        End Get
-    End Property
-
-    ReadOnly Property ModuleVersion() As String Implements Interfaces.ScraperModule_Data_Movie.ModuleVersion, Interfaces.ScraperModule_Data_TV.ModuleVersion
-        Get
-            Return FileVersionInfo.GetVersionInfo(Reflection.Assembly.GetExecutingAssembly.Location).FileVersion.ToString
-        End Get
-    End Property
+    Public Overrides ReadOnly Property ModuleName() As String = "OMDb_Data"
 
     Property ScraperEnabled_Movie() As Boolean Implements Interfaces.ScraperModule_Data_Movie.ScraperEnabled
         Get
@@ -125,12 +120,12 @@ Public Class OMDb_Data
 
     Private Sub Handle_SetupScraperChanged_Movie(ByVal state As Boolean, ByVal difforder As Integer)
         ScraperEnabled_Movie = state
-        RaiseEvent ScraperSetupChanged_Movie(String.Concat(_Name, "_Movie"), state, difforder)
+        RaiseEvent ScraperSetupChanged_Movie(String.Concat(ModuleName, "_Movie"), state, difforder)
     End Sub
 
     Private Sub Handle_SetupScraperChanged_TV(ByVal state As Boolean, ByVal difforder As Integer)
         ScraperEnabled_TV = state
-        RaiseEvent ScraperSetupChanged_TV(String.Concat(_Name, "_TV"), state, difforder)
+        RaiseEvent ScraperSetupChanged_TV(String.Concat(ModuleName, "_TV"), state, difforder)
     End Sub
 
     Sub Init_Movie(ByVal sAssemblyName As String) Implements Interfaces.ScraperModule_Data_Movie.Init
@@ -155,7 +150,7 @@ Public Class OMDb_Data
 
         _setup_Movie.OrderChanged()
 
-        SPanel.Name = String.Concat(_Name, "_Movie")
+        SPanel.Name = String.Concat(ModuleName, "_Movie")
         SPanel.Text = "OMDb"
         SPanel.Prefix = "OMDbMovieInfo_"
         SPanel.Order = 110
@@ -181,7 +176,7 @@ Public Class OMDb_Data
 
         _setup_TV.OrderChanged()
 
-        SPanel.Name = String.Concat(_Name, "_TV")
+        SPanel.Name = String.Concat(ModuleName, "_TV")
         SPanel.Text = "OMDb"
         SPanel.Prefix = "OMDbTVInfo_"
         SPanel.Order = 110
@@ -268,6 +263,7 @@ Public Class OMDb_Data
             _setup_TV.Dispose()
         End If
     End Sub
+
     ''' <summary>
     '''  Scrape MovieDetails from TMDB
     ''' </summary>
@@ -297,6 +293,7 @@ Public Class OMDb_Data
         _Logger.Trace("[OMDb_Data] [Scraper_Movie] [Done]")
         Return New Interfaces.ModuleResult_Data_Movie With {.Result = nMovie}
     End Function
+
     ''' <summary>
     '''  Scrape MovieDetails from TMDB
     ''' </summary>
