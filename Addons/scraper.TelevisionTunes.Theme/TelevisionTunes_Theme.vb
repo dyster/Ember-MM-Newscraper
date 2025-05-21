@@ -22,7 +22,7 @@ Imports EmberAPI
 Imports NLog
 
 Public Class TelevisionTunes_Theme
-    Inherits Interfaces.Scraper
+    Inherits Interfaces.ScraperBase
     Implements Interfaces.ScraperModule_Theme_Movie
     Implements Interfaces.ScraperModule_Theme_TV
 

@@ -23,7 +23,7 @@ Imports EmberAPI
 Imports NLog
 
 Public Class Addon
-    Inherits Interfaces.Scraper
+    Inherits Interfaces.ScraperBase
     Implements Interfaces.ScraperModule_Data_Movie
     Implements Interfaces.ScraperModule_Data_TV
 

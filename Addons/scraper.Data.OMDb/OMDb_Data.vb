@@ -22,7 +22,7 @@ Imports EmberAPI
 Imports NLog
 
 Public Class OMDb_Data
-    Inherits Interfaces.Scraper
+    Inherits Interfaces.ScraperBase
     Implements Interfaces.ScraperModule_Data_Movie
     Implements Interfaces.ScraperModule_Data_TV
 

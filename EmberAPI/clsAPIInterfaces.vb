@@ -67,7 +67,7 @@ Public Class Interfaces
         ReadOnly Property ModuleVersion() As String
     End Interface
 
-    Public MustInherit Class Scraper
+    Public MustInherit Class ScraperBase
         Implements iScraper
         MustOverride ReadOnly Property ModuleName() As String Implements iScraper.ModuleName
 

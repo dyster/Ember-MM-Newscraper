@@ -23,7 +23,7 @@ Imports NLog
 Imports ScraperModule.FanartTVs
 
 Public Class FanartTV_Image
-    Inherits Interfaces.Scraper
+    Inherits Interfaces.ScraperBase
     Implements Interfaces.ScraperModule_Image_Movie
     Implements Interfaces.ScraperModule_Image_MovieSet
     Implements Interfaces.ScraperModule_Image_TV
