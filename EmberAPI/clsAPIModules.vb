@@ -56,9 +56,9 @@ Public Class ModulesManager
 #Region "Events"
 
     Public Event GenericEvent(ByVal mType As Enums.ModuleEventType, ByRef _params As List(Of Object))
-    Event ScraperEvent_Movie(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
-    Event ScraperEvent_MovieSet(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
-    Event ScraperEvent_TV(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+    'Event ScraperEvent_Movie(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+    'Event ScraperEvent_MovieSet(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+    'Event ScraperEvent_TV(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
 #End Region 'Events
 
@@ -210,17 +210,19 @@ Public Class ModulesManager
         dlgVersions.ShowDialog()
     End Sub
 
-    Public Sub Handler_ScraperEvent_Movie(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
-        RaiseEvent ScraperEvent_Movie(eType, Parameter)
-    End Sub
-
-    Public Sub Handler_ScraperEvent_MovieSet(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
-        RaiseEvent ScraperEvent_MovieSet(eType, Parameter)
-    End Sub
-
-    Public Sub Handler_ScraperEvent_TV(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
-        RaiseEvent ScraperEvent_TV(eType, Parameter)
-    End Sub
+    'None of these seem to be used, are they for future use? Generic addon?
+    'I'm commenting them out for now and will decide how to proceed with this later
+    'Public Sub Handler_ScraperEvent_Movie(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+    '    RaiseEvent ScraperEvent_Movie(eType, Parameter)
+    'End Sub
+    '
+    'Public Sub Handler_ScraperEvent_MovieSet(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+    '    RaiseEvent ScraperEvent_MovieSet(eType, Parameter)
+    'End Sub
+    '
+    'Public Sub Handler_ScraperEvent_TV(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+    '    RaiseEvent ScraperEvent_TV(eType, Parameter)
+    'End Sub
 
     Public Sub LoadAllModules()
         bwLoadModules.RunWorkerAsync()
@@ -942,7 +944,7 @@ Public Class ModulesManager
             Else
                 For Each _externalScraperModule As _externalScraperModuleClass_Data_Movie In modules
                     logger.Trace(String.Format("[ModulesManager] [ScrapeData_Movie] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
-                    AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
+                    'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
 
                     ret = _externalScraperModule.ProcessorModule.Scraper_Movie(oDBMovie, ScrapeModifiers, ScrapeType, ScrapeOptions)
 
@@ -965,7 +967,7 @@ Public Class ModulesManager
                             oDBMovie.Movie.Year = ret.Result.Year
                         End If
                     End If
-                    RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
+                    'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
                     If ret.breakChain Then Exit For
                 Next
 
@@ -1042,7 +1044,7 @@ Public Class ModulesManager
         Else
             For Each _externalScraperModule As _externalScraperModuleClass_Data_MovieSet In modules
                 logger.Trace(String.Format("[ModulesManager] [ScrapeData_MovieSet] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
-                AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_MovieSet
+                'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_MovieSet
 
                 ret = _externalScraperModule.ProcessorModule.Scraper(oDBMovieSet, ScrapeModifiers, ScrapeType, ScrapeOptions)
 
@@ -1062,7 +1064,7 @@ Public Class ModulesManager
                         oDBMovieSet.MovieSet.Title = ret.Result.Title
                     End If
                 End If
-                RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_MovieSet
+                'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_MovieSet
                 If ret.breakChain Then Exit For
             Next
 
@@ -1101,7 +1103,7 @@ Public Class ModulesManager
             Else
                 For Each _externalScraperModule As _externalScraperModuleClass_Data_TV In modules
                     logger.Trace(String.Format("[ModulesManager] [ScrapeData_TVEpisode] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
-                    AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
+                    'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
 
                     ret = _externalScraperModule.ProcessorModule.Scraper_TVEpisode(oEpisode, ScrapeOptions)
 
@@ -1127,7 +1129,7 @@ Public Class ModulesManager
                             oEpisode.TVEpisode.Title = ret.Result.Title
                         End If
                     End If
-                    RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
+                    'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
                     If ret.breakChain Then Exit For
                 Next
 
@@ -1170,7 +1172,7 @@ Public Class ModulesManager
             Else
                 For Each _externalScraperModule As _externalScraperModuleClass_Data_TV In modules
                     logger.Trace(String.Format("[ModulesManager] [ScrapeData_TVSeason] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
-                    AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
+                    'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
 
                     ret = _externalScraperModule.ProcessorModule.Scraper_TVSeason(oSeason, ScrapeOptions)
 
@@ -1184,7 +1186,7 @@ Public Class ModulesManager
                             oSeason.TVSeason.UniqueIDs.AddRange(ret.Result.UniqueIDs)
                         End If
                     End If
-                    RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
+                    'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
                     If ret.breakChain Then Exit For
                 Next
 
@@ -1253,7 +1255,7 @@ Public Class ModulesManager
             Else
                 For Each _externalScraperModule As _externalScraperModuleClass_Data_TV In modules
                     logger.Trace(String.Format("[ModulesManager] [ScrapeData_TVShow] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
-                    AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
+                    'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
 
                     ret = _externalScraperModule.ProcessorModule.Scraper_TVShow(oShow, ScrapeModifiers, ScrapeType, ScrapeOptions)
 
@@ -1273,7 +1275,7 @@ Public Class ModulesManager
                             oShow.TVShow.Title = ret.Result.Title
                         End If
                     End If
-                    RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
+                    'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
                     If ret.breakChain Then Exit For
                 Next
 
@@ -1324,7 +1326,7 @@ Public Class ModulesManager
                 For Each _externalScraperModule As _externalScraperModuleClass_Image_Movie In modules
                     logger.Trace(String.Format("[ModulesManager] [ScrapeImage_Movie] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
                     If QueryScraperCapabilities_Image_Movie(_externalScraperModule, ScrapeModifiers) Then
-                        AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
+                        'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
                         Dim aContainer As New MediaContainers.SearchResultsContainer
                         ret = _externalScraperModule.ProcessorModule.Scraper(DBElement, aContainer, ScrapeModifiers)
                         If aContainer IsNot Nothing Then
@@ -1337,7 +1339,7 @@ Public Class ModulesManager
                             ImagesContainer.MainLandscapes.AddRange(aContainer.MainLandscapes)
                             ImagesContainer.MainPosters.AddRange(aContainer.MainPosters)
                         End If
-                        RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
+                        'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
                         If ret.breakChain Then Exit For
                     End If
                 Next
@@ -1378,7 +1380,7 @@ Public Class ModulesManager
             For Each _externalScraperModule As _externalScraperModuleClass_Image_MovieSet In modules
                 logger.Trace(String.Format("[ModulesManager] [ScrapeImage_MovieSet] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
                 If QueryScraperCapabilities_Image_MovieSet(_externalScraperModule, ScrapeModifiers) Then
-                    AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_MovieSet
+                    'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_MovieSet
                     Dim aContainer As New MediaContainers.SearchResultsContainer
                     ret = _externalScraperModule.ProcessorModule.Scraper(DBElement, aContainer, ScrapeModifiers)
                     If aContainer IsNot Nothing Then
@@ -1392,7 +1394,7 @@ Public Class ModulesManager
                         ImagesContainer.MainLandscapes.AddRange(aContainer.MainLandscapes)
                         ImagesContainer.MainPosters.AddRange(aContainer.MainPosters)
                     End If
-                    RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_MovieSet
+                    'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_MovieSet
                     If ret.breakChain Then Exit For
                 End If
             Next
@@ -1462,7 +1464,7 @@ Public Class ModulesManager
                 For Each _externalScraperModule As _externalScraperModuleClass_Image_TV In modules
                     logger.Trace(String.Format("[ModulesManager] [ScrapeImage_TV] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
                     If QueryScraperCapabilities_Image_TV(_externalScraperModule, ScrapeModifiers) Then
-                        AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
+                        'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
                         Dim aContainer As New MediaContainers.SearchResultsContainer
                         ret = _externalScraperModule.ProcessorModule.Scraper(DBElement, aContainer, ScrapeModifiers)
                         If aContainer IsNot Nothing Then
@@ -1481,7 +1483,7 @@ Public Class ModulesManager
                             ImagesContainer.MainLandscapes.AddRange(aContainer.MainLandscapes)
                             ImagesContainer.MainPosters.AddRange(aContainer.MainPosters)
                         End If
-                        RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
+                        'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
                         If ret.breakChain Then Exit For
                     End If
                 Next
@@ -1522,7 +1524,7 @@ Public Class ModulesManager
         Else
             For Each _externalScraperModule As _externalScraperModuleClass_Theme_Movie In modules
                 logger.Trace(String.Format("[ModulesManager] [ScrapeTheme_Movie] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
-                AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
+                'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
                 Dim aList As New List(Of MediaContainers.MediaFile)
                 ret = _externalScraperModule.ProcessorModule.Scraper(DBElement, Type, aList)
                 If aList IsNot Nothing Then
@@ -1531,7 +1533,7 @@ Public Class ModulesManager
                     Next
                     ThemeList.AddRange(aList)
                 End If
-                RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
+                'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
                 If ret.breakChain Then Exit For
             Next
         End If
@@ -1560,7 +1562,7 @@ Public Class ModulesManager
         Else
             For Each _externalScraperModule As _externalScraperModuleClass_Theme_TV In modules
                 logger.Trace(String.Format("[ModulesManager] [ScrapeTheme_TVShow] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
-                AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
+                'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
                 Dim aList As New List(Of MediaContainers.MediaFile)
                 ret = _externalScraperModule.ProcessorModule.Scraper(DBElement, Type, aList)
                 If aList IsNot Nothing Then
@@ -1569,7 +1571,7 @@ Public Class ModulesManager
                     Next
                     ThemeList.AddRange(aList)
                 End If
-                RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
+                'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_TV
                 If ret.breakChain Then Exit For
             Next
         End If
@@ -1599,7 +1601,7 @@ Public Class ModulesManager
         Else
             For Each _externalScraperModule As _externalScraperModuleClass_Trailer_Movie In modules
                 logger.Trace(String.Format("[ModulesManager] [ScrapeTrailer_Movie] [Using] {0}", _externalScraperModule.ProcessorModule.ModuleName))
-                AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
+                'AddHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
                 Dim aList As New List(Of MediaContainers.MediaFile)
                 ret = _externalScraperModule.ProcessorModule.Scraper(DBElement, Type, aList)
                 If aList IsNot Nothing Then
@@ -1608,7 +1610,7 @@ Public Class ModulesManager
                     Next
                     TrailerList.AddRange(aList)
                 End If
-                RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
+                'RemoveHandler _externalScraperModule.ProcessorModule.ScraperEvent, AddressOf Handler_ScraperEvent_Movie
                 If ret.breakChain Then Exit For
             Next
         End If

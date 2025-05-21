@@ -86,7 +86,7 @@ Public Class Interfaces
 
         Event ModuleSettingsChanged()
 
-        Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+        'Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
 
@@ -135,7 +135,7 @@ Public Class Interfaces
 
         Event ModuleSettingsChanged()
 
-        Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+        'Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
 
@@ -183,7 +183,7 @@ Public Class Interfaces
 
         Event ModuleSettingsChanged()
 
-        Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+        'Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
 
@@ -246,7 +246,7 @@ Public Class Interfaces
 
         Event ModuleSettingsChanged()
 
-        Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+        'Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
 
@@ -289,7 +289,7 @@ Public Class Interfaces
 
         Event ModuleSettingsChanged()
 
-        Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+        'Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
 
@@ -332,7 +332,7 @@ Public Class Interfaces
 
         Event ModuleSettingsChanged()
 
-        Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+        'Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
 
@@ -375,7 +375,7 @@ Public Class Interfaces
 
         Event ModuleSettingsChanged()
 
-        Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+        'Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
 
@@ -416,7 +416,7 @@ Public Class Interfaces
 
         Event SetupNeedsRestart()
 
-        Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+        'Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
 #End Region 'Events
 
@@ -449,7 +449,7 @@ Public Class Interfaces
 
         Event ModuleSettingsChanged()
 
-        Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
+        'Event ScraperEvent(ByVal eType As Enums.ScraperEventType, ByVal Parameter As Object)
 
         Event ScraperSetupChanged(ByVal name As String, ByVal State As Boolean, ByVal difforder As Integer)
 

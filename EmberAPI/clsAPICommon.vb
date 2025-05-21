@@ -752,9 +752,9 @@ Public Class Enums
     ''' <summary>
     ''' This is a placeholder enum to find where the missing one is, just to get a build
     ''' </summary>
-    Public Enum ScraperEventType As Integer
-        VOID = 0
-    End Enum
+    'Public Enum ScraperEventType As Integer
+    '    VOID = 0
+    'End Enum
 
     Public Enum SelectionType As Integer
         All = 0
