@@ -23,6 +23,7 @@ Imports System.Xml.Serialization
 Imports System.Windows.Forms
 Imports System.Drawing
 Imports NLog
+Imports EmberAPI.ModulesManager
 
 Public Class ModulesManager
 
@@ -2100,14 +2101,18 @@ Public Class ModulesManager
 
     End Class
 
+    Class _externalScraperModuleBase
+        Public AssemblyFileName As String
+        Public AssemblyName As String
+        Public ModuleOrder As Integer
+    End Class
+
     Class _externalScraperModuleClass_Data_Movie
+        Inherits _externalScraperModuleBase
 
 #Region "Fields"
 
-        Public AssemblyFileName As String
-        Public AssemblyName As String
-        Public ProcessorModule As Interfaces.ScraperModule_Data_Movie 'Object
-        Public ModuleOrder As Integer
+        Public Shadows ProcessorModule As Interfaces.ScraperModule_Data_Movie 'Object
         Public ContentType As Enums.ContentType = Enums.ContentType.Movie
 
 #End Region 'Fields
@@ -2115,13 +2120,11 @@ Public Class ModulesManager
     End Class
 
     Class _externalScraperModuleClass_Data_MovieSet
+        Inherits _externalScraperModuleBase
 
 #Region "Fields"
 
-        Public AssemblyFileName As String
-        Public AssemblyName As String
         Public ProcessorModule As Interfaces.ScraperModule_Data_MovieSet 'Object
-        Public ModuleOrder As Integer
         Public ContentType As Enums.ContentType = Enums.ContentType.MovieSet
 
 #End Region 'Fields
@@ -2129,13 +2132,11 @@ Public Class ModulesManager
     End Class
 
     Class _externalScraperModuleClass_Data_TV
+        Inherits _externalScraperModuleBase
 
 #Region "Fields"
 
-        Public AssemblyFileName As String
-        Public AssemblyName As String
         Public ProcessorModule As Interfaces.ScraperModule_Data_TV 'Object
-        Public ModuleOrder As Integer
         Public ContentType As Enums.ContentType = Enums.ContentType.TV
 
 #End Region 'Fields
@@ -2143,13 +2144,11 @@ Public Class ModulesManager
     End Class
 
     Class _externalScraperModuleClass_Image_Movie
+        Inherits _externalScraperModuleBase
 
 #Region "Fields"
 
-        Public AssemblyFileName As String
-        Public AssemblyName As String
         Public ProcessorModule As Interfaces.ScraperModule_Image_Movie  'Object
-        Public ModuleOrder As Integer
         Public ContentType As Enums.ContentType = Enums.ContentType.Movie
 
 #End Region 'Fields
@@ -2157,13 +2156,11 @@ Public Class ModulesManager
     End Class
 
     Class _externalScraperModuleClass_Image_MovieSet
+        Inherits _externalScraperModuleBase
 
 #Region "Fields"
 
-        Public AssemblyFileName As String
-        Public AssemblyName As String
         Public ProcessorModule As Interfaces.ScraperModule_Image_MovieSet  'Object
-        Public ModuleOrder As Integer
         Public ContentType As Enums.ContentType = Enums.ContentType.MovieSet
 
 #End Region 'Fields
@@ -2171,13 +2168,11 @@ Public Class ModulesManager
     End Class
 
     Class _externalScraperModuleClass_Image_TV
+        Inherits _externalScraperModuleBase
 
 #Region "Fields"
 
-        Public AssemblyFileName As String
-        Public AssemblyName As String
         Public ProcessorModule As Interfaces.ScraperModule_Image_TV  'Object
-        Public ModuleOrder As Integer
         Public ContentType As Enums.ContentType = Enums.ContentType.TV
 
 #End Region 'Fields
@@ -2185,13 +2180,11 @@ Public Class ModulesManager
     End Class
 
     Class _externalScraperModuleClass_Theme_Movie
+        Inherits _externalScraperModuleBase
 
 #Region "Fields"
 
-        Public AssemblyFileName As String
-        Public AssemblyName As String
         Public ProcessorModule As Interfaces.ScraperModule_Theme_Movie     'Object
-        Public ModuleOrder As Integer
         Public ContentType As Enums.ContentType = Enums.ContentType.Movie
 
 #End Region 'Fields
@@ -2199,13 +2192,11 @@ Public Class ModulesManager
     End Class
 
     Class _externalScraperModuleClass_Theme_TV
+        Inherits _externalScraperModuleBase
 
 #Region "Fields"
 
-        Public AssemblyFileName As String
-        Public AssemblyName As String
         Public ProcessorModule As Interfaces.ScraperModule_Theme_TV  'Object
-        Public ModuleOrder As Integer
         Public ContentType As Enums.ContentType = Enums.ContentType.TV
 
 #End Region 'Fields
@@ -2213,13 +2204,11 @@ Public Class ModulesManager
     End Class
 
     Class _externalScraperModuleClass_Trailer_Movie
+        Inherits _externalScraperModuleBase
 
 #Region "Fields"
 
-        Public AssemblyFileName As String
-        Public AssemblyName As String
         Public ProcessorModule As Interfaces.ScraperModule_Trailer_Movie     'Object
-        Public ModuleOrder As Integer
         Public ContentType As Enums.ContentType = Enums.ContentType.Movie
 
 #End Region 'Fields
