@@ -1972,15 +1972,13 @@ Public Class ModulesManager
         Private _ListMovieSets As String
         Private _ListMovies As String
         Private _ListTVShows As String
-        Private _LoadMedia As LoadMedia
+
         Private _OpenImageViewer As OpenImageViewer
 
 
 #End Region 'Fields
 
 #Region "Delegates"
-
-        Delegate Sub LoadMedia(ByVal Scan As Structures.ScanOrClean, ByVal SourceID As Long)
 
         'all runtime object including Function (delegate) that need to be exposed to Modules
         Delegate Sub OpenImageViewer(ByVal _Image As Image)
@@ -2062,19 +2060,23 @@ Public Class ModulesManager
 
 #Region "Methods"
 
-        Public Sub DelegateLoadMedia(ByRef lm As LoadMedia)
-            'Setup from EmberAPP
-            _LoadMedia = lm
-        End Sub
+        'This method is not working, I am commenting it out so it is clearer to any addon developers that this will not work, rather than get a runtime failure
+        'Private _LoadMedia As LoadMedia
+        'Delegate Sub LoadMedia(ByVal Scan As Structures.ScanOrClean, ByVal SourceID As Long)
+        'Public Sub DelegateLoadMedia(ByRef lm As LoadMedia)
+        '    'Setup from EmberAPP
+        '    _LoadMedia = lm
+        'End Sub
+        'Public Sub InvokeLoadMedia(ByVal Scan As Structures.ScanOrClean, Optional ByVal SourceID As Long = -1)
+        '    'Invoked from Modules
+        '    _LoadMedia.Invoke(Scan, SourceID)
+        'End Sub
 
         Public Sub DelegateOpenImageViewer(ByRef IV As OpenImageViewer)
             _OpenImageViewer = IV
         End Sub
 
-        Public Sub InvokeLoadMedia(ByVal Scan As Structures.ScanOrClean, Optional ByVal SourceID As Long = -1)
-            'Invoked from Modules
-            _LoadMedia.Invoke(Scan, SourceID)
-        End Sub
+
 
         Public Sub InvokeOpenImageViewer(ByRef _image As Image)
             _OpenImageViewer.Invoke(_image)

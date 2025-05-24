@@ -371,7 +371,8 @@ Public Class FileManagerExternalModule
                                     End If
                                 Next
                             Next
-                            If Not _MySettings.TeraCopy AndAlso doMove Then ModulesManager.Instance.RuntimeObjects.InvokeLoadMedia(New Structures.ScanOrClean With {.Movies = True})
+                            'The LoadMedia delegate is not working as it is never set, I don't think the library update does anything if you have removed an item, so I am just removing it altogether. The user can manually trigger a library update if they want
+                            'If Not _MySettings.TeraCopy AndAlso doMove Then ModulesManager.Instance.RuntimeObjects.InvokeLoadMedia(New Structures.ScanOrClean With {.Movies = True})
                         ElseIf ContentType = Enums.ContentType.TVShow Then
                             Dim FileDelete As New FileUtils.Delete
                             For Each tShowID As Long In MediaToWork
@@ -391,7 +392,8 @@ Public Class FileManagerExternalModule
                                     End If
                                 End If
                             Next
-                            If Not _MySettings.TeraCopy AndAlso doMove Then ModulesManager.Instance.RuntimeObjects.InvokeLoadMedia(New Structures.ScanOrClean With {.TV = True})
+                            'The LoadMedia delegate is not working as it is never set, I don't think the library update does anything if you have removed an item, so I am just removing it altogether. The user can manually trigger a library update if they want
+                            'If Not _MySettings.TeraCopy AndAlso doMove Then ModulesManager.Instance.RuntimeObjects.InvokeLoadMedia(New Structures.ScanOrClean With {.TV = True})
                         End If
                         If _MySettings.TeraCopy Then mTeraCopy.RunTeraCopy()
                     End If
