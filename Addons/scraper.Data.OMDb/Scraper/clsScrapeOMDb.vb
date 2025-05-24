@@ -82,6 +82,7 @@ Public Class Scraper
         If ImdbId.ToLower.StartsWith("tt") Then
             'search movie/tvshow/episode by IMDB ID
             APIResult = Task.Run(Function() _Client.SearchMovieByImdbIdAsync(ImdbId))
+            APIResult.Wait()
         Else
             _Logger.Error(String.Format("Can't scrape or movie/tvshow/epissode not found with IMDb ID [0]", ImdbId))
             Return Nothing
