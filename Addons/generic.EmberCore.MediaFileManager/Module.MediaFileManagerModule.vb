@@ -336,8 +336,8 @@ Public Class FileManagerExternalModule
                         strCopy = Master.eLang.GetString(889, "Copy {0} TV Show(s) To {1}")
                     End If
 
-                    If MessageBox.Show(String.Format(If(doMove, strMove, strCopy),
-                                            MediaToWork.Count, dstPath), If(doMove, Master.eLang.GetString(910, "Move"), Master.eLang.GetString(911, "Copy")), MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    Dim opString As String = String.Format(If(doMove, strMove, strCopy), MediaToWork.Count, dstPath)
+                    If MessageBox.Show(opString, If(doMove, Master.eLang.GetString(910, "Move"), Master.eLang.GetString(911, "Copy")), MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                         If ContentType = Enums.ContentType.Movie Then
                             Dim FileDelete As New FileUtils.Delete
                             For Each movieID As Long In MediaToWork
@@ -395,7 +395,11 @@ Public Class FileManagerExternalModule
                             'The LoadMedia delegate is not working as it is never set, I don't think the library update does anything if you have removed an item, so I am just removing it altogether. The user can manually trigger a library update if they want
                             'If Not _MySettings.TeraCopy AndAlso doMove Then ModulesManager.Instance.RuntimeObjects.InvokeLoadMedia(New Structures.ScanOrClean With {.TV = True})
                         End If
-                        If _MySettings.TeraCopy Then mTeraCopy.RunTeraCopy()
+                        If _MySettings.TeraCopy Then
+                            mTeraCopy.RunTeraCopy()
+                        Else
+                            Notifications.NewNotification(Notifications.Type.Information, $"Operation to {Environment.NewLine}{opString}{Environment.NewLine}has finished")
+                        End If
                     End If
                 End If
             End If
