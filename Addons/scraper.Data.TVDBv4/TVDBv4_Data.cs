@@ -1,7 +1,7 @@
-﻿using System;
+﻿using EmberAPI;
+using System;
 using System.Diagnostics;
 using System.Reflection;
-using EmberAPI;
 
 namespace scraper.Data.TVDBv4
 {
@@ -15,7 +15,7 @@ namespace scraper.Data.TVDBv4
         {
             get
             {
-                return true;
+                return false;
             }
             set
             {
@@ -24,18 +24,20 @@ namespace scraper.Data.TVDBv4
         }
 
         public event Interfaces.ScraperModule_Data_TV.ModuleSettingsChangedEventHandler ModuleSettingsChanged;
+
         public event Interfaces.ScraperModule_Data_TV.ScraperEventEventHandler ScraperEvent;
+
         public event Interfaces.ScraperModule_Data_TV.ScraperSetupChangedEventHandler ScraperSetupChanged;
+
         public event Interfaces.ScraperModule_Data_TV.SetupNeedsRestartEventHandler SetupNeedsRestart;
 
         public void Init(string sAssemblyName)
         {
-            throw new NotImplementedException();
         }
 
         public Containers.SettingsPanel InjectSetupScraper()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public void SaveSetupScraper(bool DoDispose)
