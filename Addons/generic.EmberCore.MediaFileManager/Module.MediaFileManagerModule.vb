@@ -344,7 +344,7 @@ Public Class FileManagerExternalModule
                                 Dim mMovie As Database.DBElement = Master.DB.Load_Movie(movieID)
                                 ItemsToWork = FileUtils.Common.GetAllItemsOfDBElement(mMovie)
                                 For Each item In ItemsToWork
-                                    If item.Attributes = FileAttributes.Directory AndAlso item.Exists Then
+                                    If item.Attributes.HasFlag(FileAttributes.Directory) AndAlso item.Exists Then
                                         If _MySettings.TeraCopy Then
                                             mTeraCopy.Sources.Add(item.FullName)
                                         Else
