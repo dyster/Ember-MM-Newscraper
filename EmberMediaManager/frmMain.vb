@@ -3935,8 +3935,9 @@ Public Class frmMain
         Return If(lsColumn Is Nothing, True, lsColumn.Hide)
     End Function
 
-    Private Function DataGridView_ColumnAnyInfoValue(ByVal dgView As DataGridView, ByVal row As Integer) As Boolean
-        If dgView IsNot Nothing AndAlso row >= 0 Then
+    Private Function DataGridView_ColumnAnyInfoValue(ByVal dgView As DataGridView, ByVal rowNo As Integer) As Boolean
+        If dgView IsNot Nothing AndAlso rowNo >= 0 AndAlso dgView.Rows.Count > rowNo Then
+            Dim row As DataGridViewRow = dgView.Rows(rowNo)
             Return _
                 DataGridView_ColumnHasValue(dgView, "BannerPath", row) OrElse
                 DataGridView_ColumnHasValue(dgView, "CharacterArtPath", row) OrElse
@@ -3952,17 +3953,25 @@ Public Class frmMain
         Return False
     End Function
 
-    Private Function DataGridView_ColumnExists(ByVal dgView As DataGridView, ByVal columnName As String) As Boolean
-        If dgView IsNot Nothing AndAlso Not String.IsNullOrEmpty(columnName) Then
-            Return dgView.Columns.Contains(columnName)
+    ''' <summary>
+    ''' This function checks if a specific column in a DataGridView row has a value.
+    ''' It returns True if the column exists and has a non-empty value, otherwise it returns False.
+    ''' 
+    ''' Since this function is only used in the function above, it is not repeating any redundant checks
+    ''' </summary>
+    ''' <param name="dgView"></param>
+    ''' <param name="columnName"></param>
+    ''' <param name="row"></param>
+    ''' <returns></returns>
+    Private Function DataGridView_ColumnHasValue(ByVal dgView As DataGridView, ByVal columnName As String, ByRef row As DataGridViewRow) As Boolean
+        Dim colExists As Boolean = dgView.Columns.Contains(columnName)
+        If colExists Then
+            Dim cell As DataGridViewCell = row.Cells(columnName)
+            If cell IsNot Nothing AndAlso cell.Value IsNot Nothing Then
+                Return Not String.IsNullOrEmpty(cell.Value.ToString)
+            End If
         End If
-        Return False
-    End Function
 
-    Private Function DataGridView_ColumnHasValue(ByVal dgView As DataGridView, ByVal columnName As String, ByVal row As Integer) As Boolean
-        If dgView IsNot Nothing AndAlso Not String.IsNullOrEmpty(columnName) AndAlso row >= 0 Then
-            Return DataGridView_ColumnExists(dgView, columnName) AndAlso Not String.IsNullOrEmpty(dgView.Item(columnName, row).Value.ToString)
-        End If
         Return False
     End Function
 
