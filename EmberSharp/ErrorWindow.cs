@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.UI;
 using System.Windows.Forms;
 
 namespace EmberSharp
@@ -17,13 +18,14 @@ namespace EmberSharp
     {
         private readonly Exception e;
         private readonly IList<string> logs;
+        private readonly string version;
 
-        public ErrorWindow(Exception e, IList<string> logs)
+        public ErrorWindow(Exception e, IList<string> logs, string version = "unknown version")
         {
             InitializeComponent();
             this.e = e;
             this.logs = logs;
-
+            this.version = version;
             listBox1.Items.AddRange(BuildReport().ToArray());
         }
 
@@ -103,7 +105,8 @@ namespace EmberSharp
         private void buttonReportIssue_Click(object sender, EventArgs e)
         {
             //var body = HttpUtility.UrlEncode(string.Join(Environment.NewLine, BuildReport()));
-            var body = HttpUtility.UrlEncode("What version I was using:\r\n\r\nWhat I was doing when the exception occured:\r\n\r\nPaste the error log:");
+            var versUrlified = HttpUtility.UrlEncode(version);
+            var body = HttpUtility.UrlEncode($"What version I was using: {versUrlified}\r\n\r\nWhat I was doing when the exception occured:\r\n\r\nPaste the error log:");
             var url = "https://github.com/dyster/Ember-MM-Newscraper/issues/new?title=Unhandled+Exception+Report&body=" + body;
             Process.Start(url);
         }

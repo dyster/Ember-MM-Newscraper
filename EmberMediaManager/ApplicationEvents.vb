@@ -174,7 +174,7 @@ Namespace My
             logger.Error(e.Exception, e.Exception.Source)
 
             Dim target As MemoryTarget = CType(LogManager.Configuration.ConfiguredNamedTargets.First(Function(t) t.Name = "memory"), MemoryTarget)
-            Dim edlg As EmberSharp.ErrorWindow = New EmberSharp.ErrorWindow(e.Exception, target.Logs)
+            Dim edlg As EmberSharp.ErrorWindow = New EmberSharp.ErrorWindow(e.Exception, target.Logs, Master.Version)
             edlg.ShowDialog()
 
             Application.Log.WriteException(e.Exception, TraceEventType.Critical, "Unhandled Exception.")
